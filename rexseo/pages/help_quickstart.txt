@@ -1,0 +1,38 @@
+ <div id="quickstart">
+
+h1. 1. Quickstart
+
+h2. 1.1 .htaccess Dateien
+
+Die .htaccess Dateien werden bei der Installation des Addons automatisch mit-installiert. Sollte dies laut Fehlermeldung nicht geklappt haben, müssen die Dateien "manuell installiert":index.php?page=rexseo&subpage=help&chapter=troubleshoot&highlight=htaccess+Dateien+manuell+installieren#other werden.
+
+h2. 1.2 Templates anpassen
+
+Am Beispiel des default Templates der Redaxo Demo den @head@ Bereich des Templates wie folgt anpassen/erweitern:
+
+1.1.1 *Original head-Bereich:*
+
+bc. <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php print $REX['SERVERNAME'].' | '.$this->getValue("name"); ?></title>
+<meta name="keywords" content="<?php print htmlspecialchars($meta_suchbegriffe); ?>" />
+<meta name="description" content="<?php print htmlspecialchars($meta_beschreibung); ?>" />
+
+*ersetzen durch:* (ACHTUNG: eigenen Wert für @charset@ verwenden!)
+
+bc. <head>
+<base href="<?php echo $REX['SERVER']; ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo RexSEO::title(); ?></title>
+<meta name="keywords" content="<?php echo RexSEO::keywords(); ?>" />
+<meta name="description" content="<?php echo RexSEO::description(); ?>" />
+
+h2. 1.3 System Settings
+
+Abschließend müssen im Backend unter "System":index.php?page=specials noch folgende Einstellungen vorgenommen werden:
+
+# *$REX['SERVER']* anpassen: Domain der Webseite (incl. vorangestelltem "http://" und abschliessendem "/") eintragen.
+# *$REX['MOD_REWRITE']* auf "TRUE" setzen.
+
+ </div>
+

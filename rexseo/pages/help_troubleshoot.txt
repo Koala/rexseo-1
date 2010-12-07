@@ -1,0 +1,87 @@
+ <div id="troubleshoot">
+
+h1. 1. Troubleshooting
+
+h2. 1.1 .htaccess Dateien manuell installieren
+
+Folgende Dateien aus dem Verzeichnis @install@ des Addons müssen in die korrespondierenden Verzeichnisse kopiert werden:
+* @./install/.htaccess@ -> @/.htaccess@ (@/@ = Stammverzeichnis der Webseite)
+* @./install/redaxo/.htaccess@ -> @/redaxo/.htaccess@
+
+h2. 1.2 Vorschaubug in REDAXO 4.2.1 beheben
+
+bei REDAXO 4.2.1 funktioniert die Artikelvorschau aus dem Backend bei aktiviertem RexSEO nicht
+
+in content.inc.php im Ordner /pages Zeile 578:
+
+bc. $listElements[] = '<a href="../'.$REX["FRONTEND_FILE"].'?article_id=' . $article_id . '&amp;clang=' . $clang . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
+
+ersetzen mit:
+
+bc. $listElements[] = '<a href="../'.rex_getUrl($article_id,$clang).'" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
+
+damit ist dieser Bug behoben.
+
+ </div>
+  <div id="sonstiges"><a name="sonstiges"></a>
+
+h1. 2. Sonstiges
+
+h2. 2.1 Überflüssigen Template-Code entsorgen
+
+Sofern das Template auf dem default Template der Redaxo Demo basiert, kann optional folgender Code-Teil gelöscht werden:
+
+bc.. $meta_beschreibung = $OOStartArticle->getValue("art_description");
+$meta_suchbegriffe = $OOStartArticle->getValue("art_keywords");
+
+if($this->getValue(“art_description”) != "")
+$meta_beschreibung = $this->getValue("art_description");
+
+if($this->getValue("art_keywords") != "")
+$meta_suchbegriffe = $this->getValue("art_keywords");
+
+h2. 2.2 Alternativer Code für den head-Bereich des Templates
+
+Will man sein Template gegen versehentliches Deinstallieren/Deaktivieren von RexSEO absichern, sowie einen fallback auf die interne Redaxo Funktionalität für die meta Felder zurückgreifen, kann z.b. folgender Code Verwendung finden:
+
+h5. PHP Teil:
+
+bc.. if(OOAddon::isAvailable('rexseo'))
+{
+  $meta_beschreibung = rexseo::description();
+  $meta_suchbegriffe = rexseo::keywords();
+  $meta_titel        = rexseo::title();
+  $meta_base         = 'http://'.$_SERVER['HTTP_HOST'].'/';
+}
+else
+{
+  $meta_beschreibung = $OOStartArticle->getValue("art_description");
+  $meta_suchbegriffe = $OOStartArticle->getValue("art_keywords");
+
+  if($this->getValue("art_description") != "")
+    $meta_beschreibung = $this->getValue("art_description");
+
+  if($this->getValue("art_keywords") != "")
+    $meta_suchbegriffe = $this->getValue("art_keywords");
+
+  $meta_beschreibung = htmlspecialchars($meta_beschreibung);
+  $meta_suchbegriffe = htmlspecialchars($meta_suchbegriffe);
+  $meta_titel        = $REX['SERVERNAME'].' | '.$this->getValue("name");
+  $meta_base         = 'http://'.$_SERVER['HTTP_HOST'].'/';
+}
+
+h5. HTML-Teil:
+
+bc. <base href="<?php echo $meta_base; ?>" />
+<title><?php echo $meta_titel; ?></title>
+<meta name="keywords" content="<?php echo $meta_suchbegriffe; ?>" />
+<meta name="description" content="<?php echo $meta_beschreibung; ?>" />
+
+
+
+ </div>
+
+"www.gn2-netwerk.de":http://www.gn2-netwerk.de
+
+
+

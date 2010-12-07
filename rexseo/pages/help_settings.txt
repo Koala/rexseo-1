@@ -1,0 +1,67 @@
+ <div id="settings">
+
+h1. 1. RexSEO Einstellungen
+
+h2. 1.1 Backend/Addon:
+
+* *Meta Defaults*
+Diese Default Werte verringern den Arbeitsaufwand bezügl. der seitenweiten Definition von Beschreibung und Suchbegriffen.
+## *Description:*
+Für alle Artikel die keinen Eintrag unter *Metadaten/Sonstiges* > *Beschreibung* haben.
+## *Keywords:*
+Für alle Artikel die keinen Eintrag unter *Metadaten/Sonstiges* > *Suchbegriffe* haben.
+* *Rewrite URL*
+## *Schema:*
+*** *RexSEO:* Startartikel und allgemeine Artikel einer Kategorie werden unterschiedlich behandelt:
+Startartikel -> @./Kategorie.html@
+allgem. Artikel -> @./Kategorie/allgem. Artikel.html@
+*** *url_rewrite:* Startartikel und allgemeine Artikel einer Kategorie werden gleichrangig behandelt:
+Startartikel -> @./Kategorie/Startartikel.html@
+allgem. Artikel -> @./Kategorie/allgem. Artikel.html@
+## *Endung:*
+Definiert die Endung der URL.
+## *Startseite:*
+Definiert die URL für die Startseite.
+## *Sprache:*
+Definiert bei mehrsprachigen Webseiten die Sprache der Startseite (Option wird nur bei mehrsprachigen Sites angezeigt).
+* *Rewrite Optionen*
+## *Aufruf via article_id:*
+Definiert ob Artikel _auch_ über normale Seitenaufrufe per @index.php?article_id=..@ aufgerufen werden dürfen, und wenn ja in welcher Form auf diese Anfragen reagiert werden soll. Optionen:
+*** *Nicht zulässig, nur rewrite URLs*
+*** *Zulässig, 301 Weiterleitung auf korrekt URL*
+Weiterleitung mit 301 Meldung an den anfragenden client, näheres dazu siehe _301 Weiterleitungen_ weiter unten.
+*** *Zulässig ohne Weiterleitung*
+Der Artikel wird ohne Weiterleitung angezeigt, der anfragende client erfährt _nicht_ das der Artikel eigentlich eine andere URL hat. Diese Option sollte nach Möglichkeit nicht verwendet werden, da eben auch eine anfragende Suchmaschine nichts vor der richtigen URL erfährt - Folge: Artikel können beim Indizieren u.U. unter beiden URLs gefunden werden und die Webseite deswegen beim ranking wegen "(blank)duplicate content":http://www.google.com/support/webmasters/bin/answer.py?hl=de&answer=66359 heruntergesetzt werden.
+## *Genauigkeit:*
+Definiert ob Artikel nur über die genaue rewrite URL ausgegeben werden, oder ob versucht werden soll anhand Ähnlichkeiten der URL einen passenden Artikel zu finden und auszugeben.
+## *301 Weiterleitungen:*
+Artikel für die eine Weiterleitungs-URL eingerichtet wird, sind unter dieser URL erreichbar, wobei der zugreifenden Suchmaschine mitgeteilt wird, daß a) die URL nicht mehr aktuell ist, und b) wie die aktuelle URL lautet. Dadurch können Suchmaschinen gezielt ihren Index aktualisieren.
+Die Parameter für eine Weiterleitung sind *URL*, *Artikel-ID* und *Sprach-ID* getrennt durch Leerzeichen:
+Beispiel: @alter_pfad/alter_artikel.html 4 0@
+* *robots.txt:*
+Diese Datei dient als "Hausordnung" und steuert ob bzw. wie die Webseite von einer Suchmaschine indiziert werden darf. Die von RexSEO vorgenommene Standard-Einstellung erlaubt alle Suchmaschinen und alle Bereiche der Webseite. Außerdem wird in ihr auf die "(blank)Google sitemap":http://de.wikipedia.org/wiki/Sitemaps verlinkt, welche von RexSEO automatisch erzeugt wird. Details für gezielte Anpassung können u.a. in diesem "(blank)Wikipedia Artikel zu robots.txt":http://de.wikipedia.org/wiki/Robots_Exclusion_Standard nachgeschlagen werden.
+
+h2. 1.2 Artikel
+
+Die artikel-spezifischen Einstellungen sind auf den Artikelseiten unter *Metadaten/Sonstiges* zu finden.
+
+* *Allgemein*
+## *Name/Bezeichnung:*
+Wird für die Navigation(URL) und - sofern kein anderer Wert weiter unten in *RexSEO Einstellungen* > *Title* definiert wird - das @title@ Attribut der Seite verwendet (Seitentitel oben im Browserfenster).
+## *Beschreibung:*
+Wird hier eine Description(Beschreibung) eingetragen, überschreibt sie die im RexSEO Backend definierte default Description.
+## *Suchbegriffe:*
+Werden hier Keywords(Suchbegriffe) eingetragen, überschreiben sie die im RexSEO Backend definierten default Keywords.
+* *RexSEO Einstellungen*
+## *Eigene URL:*
+Wird hier eine eigene URL eingetragen, wird diese anstatt jener verwendet, die sich normalerweise aus Kategorie/Artikelname ergibt.
+## *Title:*
+Dieser Wert wird für das @title@ Attribut der Seite verwendet und überschreibt den sich normalerweise aus *Name/Bezeichnung* ableitenden title.
+## *Priorität:*
+Hier kann eine explizite Seitenpriorität für die google-sitemap eingetragen werden, welche den automatisch ermittelten Wert überschreibt.
+
+ </div>
+
+"www.gn2-netwerk.de":http://www.gn2-netwerk.de
+
+
