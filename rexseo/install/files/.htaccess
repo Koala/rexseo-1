@@ -1,0 +1,28 @@
+# ENABLE REWRITING
+RewriteEngine On
+RewriteBase /
+
+# SUBDOMAIN WEITERLEITUNGN / DUPLICATE CONTENT
+# www.DOMAIN.TLD -> DOMAIN.TLD
+# RewriteCond %{HTTP_HOST} ^www\.DOMAIN\.TLD$
+# RewriteRule ^(.*)$ http://DOMAIN.TLD/$1 [L,R=301]
+# *.DOMAIN.TLD -> www.DOMAIN.TLD
+# RewriteCond %{HTTP_HOST} ^DOMAIN\.TLD$
+# RewriteRule ^(.*)$ http://www.DOMAIN.TLD/$1 [L,R=301]
+
+# AUFRUF SITEMAP.XML -> SITEMAP.PHP
+RewriteRule ^sitemap\.xml$ index.php?rexseo_func=googlesitemap [NC,L]
+
+# AUFRUF ROBOTS.TXT -> ROBOTS.PHP
+RewriteRule ^robots\.txt$ index.php?rexseo_func=robots [NC,L]
+
+# DON'T REWRITE DIRS/FILES
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_URI} !^redaxo/.*
+RewriteCond %{REQUEST_URI} !^files/.*
+RewriteCond %{REQUEST_URI} !^google(.*).html*
+
+# REWRITE ALL OTHER REQUESTS TO INDEX.PHP
+RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
