@@ -200,3 +200,18 @@ a.help-icon:hover {
   -webkit-border-radius:3px;
 
 }
+
+/*REDMINE RSS*/
+
+.rexseo ul.redmine-feed {
+  list-style-type:none;
+}
+
+.rexseo ul.redmine-feed li {
+  background:none;
+  border:0;
+  padding:0;
+}
+.rexseo ul.redmine-feed .redmine-date {
+	margin-right:15px;
+}
