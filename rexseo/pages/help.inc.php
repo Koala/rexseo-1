@@ -49,9 +49,9 @@ $chapterpages = array (
 ''            => array('Quickstart',                   'pages/help_quickstart.txt','textile'),
 'settings'    => array('Einstellungen',                'pages/help_settings.txt','textile'),
 'troubleshoot'=> array('Problemf&auml;lle & Sonstiges','pages/help_troubleshoot.txt','textile'),
-'downloads'   => array('Downloads'                    ,'pages/downloads.inc.php','php'),
-'changelog'   => array('Changelog'                    ,'pages/changelog.inc.php','php'),
-'tickets'     => array('Tickets'                      ,'pages/tickets.inc.php','php'),
+'download'    => array('Downloads'                    ,'pages/redmine_feeds.inc.php','php'),
+'changelog'   => array('Changelog'                    ,'pages/redmine_feeds.inc.php','php'),
+'tickets'     => array('Tickets'                      ,'pages/redmine_feeds.inc.php','php'),
 'forum'       => array('Forum'                        ,'http://gn2-code.de/projects/rexseo/boards','jsopenwin'),
 'wiki'        => array('Wiki'                         ,'http://gn2-code.de/projects/rexseo/wiki','jsopenwin')
 );
