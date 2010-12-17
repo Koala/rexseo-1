@@ -230,6 +230,7 @@ class myUrlRewriter extends rexUrlRewriter
     }
 
     $urlparams = str_replace('/amp;','/',$urlparams);
+    $urlparams = str_replace('?&amp;','?',$urlparams);
     $url = $REXPATH[$id][$clang].$urlparams;
 
 
