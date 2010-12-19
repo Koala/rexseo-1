@@ -19,8 +19,8 @@ $func            = rex_request('func',            'string');
 
 // SETTINGS PARAMS
 ////////////////////////////////////////////////////////////////////////////////
-$def_desc        = rex_request('def_desc',        'string');
-$def_keys        = rex_request('def_keys',        'string');
+$def_desc        = rex_request('def_desc',        'array');
+$def_keys        = rex_request('def_keys',        'array');
 $robots          = rex_request('robots',          'string');
 $homeurl         = rex_request('homeurl',         'int');
 $homelang        = rex_request('homelang',        'int');
@@ -77,8 +77,8 @@ if ($func == "update")
   $REX['ADDON'][$myself]['params_starter']  = $params_starter;
 
   $content = '
-$REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = \''.$def_desc       .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'def_keys\']        = \''.$def_keys       .'\';
+$REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = '.var_export($def_desc,true).';
+$REX[\'ADDON\'][\'rexseo\'][\'def_keys\']        = '.var_export($def_keys,true).';
 $REX[\'ADDON\'][\'rexseo\'][\'robots\']          = \''.$robots         .'\';
 $REX[\'ADDON\'][\'rexseo\'][\'homeurl\']         = '  .$homeurl        .';
 $REX[\'ADDON\'][\'rexseo\'][\'homelang\']        = '  .$homelang       .';
@@ -275,16 +275,19 @@ echo '
     <input type="hidden" name="page" value="rexseo" />
     <input type="hidden" name="subpage" value="settings" />
     <input type="hidden" name="func" value="update" />
-    <input type="hidden" name="first_run" value="0" />
+    <input type="hidden" name="first_run" value="0" />';
 
+foreach ($REX['CLANG'] as $id => $str)
+{
+  echo '
     <fieldset class="rex-form-col-1">
-      <legend>Meta Defaults</legend>
+      <legend>Meta Defaults ('.$str.')</legend>
       <div class="rex-form-wrapper">
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
           <label for="def_desc">Description: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Description:').'#settings">?</a><br /><br /><em style="color:gray;font-size:10px;">z.B. My super description</em></label>
-            <textarea id="def_desc" name="def_desc">'.stripslashes($REX['ADDON'][$myself]['def_desc']).'</textarea>
+            <textarea id="def_desc_'.$id.'" name="def_desc['.$id.']">'.stripslashes($REX['ADDON'][$myself]['def_desc'][$id]).'</textarea>
 
           </p>
         </div><!-- /rex-form-row -->
@@ -292,13 +295,15 @@ echo '
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="def_keys">Keywords: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Keywords:').'#settings">?</a><br /><br /><em style="color:gray;font-size:10px;">z.B. My, list, of, keywords</em></label>
-            <textarea id="def_keys" name="def_keys">'.stripslashes($REX['ADDON'][$myself]['def_keys']).'</textarea>
+            <textarea id="def_keys_'.$id.'" name="def_keys['.$id.']">'.stripslashes($REX['ADDON'][$myself]['def_keys'][$id]).'</textarea>
           </p>
         </div><!-- /rex-form-row -->
 
       </div><!-- /rex-form-wrapper -->
-    </fieldset>
+    </fieldset>';
+}
 
+echo '
     <div id="expert_block" style="'.$expert_display.'margin:0;padding:0;">
 
       <fieldset class="rex-form-col-1">
@@ -422,9 +427,15 @@ jQuery(function($) {
     $("#expert_block").show();
   }
 
-    $(function() {
-      $("#def_desc").autogrow();
-      $("#def_keys").autogrow();
+    $(function() {';
+foreach ($REX['CLANG'] as $id => $str)
+{
+  echo '
+      $("#def_desc_'.$id.'").autogrow();
+      $("#def_keys_'.$id.'").autogrow();';
+}
+
+echo '
       $("#rexseo_redirects").autogrow();
       $("#rexseo_robots").autogrow();
   });

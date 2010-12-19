@@ -96,7 +96,7 @@ class rexseo {
     $keys = self::getMetaField($artID,"art_keywords",$x->getValue('art_keywords'),'LOOP');
 
     if ($keys=='') {
-      $keys = $REX['ADDON']['rexseo']['def_keys'];
+      $keys = $REX['ADDON']['rexseo']['def_keys'][$REX['CUR_CLANG']];
     }
 
     $keys = str_replace("\r\n",' ',$keys);
@@ -127,7 +127,7 @@ class rexseo {
     $desc = self::getMetaField($artID,"art_description",$x->getValue('art_description'),'LOOP');
 
     if ($desc=='') {
-      $desc = $REX['ADDON']['rexseo']['def_desc'];
+      $desc = $REX['ADDON']['rexseo']['def_desc'][$REX['CUR_CLANG']];
     }
 
     $desc = str_replace("\r\n",' ',$desc);

@@ -23,8 +23,8 @@ $func        = rex_request('func', 'string');
 if ($func == "alert_setup")
 {
   $content = '
-$REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = \''.$REX['ADDON']['rexseo']['def_desc']       .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'def_keys\']        = \''.$REX['ADDON']['rexseo']['def_keys']       .'\';
+$REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = '.var_export($REX['ADDON']['rexseo']['def_desc'],true).';
+$REX[\'ADDON\'][\'rexseo\'][\'def_keys\']        = '.var_export($REX['ADDON']['rexseo']['def_keys'],true).';
 $REX[\'ADDON\'][\'rexseo\'][\'robots\']          = \''.$REX['ADDON']['rexseo']['robots']         .'\';
 $REX[\'ADDON\'][\'rexseo\'][\'homeurl\']         = '  .$REX['ADDON']['rexseo']['homeurl']        .';
 $REX[\'ADDON\'][\'rexseo\'][\'homelang\']        = '  .$REX['ADDON']['rexseo']['homelang']       .';

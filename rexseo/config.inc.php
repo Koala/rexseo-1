@@ -43,8 +43,12 @@ $REX['PERM'][]                        = $myself.'[]';
 // USER SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
-$REX['ADDON']['rexseo']['def_desc']        = '';
-$REX['ADDON']['rexseo']['def_keys']        = '';
+$REX['ADDON']['rexseo']['def_desc']        = array (
+  0 => '',
+);
+$REX['ADDON']['rexseo']['def_keys']        = array (
+  0 => '',
+);
 $REX['ADDON']['rexseo']['robots']          = 'User-agent: *
 Disallow:';
 $REX['ADDON']['rexseo']['homeurl']         = 1;
