@@ -38,6 +38,9 @@ Definiert ob Artikel nur über die genaue rewrite URL ausgegeben werden, oder ob
 Artikel für die eine Weiterleitungs-URL eingerichtet wird, sind unter dieser URL erreichbar, wobei der zugreifenden Suchmaschine mitgeteilt wird, daß a) die URL nicht mehr aktuell ist, und b) wie die aktuelle URL lautet. Dadurch können Suchmaschinen gezielt ihren Index aktualisieren.
 Die Parameter für eine Weiterleitung sind *URL*, *Artikel-ID* und *Sprach-ID* getrennt durch Leerzeichen:
 Beispiel: @alter_pfad/alter_artikel.html 4 0@
+* *URL Parameter*
+## *Parameter Rewrite:* Definiert ob die normale Schreibweise für angehängte Parameter verwendet werden soll @?param1=wert1&param2=wert2@, oder ob die Parameter umgeschrieben werden @++/param1/wert1/param2/wert2@.
+## *Abtrenner:* Wenn die Parameter umgeschrieben werden, definiert dieser string die Abgrenzung zwischen eigentlicher URL, und den Parametern (default: @++@).
 * *robots.txt:*
 Diese Datei dient als "Hausordnung" und steuert ob bzw. wie die Webseite von einer Suchmaschine indiziert werden darf. Die von RexSEO vorgenommene Standard-Einstellung erlaubt alle Suchmaschinen und alle Bereiche der Webseite. Außerdem wird in ihr auf die "(blank)Google sitemap":http://de.wikipedia.org/wiki/Sitemaps verlinkt, welche von RexSEO automatisch erzeugt wird. Details für gezielte Anpassung können u.a. in diesem "(blank)Wikipedia Artikel zu robots.txt":http://de.wikipedia.org/wiki/Robots_Exclusion_Standard nachgeschlagen werden.
 

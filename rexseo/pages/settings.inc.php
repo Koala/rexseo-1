@@ -32,6 +32,8 @@ $url_ending      = rex_request('url_ending',      'string');
 $expert_settings = rex_request('expert_settings', 'int');
 $alert_setup     = $REX['ADDON'][$myself]['alert_setup'];
 $first_run       = rex_request('first_run',       'int');
+$rewrite_params  = rex_request('rewrite_params',  'int');
+$params_starter  = rex_request('params_starter',  'string');
 $sendit          = rex_request('sendit',          'string');
 
 // RESTORE SETTINGS FROM BACKUP FILE
@@ -71,6 +73,8 @@ if ($func == "update")
   $REX['ADDON'][$myself]['expert_settings'] = $expert_settings;
   $REX['ADDON'][$myself]['alert_setup']     = $alert_setup;
   $REX['ADDON'][$myself]['first_run']       = $first_run;
+  $REX['ADDON'][$myself]['rewrite_params']  = $rewrite_params;
+  $REX['ADDON'][$myself]['params_starter']  = $params_starter;
 
   $content = '
 $REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = \''.$def_desc       .'\';
@@ -86,6 +90,8 @@ $REX[\'ADDON\'][\'rexseo\'][\'url_ending\']      = \''.$url_ending     .'\';
 $REX[\'ADDON\'][\'rexseo\'][\'expert_settings\'] = '  .$expert_settings.';
 $REX[\'ADDON\'][\'rexseo\'][\'alert_setup\']     = '  .$alert_setup    .';
 $REX[\'ADDON\'][\'rexseo\'][\'first_run\']       = '  .$first_run      .';
+$REX[\'ADDON\'][\'rexseo\'][\'rewrite_params\']  = '  .$rewrite_params .';
+$REX[\'ADDON\'][\'rexseo\'][\'params_starter\']  = \''.$params_starter .'\';
 ';
 
   $file = $REX['INCLUDE_PATH'].'/addons/rexseo/config.inc.php';
@@ -231,6 +237,18 @@ $levenshtein_select->addOption('Artikel mit ähnlichster URL anzeigen',1);
 $levenshtein_select->setSelected($REX['ADDON'][$myself]['levenshtein']);
 
 
+// PARAMS REWRITE SELECT BOX
+////////////////////////////////////////////////////////////////////////////////
+$params_rewrite_select = new rex_select();
+$params_rewrite_select->setSize(1);
+$params_rewrite_select->setName('rewrite_params');
+$params_rewrite_select->setAttribute('style','width:250px;');
+//$params_rewrite_select->setAttribute('onchange','toggle');
+$params_rewrite_select->addOption('Aus : ?param1=wert1&param2=wert2',0);
+$params_rewrite_select->addOption('Ein : '.$REX['ADDON'][$myself]['params_starter'].'/param1/wert1/param2/wert2',1);
+$params_rewrite_select->setSelected($REX['ADDON'][$myself]['rewrite_params']);
+
+
 
 // EXPERT SETTINGS CHECKBOX OPTIONS
 ////////////////////////////////////////////////////////////////////////////////
@@ -337,6 +355,23 @@ echo '
       </fieldset>
 
       <fieldset class="rex-form-col-1">
+        <legend>URL Parameter</legend>
+        <div class="rex-form-wrapper">
+
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-select">
+              <label for="url_schema">Parameter Rewrite: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Parameter Rewrite:').'#settings">?</a></label>
+                '.$params_rewrite_select->get().'
+
+              <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Abtrenner: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Abtrenner:').'#settings">?</a></span>
+                <input style="width:80px;" id="params_starter" class="rex-form-text" type="text" name="params_starter" value="'.stripslashes($REX['ADDON'][$myself]['params_starter']).'" />
+            </p>
+          </div><!-- /rex-form-row -->
+
+        </div><!-- /rex-form-wrapper -->
+      </fieldset>
+
+      <fieldset class="rex-form-col-1">
         <legend>robots.txt</legend>
         <div class="rex-form-wrapper">
 
@@ -386,6 +421,14 @@ jQuery(function($) {
   if($("#expert_settings").is(":checked")) {
     $("#expert_block").show();
   }
+
+    $(function() {
+      $("#def_desc").autogrow();
+      $("#def_keys").autogrow();
+      $("#rexseo_redirects").autogrow();
+      $("#rexseo_robots").autogrow();
+  });
+
 
 });
 //-->

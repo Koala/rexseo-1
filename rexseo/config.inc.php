@@ -58,13 +58,13 @@ $REX['ADDON']['rexseo']['url_ending']      = '.html';
 $REX['ADDON']['rexseo']['expert_settings'] = 0;
 $REX['ADDON']['rexseo']['alert_setup']     = 1;
 $REX['ADDON']['rexseo']['first_run']       = 1;
+$REX['ADDON']['rexseo']['rewrite_params']  = 1;
+$REX['ADDON']['rexseo']['params_starter']  = '++';
 // --- /DYN
 
 // STATIC/HIDDEN SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
-$REX['ADDON'][$myself]['params_starter']      = '++';
 $REX['ADDON'][$myself]['whitespace_replace']  = '-';
-$REX['ADDON'][$myself]['rewrite_params']      = 1;
 $REX['ADDON'][$myself]['svn_version_notify']  = 0;
 $REX['ADDON'][$myself]['no_breadcrumb_title'] = 0;
 

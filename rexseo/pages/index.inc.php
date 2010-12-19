@@ -25,10 +25,9 @@ $myroot        = $REX['INCLUDE_PATH'].'/addons/'.$myself;
 // BACKEND CSS
 ////////////////////////////////////////////////////////////////////////////////
 $header = array(
-'
-  <link rel="stylesheet" type="text/css" href="index.php?rexseo_func=backend.css" media="screen, projection, print" />',
-'  <script type="text/javascript" src="index.php?rexseo_func=jquery.highlight-3.yui.js"></script>
-'
+'<link rel="stylesheet" type="text/css" href="index.php?rexseo_func=backend.css" media="screen, projection, print" />',
+'<script type="text/javascript" src="index.php?rexseo_func=jquery.highlight-3.yui.js"></script>',
+'<script type="text/javascript" src="index.php?rexseo_func=jquery.autogrow-textarea.js"></script>'
 );
 
 if ($REX['REDAXO']) {
