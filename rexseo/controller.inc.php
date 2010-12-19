@@ -43,6 +43,12 @@ if (rex_request('rexseo_func')!="") {
 			die();
 		break;
 
+		case "jquery.autogrow-textarea.js":
+			header('Content-Type:text/javascript');
+			echo file_get_contents($path.'/files/jquery.autogrow-textarea.js');
+			die();
+		break;
+
 		default:
 		break;
 	}
