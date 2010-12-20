@@ -6,11 +6,16 @@ h2. 1.1 .htaccess Dateien
 
 Die .htaccess Dateien werden bei der Installation des Addons automatisch mit-installiert. Sollte dies laut Fehlermeldung nicht geklappt haben, müssen die Dateien "manuell installiert":index.php?page=rexseo&subpage=help&chapter=troubleshoot&highlight=htaccess+Dateien+manuell+installieren#other werden.
 
+1.1.1 *Installation in Unterverzeichnissen:*
+Falls die Redaxo Installation nicht im Webseiten-Root, sondern einem Unterverzeichnis erfolgt, muß diese Unterverzeichnis in der .htaccess Datei eingetragen werden:
+
+bc. RewriteBase /UNTERVERZEICHNIS
+
 h2. 1.2 Templates anpassen
 
 Am Beispiel des default Templates der Redaxo Demo den @head@ Bereich des Templates wie folgt anpassen/erweitern:
 
-1.1.1 *Original head-Bereich:*
+1.2.1 *Original head-Bereich:*
 
 bc. <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
