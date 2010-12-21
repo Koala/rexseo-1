@@ -38,6 +38,7 @@ $REX[\'ADDON\'][\'rexseo\'][\'alert_setup\']     = 0;
 $REX[\'ADDON\'][\'rexseo\'][\'first_run\']       = '  .$REX['ADDON']['rexseo']['first_run']      .';
 $REX[\'ADDON\'][\'rexseo\'][\'rewrite_params\']  = '  .$REX['ADDON']['rexseo']['rewrite_params'] .';
 $REX[\'ADDON\'][\'rexseo\'][\'params_starter\']  = \''.$REX['ADDON']['rexseo']['params_starter'] .'\';
+$REX[\'ADDON\'][\'rexseo\'][\'title_schema\']    = \''.$REX['ADDON']['rexseo']['title_schema']   .'\';
 ';
 
   $file = $REX['INCLUDE_PATH'].'/addons/rexseo/config.inc.php';

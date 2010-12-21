@@ -34,6 +34,7 @@ $alert_setup     = $REX['ADDON'][$myself]['alert_setup'];
 $first_run       = rex_request('first_run',       'int');
 $rewrite_params  = rex_request('rewrite_params',  'int');
 $params_starter  = rex_request('params_starter',  'string');
+$title_schema    = rex_request('title_schema',    'string');
 $sendit          = rex_request('sendit',          'string');
 
 // RESTORE SETTINGS FROM BACKUP FILE
@@ -75,6 +76,7 @@ if ($func == "update")
   $REX['ADDON'][$myself]['first_run']       = $first_run;
   $REX['ADDON'][$myself]['rewrite_params']  = $rewrite_params;
   $REX['ADDON'][$myself]['params_starter']  = $params_starter;
+  $REX['ADDON'][$myself]['title_schema']    = $title_schema;
 
   $content = '
 $REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = '.var_export($def_desc,true).';
@@ -92,6 +94,7 @@ $REX[\'ADDON\'][\'rexseo\'][\'alert_setup\']     = '  .$alert_setup    .';
 $REX[\'ADDON\'][\'rexseo\'][\'first_run\']       = '  .$first_run      .';
 $REX[\'ADDON\'][\'rexseo\'][\'rewrite_params\']  = '  .$rewrite_params .';
 $REX[\'ADDON\'][\'rexseo\'][\'params_starter\']  = \''.$params_starter .'\';
+$REX[\'ADDON\'][\'rexseo\'][\'title_schema\']    = \''.$title_schema   .'\';
 ';
 
   $file = $REX['INCLUDE_PATH'].'/addons/rexseo/config.inc.php';
@@ -353,6 +356,21 @@ echo '
             <p class="rex-form-col-a rex-form-select">
               <label for="robots">301 Weiterleitungen: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('301 Weiterleitungen:').'#settings">?</a><br /> <br /><em style="color:gray;font-size:10px;">url article_id clang<br /><br />z.B. foo/bar.html 4 0</em></label>
               <textarea id="rexseo_redirects" name="301s">'.stripslashes($REX['ADDON'][$myself]['301s']).'</textarea>
+            </p>
+          </div><!-- /rex-form-row -->
+
+        </div><!-- /rex-form-wrapper -->
+      </fieldset>
+
+      <fieldset class="rex-form-col-1">
+        <legend>Page Title</legend>
+        <div class="rex-form-wrapper">
+
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-text">
+              <label for="title_schema">Schema: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Page Title').'#settings">?</a></label>
+              <input id="title_schema" class="rex-form-text" type="text" name="title_schema" value="'.stripslashes($REX['ADDON'][$myself]['title_schema']).'" /><br />
+              <em style="color:gray;font-size:10px;">%B = breadcrumb | %N = article name | $S = server/host</em>
             </p>
           </div><!-- /rex-form-row -->
 

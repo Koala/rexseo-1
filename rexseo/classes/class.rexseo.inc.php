@@ -42,47 +42,39 @@ class rexseo {
     }
 
     // BREADCRUMB TITLE
-    $str = "";
+    $B = '';
     foreach ($parents as $parent)
     {
       if (OOArticle::isValid($parent))
       {
-        $str .= ' - '.$parent->getValue('name');
+        $B .= ' - '.$parent->getValue('name');
       }
       elseif (OOCategory::isValid($parent))
       {
-        $str .= ' - '.$parent->getValue('catname');
+        $B .= ' - '.$parent->getValue('catname');
       }
     }
-    $str = trim($str);
-    $str = trim($str,"-");
-    $str = trim($str);
+    $B = trim($B);
+    $B = trim($B,"-");
+    $B = trim($B);
 
-    // OVERRIDE: SIMPLE TITLE
-    if ($REX['ADDON']['rexseo']['no_breadcrumb_title'] == 1)
-    {
-      $str = $this->getValue('name');
-    }
-
-    // OVERRIDE: REXSEO TITLE
-    if($this->getValue('art_rexseo_title') != '')
-    {
-      $str = $this->getValue('art_rexseo_title');
-    }
+    // SIMPLE TITLE
+    $N = $this->getValue('name');
 
     // SERVERNAME
-    if ($REX['SERVERNAME']!='')
-    {
-      $str .= ' - '.$REX['SERVERNAME'];
-    }
-    else
-    {
-      $str .= ' - '.$_SERVER['HTTP_HOST'];
-    }
+    $S = $REX['SERVERNAME']!='' ? $REX['SERVERNAME'] : $_SERVER['HTTP_HOST'] ;
 
-    $str = rexseo::htmlentities($str);
+    // OVERRIDE: REXSEO TITLE
+    if($this->getValue('art_rexseo_title')!='')
+    {
+      $B = $N = $this->getValue('art_rexseo_title');
+    }
+    
+    $title = str_replace(array('%B','%N','%S'),array($B,$N,$S),$REX['ADDON']['rexseo']['title_schema']);
 
-    return $str;
+    $title = rexseo::htmlentities($title);
+
+    return $title;
   }
 
 

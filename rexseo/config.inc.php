@@ -45,10 +45,10 @@ $REX['PERM'][]                        = $myself.'[]';
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
 $REX['ADDON']['rexseo']['def_desc']        = array (
-  0 => '',
+  0 => ''
 );
 $REX['ADDON']['rexseo']['def_keys']        = array (
-  0 => '',
+  0 => ''
 );
 $REX['ADDON']['rexseo']['robots']          = 'User-agent: *
 Disallow:';
@@ -64,6 +64,7 @@ $REX['ADDON']['rexseo']['alert_setup']     = 1;
 $REX['ADDON']['rexseo']['first_run']       = 1;
 $REX['ADDON']['rexseo']['rewrite_params']  = 1;
 $REX['ADDON']['rexseo']['params_starter']  = '++';
+$REX['ADDON']['rexseo']['title_schema']    = '%B - %S';
 // --- /DYN
 
 // STATIC/HIDDEN SETTINGS

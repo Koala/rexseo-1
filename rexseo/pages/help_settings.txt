@@ -38,6 +38,11 @@ Definiert ob Artikel nur über die genaue rewrite URL ausgegeben werden, oder ob
 Artikel für die eine Weiterleitungs-URL eingerichtet wird, sind unter dieser URL erreichbar, wobei der zugreifenden Suchmaschine mitgeteilt wird, daß a) die URL nicht mehr aktuell ist, und b) wie die aktuelle URL lautet. Dadurch können Suchmaschinen gezielt ihren Index aktualisieren.
 Die Parameter für eine Weiterleitung sind *URL*, *Artikel-ID* und *Sprach-ID* getrennt durch Leerzeichen:
 Beispiel: @alter_pfad/alter_artikel.html 4 0@
+* *Page Title*
+Dieses Schema definiert die Elemente der normalen title Generierung, sofern kein expliziter rexseo title ("Metadaten/Sonstiges") für den Artikel definiert wurde. Folgende Platzhalter stehen zur Verfügung:
+## @%B@ - Breadcrumb aus der Kategorie/Artikel-Hierarchie
+## @%N@ - Name des Artikels.
+## @%S@ - Servername bzw. HTTP_HOST als fallback
 * *URL Parameter*
 ## *Parameter Rewrite:* Definiert ob die normale Schreibweise für angehängte Parameter verwendet werden soll @?param1=wert1&param2=wert2@, oder ob die Parameter umgeschrieben werden @++/param1/wert1/param2/wert2@.
 ## *Abtrenner:* Wenn die Parameter umgeschrieben werden, definiert dieser string die Abgrenzung zwischen eigentlicher URL, und den Parametern (default: @++@).
