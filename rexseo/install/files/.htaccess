@@ -1,3 +1,5 @@
+<IfModule mod_rewrite.c>
+
 # ENABLE REWRITING
 RewriteEngine On
 RewriteBase /
@@ -26,3 +28,5 @@ RewriteCond %{REQUEST_URI} !^google(.*).html*
 
 # REWRITE ALL OTHER REQUESTS TO INDEX.PHP
 RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
+
+</IfModule>

@@ -16,6 +16,26 @@
 $myself = 'rexseo';
 $myroot = $REX['INCLUDE_PATH'].'/addons/'.$myself;
 
+// CHECK MOD_REWRITE AVAILLABLE
+////////////////////////////////////////////////////////////////////////////////
+if (function_exists('apache_get_modules'))
+{
+  $modules = apache_get_modules();
+  $mod_rewrite = in_array('mod_rewrite', $modules);
+}
+else
+{
+  $mod_rewrite =  getenv('HTTP_MOD_REWRITE')=='On' ? true : false ;
+}
+
+if(!$mod_rewrite)
+{
+  $REX['ADDON']['installmsg'][$myself] = 'Dieses Addon ben&ouml;tigt das Apache Modul mod_rewrite!';
+  $REX['ADDON']['install'][$myself] = 0;
+}
+
+// CHECK OTHER CONDITIONS
+////////////////////////////////////////////////////////////////////////////////
 if (intval(PHP_VERSION) < 5)
 {
   $REX['ADDON']['installmsg'][$myself] = 'Dieses Addon ben&ouml;tigt PHP 5!';
