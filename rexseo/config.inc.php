@@ -91,11 +91,27 @@ function urlrewriter_delete_pathlist($params)
 function rexseo_fix_42x_links($params)
 {
   global $REX;
-  // textile
-  $params['subject'] = str_replace('&quot;:/redaxo/','&quot;:/',$params['subject']);
-  // tiny
-  $params['subject'] = str_replace('"/redaxo/','"/',$params['subject']);
-  return $params['subject'];
+
+  $relpath = trim(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/') + 1), '/');
+
+  // http://www.php.net/manual/de/function.strrpos.php#80008
+  if((false === strpos($relpath, '/')) OR (false === $pos = strlen($relpath) - strpos(strrev($relpath), strrev('/redaxo')) - strlen('/redaxo')))
+  {
+    $relpath = '/redaxo/';
+    $replacement = '/';
+  }
+  else
+  {
+    $replacement = '/'.substr($relpath, 0, $pos).'/';
+    $relpath = '/'.$relpath.'/';
+  }
+
+  // textile, tiny
+  return str_replace(
+    array('&quot;:'.$relpath, '"'.$relpath),
+    array('&quot;:'.$replacement, '"'.$replacement),
+    $params['subject']
+  );
 }
 
 function rexseo_clear_cache()
