@@ -13,26 +13,15 @@
 
 // ADDON IDENTIFIER
 ////////////////////////////////////////////////////////////////////////////////
-$myself = 'rexseo';
-$myroot = $REX['INCLUDE_PATH'].'/addons/'.$myself;
+$myself      = 'rexseo';
+$myroot      = $REX['INCLUDE_PATH'].'/addons/'.$myself;
 
-// CHECK MOD_REWRITE AVAILLABLE
+// INSTALL SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
-if (function_exists('apache_get_modules'))
-{
-  $modules = apache_get_modules();
-  $mod_rewrite = in_array('mod_rewrite', $modules);
-}
-else
-{
-  $mod_rewrite =  getenv('HTTP_MOD_REWRITE')=='On' ? true : false ;
-}
-
-if(!$mod_rewrite)
-{
-  $REX['ADDON']['installmsg'][$myself] = 'Dieses Addon ben&ouml;tigt das Apache Modul mod_rewrite!';
-  $REX['ADDON']['install'][$myself] = 0;
-}
+$htaccess    = rex_get_file_contents($REX['FRONTEND_PATH'].'/.htaccess');
+$triggers    = array('x-mapp-php');
+$matches     = array();
+$autoinstall = true;
 
 // CHECK OTHER CONDITIONS
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,10 +58,36 @@ else
         a62_add_field(   'Priority (Google Sitemap)',                   'art_rexseo_priority', 103,    '',          3,     '',       ':Automatisch berechnen|1.00:1.00|0.80:0.80|0.64:0.64|0.51:0.51|0.33:0.33|0.00:0.00', '',               '');
 
         // INSTALL/COPY .HTACCESS FILES
-        require_once $myroot.'/functions/function.rexseo_recursive_copy.inc.php';
-        $source = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/install/files/';
-        $target = $REX['HTDOCS_PATH'];
-        $result = rexseo_recursive_copy($source, $target);
+        ////////////////////////////////////////////////////////////////////////////////
+        if ($htaccess)
+        {
+          foreach($triggers as $t)
+          {
+            if(strpos($htaccess,$t)!==false)
+            {
+              $autoinstall = false;
+              $matches[] = $t;
+            }
+          }
+
+          if($autoinstall)
+          {
+            require_once $myroot.'/functions/function.rexseo_recursive_copy.inc.php';
+            $source = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/install/files/';
+            $target = $REX['HTDOCS_PATH'];
+            $result = rexseo_recursive_copy($source, $target);
+          }
+          else
+          {
+            $msg = 'RexSEO: Die original .htaccess Datei im Root Ordner enth&auml;lt potentiell kritische settings f&uuml;r den Serverbetrieb:<br>';
+            foreach($matches as $m)
+            {
+              $msg .= '<em style="margin:4px 0 4px 10px;color:black;display:inline-block;">'.$m.'</em><br />';
+            }
+            $msg .= 'Die automatische Installation der .htaccess Dateien wurde deaktiviert,<br /> Details zur manuellen Installation siehe RexSEO Hilfe.';
+            echo rex_warning($msg);
+          }
+        }
 
         $REX['ADDON']['install'][$myself] = 1;
       }
