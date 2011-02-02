@@ -61,11 +61,13 @@ Wird hier eine Description(Beschreibung) eingetragen, überschreibt sie die im R
 ## *Suchbegriffe:*
 Werden hier Keywords(Suchbegriffe) eingetragen, überschreiben sie die im RexSEO Backend definierten default Keywords.
 * *RexSEO Einstellungen*
-## *Eigene URL:*
+## *Manuelle URL:*
 Wird hier eine eigene URL eingetragen, wird diese anstatt jener verwendet, die sich normalerweise aus Kategorie/Artikelname ergibt.
-## *Title:*
+## *Manuelle Canonical URL:*
+Wird hier eine manuelle Canonical URL eingetragen, wird diese anstatt der automatisch ermittelten verwendet.
+## *Page Title:*
 Dieser Wert wird für das @title@ Attribut der Seite verwendet und überschreibt den sich normalerweise aus *Name/Bezeichnung* ableitenden title.
-## *Priorität:*
+## *Google Sitemap Priority:*
 Hier kann eine explizite Seitenpriorität für die google-sitemap eingetragen werden, welche den automatisch ermittelten Wert überschreibt.
 
  </div>

@@ -361,7 +361,8 @@ function rex_rewriter_generate_pathnames($params)
       // FALLS REXSEO URL -> ERSETZEN
       if ($rexseo_url != '')
       {
-        $pathname = urlencode(trim($rexseo_url));
+        $pathname = ltrim(trim($rexseo_url),'/'); // sanitize whitespaces & leading slash
+        $pathname = urlencode($pathname);
         $pathname = str_replace('%2F','/',$pathname); // decode slahes..
         if(count($REX['CLANG']) > 1)
         {

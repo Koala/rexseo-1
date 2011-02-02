@@ -132,6 +132,23 @@ class rexseo {
     return $str;
   }
 
+
+  function canonical($artID=null) {
+    global $REX;
+
+    if (!$artID) {
+      $artID=$REX['ARTICLE_ID'];
+    }
+    else {
+      $artID=intval($artID);
+    }
+
+    $canonical = self::getMetaField($artID,'art_rexseo_canonicalurl',rex_getURL($artID,$REX['CUR_CLANG']));
+    $canonical = $REX['SERVER'].ltrim($canonical,'/');
+
+    return $canonical;
+  }
+
   function islatin() {
     global $REX;
     $pos = strpos($REX['LANG'], '_utf8');

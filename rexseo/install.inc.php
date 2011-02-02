@@ -51,11 +51,12 @@ else
       else
       {
       // 4.3.x -> zusäzliches Feld "restrictions" (http://forum.redaxo.de/sutra80188.html#80188 -> erst ab metainfo r1871)
-      //a62_add_field(   $title,                                        $name,                 $prior, $attributes, $type, $default, $params = null,                                                                       $validate = null, $restrictions = '')
-        a62_add_field(   'RexSEO Einstellungen',                        'art_rexseo_legend',   100,    '',         12,     '',       '',                                                                                   '',               '');
-        a62_add_field(   'Eigene URL (ohne vorangefuertem / )',         'art_rexseo_url',      101,    '',          1,     '',       '',                                                                                   '',               '');
-        a62_add_field(   'Title',                                       'art_rexseo_title',    102,    '',          1,     '',       '',                                                                                   '',               '');
-        a62_add_field(   'Priority (Google Sitemap)',                   'art_rexseo_priority', 103,    '',          3,     '',       ':Automatisch berechnen|1.00:1.00|0.80:0.80|0.64:0.64|0.51:0.51|0.33:0.33|0.00:0.00', '',               '');
+      //a62_add_field(   $title,                                        $name,                           $prior, $attributes, $type, $default, $params = null,                                                                       $validate = null, $restrictions = '')
+        a62_add_field(   'RexSEO Einstellungen',                        'art_rexseo_legend',             100,    '',         12,     '',       '',                                                                                   '',               '');
+        a62_add_field(   'Manuelle URL',                                'art_rexseo_url',                101,    '',          1,     '',       '',                                                                                   '',               '');
+        a62_add_field(   'Manuelle Canonical URL',                      'art_rexseo_canonicalurl',       102,    '',          1,     '',       '',                                                                                   '',               '');
+        a62_add_field(   'Page Title',                                  'art_rexseo_title',              103,    '',          1,     '',       '',                                                                                   '',               '');
+        a62_add_field(   'Google Sitemap Priority',                     'art_rexseo_priority',           104,    '',          3,     '',       ':Automatisch berechnen|1.00:1.00|0.80:0.80|0.64:0.64|0.51:0.51|0.33:0.33|0.00:0.00', '',               '');
 
         // INSTALL/COPY .HTACCESS FILES
         ////////////////////////////////////////////////////////////////////////////////

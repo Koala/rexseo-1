@@ -70,6 +70,8 @@ echo '
 <li><b>art_keywords:</b> <em>'.$ooa->getValue('art_keywords').'</em></li>
 <li><b>RexSEO::description():</b> <em>'.RexSEO::description().'</em></li>
 <li><b>art_description:</b> <em>'.$ooa->getValue('art_description').'</em></li>
+<li><b>RexSEO::canonical():</b> <em>'.RexSEO::canonical().'</em></li>
+<li><b>art_rexseo_canonicalurl:</b> <em>'.$ooa->getValue('art_rexseo_canonicalurl').'</em></li>
 </ul>
 </div>
 ';
