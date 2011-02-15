@@ -152,7 +152,7 @@ unset($Parser);
 
 // URL_SCHEMA SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
-$url_schema_select = new rex_select();
+$url_schema_select = new rexseo_select();
 $url_schema_select->setSize(1);
 $url_schema_select->setName('url_schema');
 $url_schema_select->addOption('RexSEO','rexseo');
@@ -162,7 +162,7 @@ $url_schema_select->setSelected($REX['ADDON'][$myself]['url_schema']);
 
 // URL_ENDING SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
-$url_ending_select = new rex_select();
+$url_ending_select = new rexseo_select();
 $url_ending_select->setSize(1);
 $url_ending_select->setName('url_ending');
 $url_ending_select->addOption('.html','.html');
@@ -185,7 +185,7 @@ else
 }
 unset($ooa);
 
-$homeurl_select = new rex_select();
+$homeurl_select = new rexseo_select();
 $homeurl_select->setSize(1);
 $homeurl_select->setName('homeurl');
 $homeurl_select->addOption($REX['SERVER'].$homename.'.html',0);
@@ -198,7 +198,7 @@ $homeurl_select->setSelected($REX['ADDON'][$myself]['homeurl']);
 ////////////////////////////////////////////////////////////////////////////////
 if(count($REX['CLANG']) > 1)
 {
-  $homelang_select = new rex_select();
+  $homelang_select = new rexseo_select();
   $homelang_select->setSize(1);
   $homelang_select->setName('homelang');
   foreach($REX['CLANG'] as $id => $str)
@@ -221,7 +221,7 @@ else
 
 // ARTICLE_ID SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
-$allow_articleid_select = new rex_select();
+$allow_articleid_select = new rexseo_select();
 $allow_articleid_select->setSize(1);
 $allow_articleid_select->setName('allow_articleid');
 $allow_articleid_select->addOption('Nicht zulässig, nur rewrite URLs'           ,0);
@@ -232,7 +232,7 @@ $allow_articleid_select->setSelected($REX['ADDON'][$myself]['allow_articleid']);
 
 // LEVENSHTEIN SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
-$levenshtein_select = new rex_select();
+$levenshtein_select = new rexseo_select();
 $levenshtein_select->setSize(1);
 $levenshtein_select->setName('levenshtein');
 $levenshtein_select->addOption('Strikte URL-Übereinstimmung, sonst Fehlerseite (404)',0);
@@ -242,7 +242,7 @@ $levenshtein_select->setSelected($REX['ADDON'][$myself]['levenshtein']);
 
 // PARAMS REWRITE SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
-$params_rewrite_select = new rex_select();
+$params_rewrite_select = new rexseo_select();
 $params_rewrite_select->setSize(1);
 $params_rewrite_select->setName('rewrite_params');
 $params_rewrite_select->setAttribute('style','width:250px;');

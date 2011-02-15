@@ -123,6 +123,7 @@ function rexseo_clear_cache()
 
 // MAIN
 ////////////////////////////////////////////////////////////////////////////////
+require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo_select.inc.php';
 require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo.inc.php';
 
 if ($REX['MOD_REWRITE'] !== false)
