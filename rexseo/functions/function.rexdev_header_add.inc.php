@@ -40,3 +40,4 @@ if(!function_exists('rexdev_header_add'))
     return $params['subject'];
   }
 }
+?>

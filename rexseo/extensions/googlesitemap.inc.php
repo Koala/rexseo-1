@@ -152,3 +152,4 @@ $xml_output .= '</urlset>';
 header('Content-Type: application/xml');
 header('Content-Length: '.strlen($xml_output));
 echo $xml_output;
+?>

@@ -53,3 +53,4 @@ if (rex_request('rexseo_func')!="") {
 		break;
 	}
 }
+?>

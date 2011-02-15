@@ -12,3 +12,4 @@
  */
 
 $REX['ADDON']['install']['rexseo'] = 0;
+?>

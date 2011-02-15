@@ -103,3 +103,4 @@ if(!function_exists('a750_redmine_project_feed'))
     }
   }
 }
+?>

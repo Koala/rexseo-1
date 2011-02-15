@@ -44,23 +44,25 @@ $REX['PERM'][]                        = $myself.'[]';
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
 $REX['ADDON']['rexseo']['def_desc']        = array (
-  0 => ''
+  0 => '',
+  1 => '',
 );
 $REX['ADDON']['rexseo']['def_keys']        = array (
-  0 => ''
+  0 => '',
+  1 => '',
 );
 $REX['ADDON']['rexseo']['robots']          = 'User-agent: *
 Disallow:';
 $REX['ADDON']['rexseo']['homeurl']         = 1;
 $REX['ADDON']['rexseo']['homelang']        = 0;
-$REX['ADDON']['rexseo']['allow_articleid'] = 0;
+$REX['ADDON']['rexseo']['allow_articleid'] = 2;
 $REX['ADDON']['rexseo']['levenshtein']     = 0;
 $REX['ADDON']['rexseo']['301s']            = '';
 $REX['ADDON']['rexseo']['url_schema']      = 'rexseo';
 $REX['ADDON']['rexseo']['url_ending']      = '.html';
-$REX['ADDON']['rexseo']['expert_settings'] = 0;
+$REX['ADDON']['rexseo']['expert_settings'] = 1;
 $REX['ADDON']['rexseo']['alert_setup']     = 1;
-$REX['ADDON']['rexseo']['first_run']       = 1;
+$REX['ADDON']['rexseo']['first_run']       = 0;
 $REX['ADDON']['rexseo']['rewrite_params']  = 1;
 $REX['ADDON']['rexseo']['params_starter']  = '++';
 $REX['ADDON']['rexseo']['title_schema']    = '%B - %S';
@@ -149,3 +151,4 @@ if ($REX['MOD_REWRITE'] !== false)
 
 include $REX['INCLUDE_PATH'].'/addons/'.$myself.'/controller.inc.php';
 
+?>

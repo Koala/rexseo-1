@@ -144,3 +144,4 @@ if($highlight)
 // REX BOTTOM
 ////////////////////////////////////////////////////////////////////////////////#highlight-plugin
 require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
+?>

@@ -466,3 +466,4 @@ echo '
 ';
 
 unset($levenshtein_select,$allow_articleid_select,$homeurl_select,$url_ending_select,$url_schema_select);
+?>

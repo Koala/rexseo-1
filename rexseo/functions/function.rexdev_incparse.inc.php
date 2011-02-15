@@ -163,3 +163,4 @@ if (!function_exists('get_include_contents'))
     return false;
   }
 }
+?>

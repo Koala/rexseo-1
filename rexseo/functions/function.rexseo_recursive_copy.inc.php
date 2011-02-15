@@ -111,3 +111,4 @@ if (!function_exists('rexseo_recursive_copy'))
     return $result;
   }
 }
+?>

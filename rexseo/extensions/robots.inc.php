@@ -28,3 +28,4 @@ else
 $out .= "\n".'Sitemap: '.$REX['SERVER'].'sitemap.xml';
 
 echo $out;
+?>

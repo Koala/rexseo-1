@@ -44,3 +44,4 @@ foreach($help_includes as $key => $def)
     </div>
   </div>';
 }
+?>

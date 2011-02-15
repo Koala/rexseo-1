@@ -50,7 +50,7 @@ else
       }
       else
       {
-      // 4.3.x -> zusäzliches Feld "restrictions" (http://forum.redaxo.de/sutra80188.html#80188 -> erst ab metainfo r1871)
+      // 4.3.x -> zusï¿½zliches Feld "restrictions" (http://forum.redaxo.de/sutra80188.html#80188 -> erst ab metainfo r1871)
       //a62_add_field(   $title,                                        $name,                           $prior, $attributes, $type, $default, $params = null,                                                                       $validate = null, $restrictions = '')
         a62_add_field(   'RexSEO Einstellungen',                        'art_rexseo_legend',             100,    '',         12,     '',       '',                                                                                   '',               '');
         a62_add_field(   'Manuelle URL',                                'art_rexseo_url',                101,    '',          1,     '',       '',                                                                                   '',               '');
@@ -95,3 +95,4 @@ else
     }
   }
 }
+?>

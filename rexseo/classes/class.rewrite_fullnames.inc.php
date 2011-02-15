@@ -26,7 +26,7 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  *   2) .htaccess file in das redaxo/ verzeichnis:
  *     RewriteEngine Off
  *
- *   3) im Template folgende Zeile AM ANFANG des <head> ergänzen:
+ *   3) im Template folgende Zeile AM ANFANG des <head> ergï¿½nzen:
  *   <base href="http://www.meine_domain.de/pfad/zum/frontend" />
  *
  *   4) Specials->Regenerate All starten
@@ -39,7 +39,7 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  * @author office[at]vscope[dot]at Wolfgang Huttegger
  * @author <a href="http://www.vscope.at/">vscope new media</a>
  *
- * @author rn[at]gn2-netwerk[dot]de Rüdiger Nitzsche
+ * @author rn[at]gn2-netwerk[dot]de Rï¿½diger Nitzsche
  * @author <a href="http://www.gn2-netwerk.de/">GN2 Netwerk</a>
  *
  * @author code[at]rexdev[dot]de jeandeluxe
@@ -61,7 +61,7 @@ class myUrlRewriter extends rexUrlRewriter
     parent::rexUrlRewriter();
   }
 
-  // Parameter aus der URL für das Script verarbeiten
+  // Parameter aus der URL fï¿½r das Script verarbeiten
   function prepare()
   {
     global $REX, $REXPATH;
@@ -73,7 +73,7 @@ class myUrlRewriter extends rexUrlRewriter
     if(!file_exists(FULLNAMES_PATHLIST))
        rex_rewriter_generate_pathnames(array());
 
-    // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
+    // REXPATH wird auch im Backend benï¿½tigt, z.B. beim bearbeiten von Artikeln
     require_once (FULLNAMES_PATHLIST);
 
     if(!$REX['REDAXO'])
@@ -90,7 +90,7 @@ class myUrlRewriter extends rexUrlRewriter
       if ($path{0}=='/')
         $path = substr($path, 1);
 
-      // FALLS AUFRUF ERLAUBT -> AUF ARTICLE_ID PRÜFEN
+      // FALLS AUFRUF ERLAUBT -> AUF ARTICLE_ID PRï¿½FEN
       if ($REX['ADDON']['rexseo']['allow_articleid'] == 2)
       {
         if($_GET['article_id'])
@@ -108,11 +108,11 @@ class myUrlRewriter extends rexUrlRewriter
         }
       }
 
-      // Parameter zählen nicht zum Pfad -> abschneiden
+      // Parameter zï¿½hlen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '?')) !== false)
         $path = substr($path, 0, $pos);
 
-      // Anker zählen nicht zum Pfad -> abschneiden
+      // Anker zï¿½hlen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
 
@@ -290,7 +290,7 @@ if ($REX['REDAXO'])
 
 /**
  * rex_rewriter_generate_pathnames
- * generiert die Pathlist, abhŠngig von Aktion
+ * generiert die Pathlist, abhï¿½ngig von Aktion
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @package redaxo4.2
  */
@@ -313,7 +313,7 @@ function rex_rewriter_generate_pathnames($params)
   $where = '';
   switch($params['extension_point'])
   {
-    // ------- sprachabhängig, einen artikel aktualisieren
+    // ------- sprachabhï¿½ngig, einen artikel aktualisieren
     case 'CAT_DELETED':
     case 'ART_DELETED':
       unset($REXPATH[$params['id']]);
@@ -364,10 +364,7 @@ function rex_rewriter_generate_pathnames($params)
         $pathname = ltrim(trim($rexseo_url),'/'); // sanitize whitespaces & leading slash
         $pathname = urlencode($pathname);
         $pathname = str_replace('%2F','/',$pathname); // decode slahes..
-        if(count($REX['CLANG']) > 1)
-        {
-          $pathname = $REX['CLANG'][$clang].'/'.$pathname;
-        }
+        
       }
       // NORMALE URL ERZEUGUNG
       else
@@ -378,7 +375,7 @@ function rex_rewriter_generate_pathnames($params)
           $pathname = $REX['CLANG'][$clang].'/';
         }
 
-        // pfad über kategorien bauen
+        // pfad ï¿½ber kategorien bauen
         $path = trim($path, '|');
         if($path != '')
         {
@@ -406,7 +403,7 @@ function rex_rewriter_generate_pathnames($params)
         {
           if(!$ooa->isStartArticle())
           {
-          // eigentlicher artikel anhängen
+          // eigentlicher artikel anhï¿½ngen
           $name = $ooa->getName();
           unset($ooa); // speicher freigeben
           $pathname = rex_rewriter_appendToPath($pathname, $name);
@@ -414,7 +411,7 @@ function rex_rewriter_generate_pathnames($params)
         }
         else
         {
-          // eigentlicher artikel anhängen
+          // eigentlicher artikel anhï¿½ngen
           $name = $ooa->getName();
           unset($ooa); // speicher freigeben
           $pathname = rex_rewriter_appendToPath($pathname, $name);
@@ -452,3 +449,4 @@ function rex_rewriter_appendToPath($path, $name)
   }
   return $path;
 }
+?>
