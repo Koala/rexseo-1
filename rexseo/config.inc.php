@@ -25,9 +25,7 @@ $myself = 'rexseo';
 $Revision = '';
 $REX['ADDON'][$myself]['VERSION'] = array
 (
-'VERSION'      => 1,
-'MINORVERSION' => 2,
-'SUBVERSION'   => preg_replace('/[^0-9]/','',"$Revision$")
+  'VERSION'   => 'r'.preg_replace('/[^0-9]/','',"$Revision$")
 );
 
 // ADDON REX COMMONS
