@@ -155,7 +155,17 @@ if ($REX['MOD_REWRITE'] !== false)
   $rewriter->prepare();
 
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
-  rex_register_extension('ADDONS_INCLUDED', 'rexseo_redirects');
+
+  if (isset($REX['ADDON'][$myself]['301s']) && count($REX['ADDON'][$myself]['301s'])>0)
+  {
+    rex_register_extension('ADDONS_INCLUDED', 'rexseo_redirects');
+  }
+
+  if (isset($REX['ADDON'][$myself]['allow_articleid']) && $REX['ADDON'][$myself]['allow_articleid']==1)
+  {
+    rex_register_extension('ADDONS_INCLUDED', 'rexseo_resolve_article_id_urls');
+  }
+
   rex_register_extension('ART_TO_STARTPAGE', 'rexseo_clear_cache');
 
   // FIX TEXTILE/TINY LINKS @ REX < 4.3

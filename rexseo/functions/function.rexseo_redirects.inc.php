@@ -12,32 +12,34 @@
  */
 
 
+
+// USER DEFINED 301 REDIRECTS
+//////////////////////////////////////////////////////////////////////////////
 function rexseo_redirects()
 {
   global $REX;
 
-  // USER DEFINIERTE WEITERLEITUNGEN
-  //////////////////////////////////////////////////////////////////////////////
-  if (isset($REX['ADDON']['rexseo']['301s']) && count($REX['ADDON']['rexseo']['301s'])>0)
+  $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
+  $script_path = str_replace(DIRECTORY_SEPARATOR, '/', $script_path);
+  $length = strlen($script_path);
+  $path = substr($_SERVER['REQUEST_URI'], $length);
+
+  $redirects = $REX['ADDON']['rexseo']['301s'];
+  if(isset($redirects[$path]))
   {
-    $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
-    $script_path = str_replace(DIRECTORY_SEPARATOR, '/', $script_path);
-    $length = strlen($script_path);
-    $path = substr($_SERVER['REQUEST_URI'], $length);
-
-    $redirects = $REX['ADDON']['rexseo']['301s'];
-    if(isset($redirects[$path]))
-    {
-      $art = $redirects[$path];
-      $url = rex_getUrl($art['article_id'],$art['article_id']);
-      header("HTTP/1.1 301");
-      header('Location:'.$url);
-      die();
-    }
+    $art = $redirects[$path];
+    $url = rex_getUrl($art['article_id'],$art['article_id']);
+    header("HTTP/1.1 301");
+    header('Location:'.$url);
+    die();
   }
+}
 
-  // ARTICLE_ID WEITERLEITUNGEN
-  //////////////////////////////////////////////////////////////////////////////
+
+// ARTICLE_ID WEITERLEITUNGEN
+//////////////////////////////////////////////////////////////////////////////
+function rexseo_resolve_article_id_urls()
+{
   if(!$REX['REDAXO'])
   {
     if(isset($_GET['article_id']) && is_numeric($_GET['article_id']))
