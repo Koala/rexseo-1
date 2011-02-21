@@ -287,4 +287,71 @@ if (!function_exists('rexseo_subdir'))
 }
 
 
+// PARAMS CAST FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
+function rexseo_nl_2_array($str)
+{
+  $arr = array_filter(preg_split("/\n|\r\n|\r/", $str));
+  return is_array($arr) ? $arr : array($arr);
+}
+
+function rexseo_array_2_nl($arr)
+{
+  return count($arr)>0 ? implode(PHP_EOL,$arr) : '';
+}
+
+function rexseo_301_2_array($str)
+{
+  $arr = array();
+  $tmp = array_filter(preg_split("/\n|\r\n|\r/", $str));
+  foreach($tmp as $k => $v)
+  {
+    $a = explode(' ',trim($v));
+    $arr[trim(ltrim($a[0],'/'))] = array('article_id'=>intval($a[1]),'clang'=>intval($a[2]));
+  }
+  return $arr;
+}
+
+function rexseo_301_2_string($arr)
+{
+  $str = '';
+  foreach($arr as $k => $v)
+  {
+    $str .= $k.' '.$v['article_id'].' '.$v['clang'].PHP_EOL;
+  }
+  return $str;
+}
+
+function rexseo_batch_cast($request,$conf)
+{
+  if(is_array($request) && is_array($conf))
+  {
+    foreach($conf as $key => $cast)
+    {
+      switch($cast)
+      {
+        case 'unset':
+          unset($request[$key]);
+          break;
+
+        case '301_2_array':
+          $request[$key] = rexseo_301_2_array($request[$key]);
+          break;
+
+        case 'nl_2_array':
+          $request[$key] = rexseo_nl_2_array($request[$key]);
+          break;
+
+        default:
+          $request[$key] = rex_request($key,$cast);
+      }
+    }
+    return $request;
+  }
+  else
+  {
+    trigger_error('wrong input type, array expected', E_USER_ERROR);
+  }
+}
+
 ?>
