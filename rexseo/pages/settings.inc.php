@@ -104,51 +104,6 @@ $REX[\'ADDON\'][\'rexseo\'][\'title_schema\']    = \''.$title_schema   .'\';
   echo rex_info('Einstellungen wurden gespeichert, '.rex_generateAll().'.');
 }
 
-// SVN & DOWNLOAD CHECK
-////////////////////////////////////////////////////////////////////////////////
-$Parser = new SimplePie();
-$Parser->set_cache_location($REX['INCLUDE_PATH'].'/generated/files');
-$Parser->set_feed_url('http://www.gn2-code.de/projects/rexseo/activity.atom?key=4372f934b085621f0878e4d8d2dc8b1a4c3fd9dc');
-$Parser->init();
-$Parser->handle_content_type();
-
-$this_revision = intval($REX['ADDON'][$myself]['VERSION']['SUBVERSION']);
-$latest_download = false;
-foreach ($Parser->get_items(0,10) as $item)
-{
-  $title = $item->get_title();
-  if (strpos($title,'.zip') !== false)
-  {
-    $latest_download = intval(str_replace('rexseo_1.2_r','',$title));
-    $latest_download = intval(str_replace('.zip','',$latest_download));
-    break;
-  }
-}
-
-if($latest_download > $this_revision)
-{
-  echo rex_info('Eine neue Download Version ist verf&uuml;gbar: <a href="index.php?page='.$myself.'&subpage=help&chapter=downloads&highlight='.$title.'">'.$title.'</a>');
-}
-
-if($REX['ADDON']['rexseo']['svn_version_notify'] == 1)
-{
-  $latest_revision = false;
-  foreach ($Parser->get_items(0,10) as $item)
-  {
-    $title = $item->get_title();
-    if (strpos($title,'Revision') !== false)
-    {
-      $latest_revision = intval(str_replace('Revision ','',$title));
-      break;
-    }
-  }
-
-  if($latest_revision > $this_revision)
-  {
-    echo rex_info('Eine neue SVN Version ist verf&uuml;gbar: <a href="index.php?page='.$myself.'&subpage=help&chapter=changelog&highlight=Revision+'.$latest_revision.'">Revision '.$latest_revision.'</a>');
-  }
-}
-unset($Parser);
 
 // URL_SCHEMA SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
