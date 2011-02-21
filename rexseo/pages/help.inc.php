@@ -23,6 +23,7 @@ $func        = rex_request('func', 'string');
 if ($func == 'setup_alert_disable')
 {
   $myCONF = $REX['ADDON'][$myself];
+  unset($myCONF['SUBPAGES']);
   $myCONF['alert_setup'] = 0;
 
   $DYN    = '$REX[\'ADDON\'][\''.$myself.'\'] = '.stripslashes(var_export($myCONF,true)).';';
