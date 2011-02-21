@@ -98,12 +98,6 @@ $REX['ADDON'][$myself]['SUBPAGES'] = array (
 
 // FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
-function urlrewriter_delete_pathlist($params)
-{
-  global $REX;
-  @unlink($REX['INCLUDE_PATH'].'/generated/files/pathlist.php');
-}
-
 function rexseo_fix_42x_links($params)
 {
   global $REX;
