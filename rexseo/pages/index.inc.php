@@ -14,7 +14,7 @@
 // GET PARAMS, IDENTIFIER, ROOT DIR
 ////////////////////////////////////////////////////////////////////////////////
 $myself        = rex_request('page', 'string');
-$subpage       = rex_request('subpage', 'string');
+$subpage       = rex_request('subpage', 'string', 'settings');
 $chapter       = rex_request('chapter', 'string');
 $func          = rex_request('func', 'string');
 $section_id    = rex_request('section_id', 'string');
@@ -78,12 +78,8 @@ if($REX['ADDON']['rexseo']['alert_setup'] == true && ( $subpage == 'settings' ||
   }
 }
 
-// SET DEFAULT PAGE / INCLUDE SUBPAGE
+// INCLUDE SUBPAGE
 ////////////////////////////////////////////////////////////////////////////////
-if(!$subpage)
-{
-  $subpage = 'settings';
-}
 require $REX['INCLUDE_PATH'] . '/addons/'.$myself.'/pages/'.$subpage.'.inc.php';
 
 // JS SCRIPT FÜR LINKS IN NEUEN FENSTERN (per <a class="blank">)
@@ -147,6 +143,6 @@ if($highlight)
 }
 
 // REX BOTTOM
-////////////////////////////////////////////////////////////////////////////////#highlight-plugin
+////////////////////////////////////////////////////////////////////////////////
 require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
 ?>
