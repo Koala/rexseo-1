@@ -45,18 +45,19 @@ $REX['PERM'][]                        = $myself.'[]';
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
 $REX['ADDON']['rexseo'] = array (
+  'rexseo_version' => '1.2.135',
   'first_run' => 1,
+  'alert_setup' => 1,
   'url_whitespace_replace' => '-',
-  'rexseo_version' => '1.2.131',
   'def_desc' => 
   array (
-    0 => 'asdflkjh',
-    1 => 'cvbnm',
+    0 => '',
+    1 => '',
   ),
   'def_keys' => 
   array (
-    0 => 'asdlkfjh',
-    1 => 'xcmvnb',
+    0 => '',
+    1 => '',
   ),
   'url_schema' => 'rexseo',
   'url_ending' => '.html',
@@ -65,25 +66,13 @@ $REX['ADDON']['rexseo'] = array (
   'allow_articleid' => 0,
   'levenshtein' => 0,
   '301s' => 
-  array (
-    'alte/url' => 
-    array (
-      'article_id' => 1,
-      'clang' => 2,
-    ),
-    'irgendne/url' => 
-    array (
-      'article_id' => 2,
-      'clang' => 3,
-    ),
-  ),
+  array (),
   'title_schema' => '%B - %S',
   'rewrite_params' => 1,
   'params_starter' => '++',
   'robots' => 'User-agent: *
 Disallow:',
   'expert_settings' => 0,
-  'alert_setup' => 1,
 );
 // --- /DYN
 

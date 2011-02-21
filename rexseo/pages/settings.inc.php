@@ -13,9 +13,10 @@
 
 // MAIN PARAMS
 ////////////////////////////////////////////////////////////////////////////////
-$myself          = rex_request('page',            'string');
-$subpage         = rex_request('subpage',         'string');
-$func            = rex_request('func',            'string');
+$myself  = rex_request('page',            'string');
+$subpage = rex_request('subpage',         'string');
+$func    = rex_request('func',            'string');
+$backup  = $REX['INCLUDE_PATH'].'/backup/addons/rexseo/config.inc.php';
 
 // SETTINGS PARAMS
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,14 +88,10 @@ if($REX['ADDON'][$myself]['alert_setup'] == 1)
 
 // RESTORE SETTINGS FROM BACKUP FILE
 ////////////////////////////////////////////////////////////////////////////////
-$backup = $REX['INCLUDE_PATH'].'/backup/addons/rexseo/config.inc.php';
-if(file_exists($backup))
+if($REX['ADDON'][$myself]['first_run'] == 1 && file_exists($backup))
 {
-  if($REX['ADDON'][$myself]['first_run'] == 1)
-  {
-    require_once $backup;
-    echo rex_info('Daten wurde aus Backup ins Formular &uuml;bernommen - bitte Einstellungen speichern!');
-  }
+  require_once $backup;
+  echo rex_info('Daten wurde aus Backup ins Formular &uuml;bernommen - bitte Einstellungen speichern!');
 }
 
 
@@ -227,9 +224,10 @@ echo '
     <input type="hidden" name="page" value="rexseo" />
     <input type="hidden" name="subpage" value="settings" />
     <input type="hidden" name="func" value="update" />
+    <input type="hidden" name="rexseo_version" value="'.$REX['ADDON']['version'][$myself].'" />
     <input type="hidden" name="first_run" value="0" />
-    <input type="hidden" name="url_whitespace_replace" value="-" />
-    <input type="hidden" name="rexseo_version" value="'.$REX['ADDON']['version'][$myself].'" />';
+    <input type="hidden" name="alert_setup" value="'.$REX['ADDON'][$myself]['alert_setup'].'" />
+    <input type="hidden" name="url_whitespace_replace" value="-" />';
 
 foreach ($REX['CLANG'] as $id => $str)
 {
