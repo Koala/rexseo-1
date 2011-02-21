@@ -50,7 +50,7 @@ else
       }
       else
       {
-      // 4.3.x -> zus�zliches Feld "restrictions" (http://forum.redaxo.de/sutra80188.html#80188 -> erst ab metainfo r1871)
+      // 4.3.x -> zusätzliches Feld "restrictions" (http://forum.redaxo.de/sutra80188.html#80188 -> erst ab metainfo r1871)
       //a62_add_field(   $title,                                        $name,                           $prior, $attributes, $type, $default, $params = null,                                                                       $validate = null, $restrictions = '')
         a62_add_field(   'RexSEO Einstellungen',                        'art_rexseo_legend',             100,    '',         12,     '',       '',                                                                                   '',               '');
         a62_add_field(   'Manuelle URL',                                'art_rexseo_url',                101,    '',          1,     '',       '',                                                                                   '',               '');
@@ -73,7 +73,7 @@ else
 
           if($autoinstall)
           {
-            require_once $myroot.'/functions/function.rexseo_recursive_copy.inc.php';
+            require_once $myroot.'/functions/function.rexseo_helpers.inc.php';
             $source = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/install/files/';
             $target = $REX['HTDOCS_PATH'];
             $result = rexseo_recursive_copy($source, $target);

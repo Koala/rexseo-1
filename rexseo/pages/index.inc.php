@@ -50,8 +50,7 @@ if(!class_exists('simplepie'))
 
 // INCLUDE FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
-require_once $myroot.'/functions/function.rexdev_incparse.inc.php';
-require_once $myroot.'/functions/function.rexseo_recursive_copy.inc.php';
+require_once $myroot.'/functions/function.rexseo_helpers.inc.php';
 require_once $myroot.'/functions/function.a750_redmine_project_feed.inc.php';
 
 // REX TOP

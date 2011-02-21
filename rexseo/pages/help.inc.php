@@ -78,7 +78,7 @@ $addonroot = $REX['INCLUDE_PATH']. '/addons/'.$myself.'/';
 $source    = $chapterpages[$chapter][1];
 $parse     = $chapterpages[$chapter][2];
 
-$html = rexdev_incparse($addonroot,$source,$parse,true);
+$html = rexseo_incparse($addonroot,$source,$parse,true);
 
 
 // OUTPUT
