@@ -149,7 +149,6 @@ if ($REX['MOD_REWRITE'] !== false)
 
   require_once $UrlRewriteBasedir.'/classes/class.urlrewriter.inc.php';
   require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullnames.inc.php';
-  require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
 
   $rewriter = new myUrlRewriter($levenshtein,$rewrite_params);
   $rewriter->prepare();
@@ -157,12 +156,14 @@ if ($REX['MOD_REWRITE'] !== false)
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
 
   if (isset($REX['ADDON'][$myself]['301s']) && count($REX['ADDON'][$myself]['301s'])>0)
-  {
+  {                                                                               
+    require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
     rex_register_extension('ADDONS_INCLUDED', 'rexseo_redirects');
   }
 
   if (isset($REX['ADDON'][$myself]['allow_articleid']) && $REX['ADDON'][$myself]['allow_articleid']==1)
   {
+    require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
     rex_register_extension('ADDONS_INCLUDED', 'rexseo_resolve_article_id_urls');
   }
 

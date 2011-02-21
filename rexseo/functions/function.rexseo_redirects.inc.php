@@ -28,7 +28,7 @@ function rexseo_redirects()
   if(isset($redirects[$path]))
   {
     $art = $redirects[$path];
-    $url = rex_getUrl($art['article_id'],$art['article_id']);
+    $url = rex_getUrl($art['article_id'],$art['clang']);
     header("HTTP/1.1 301");
     header('Location:'.$url);
     die();
