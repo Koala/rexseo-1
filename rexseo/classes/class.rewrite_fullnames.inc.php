@@ -26,7 +26,7 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  *   2) .htaccess file in das redaxo/ verzeichnis:
  *     RewriteEngine Off
  *
- *   3) im Template folgende Zeile AM ANFANG des <head> erg�nzen:
+ *   3) im Template folgende Zeile AM ANFANG des <head> ergänzen:
  *   <base href="http://www.meine_domain.de/pfad/zum/frontend" />
  *
  *   4) Specials->Regenerate All starten
@@ -39,7 +39,7 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php
  * @author office[at]vscope[dot]at Wolfgang Huttegger
  * @author <a href="http://www.vscope.at/">vscope new media</a>
  *
- * @author rn[at]gn2-netwerk[dot]de R�diger Nitzsche
+ * @author rn[at]gn2-netwerk[dot]de Rüdiger Nitzsche
  * @author <a href="http://www.gn2-netwerk.de/">GN2 Netwerk</a>
  *
  * @author code[at]rexdev[dot]de jeandeluxe
@@ -61,7 +61,7 @@ class myUrlRewriter extends rexUrlRewriter
     parent::rexUrlRewriter();
   }
 
-  // Parameter aus der URL f�r das Script verarbeiten
+  // Parameter aus der URL für das Script verarbeiten
   function prepare()
   {
     global $REX, $REXPATH;
@@ -73,7 +73,7 @@ class myUrlRewriter extends rexUrlRewriter
     if(!file_exists(FULLNAMES_PATHLIST))
        rex_rewriter_generate_pathnames(array());
 
-    // REXPATH wird auch im Backend ben�tigt, z.B. beim bearbeiten von Artikeln
+    // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
     require_once (FULLNAMES_PATHLIST);
 
     if(!$REX['REDAXO'])
@@ -90,7 +90,7 @@ class myUrlRewriter extends rexUrlRewriter
       if ($path{0}=='/')
         $path = substr($path, 1);
 
-      // FALLS AUFRUF ERLAUBT -> AUF ARTICLE_ID PR�FEN
+      // FALLS AUFRUF ERLAUBT -> AUF ARTICLE_ID PRÜFEN
       if ($REX['ADDON']['rexseo']['allow_articleid'] == 2)
       {
         if($_GET['article_id'])
@@ -108,11 +108,11 @@ class myUrlRewriter extends rexUrlRewriter
         }
       }
 
-      // Parameter z�hlen nicht zum Pfad -> abschneiden
+      // Parameter zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '?')) !== false)
         $path = substr($path, 0, $pos);
 
-      // Anker z�hlen nicht zum Pfad -> abschneiden
+      // Anker zählen nicht zum Pfad -> abschneiden
       if(($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
 
@@ -444,7 +444,7 @@ function rex_rewriter_appendToPath($path, $name)
   if ($name != '')
   {
     $name = strtolower(rex_parse_article_name($name));
-    $name = str_replace('+',$REX['ADDON']['rexseo']['whitespace_replace'],$name);
+    $name = str_replace('+',$REX['ADDON']['rexseo']['url_whitespace_replace'],$name);
     $path .= $name.'/';
   }
   return $path;
