@@ -14,7 +14,7 @@
 // GET PARAMS, IDENTIFIER, ROOT DIR
 ////////////////////////////////////////////////////////////////////////////////
 $myself        = rex_request('page', 'string');
-$subpage       = rex_request('subpage', 'string', 'settings');
+$subpage       = rex_request('subpage', 'string')!='' ? rex_request('subpage', 'string'): 'settings';
 $chapter       = rex_request('chapter', 'string');
 $func          = rex_request('func', 'string');
 $section_id    = rex_request('section_id', 'string');
