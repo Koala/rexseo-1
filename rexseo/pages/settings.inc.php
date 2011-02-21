@@ -19,90 +19,84 @@ $func            = rex_request('func',            'string');
 
 // SETTINGS PARAMS
 ////////////////////////////////////////////////////////////////////////////////
-$def_desc        = rex_request('def_desc',        'array');
-$def_keys        = rex_request('def_keys',        'array');
-$robots          = rex_request('robots',          'string');
-$homeurl         = rex_request('homeurl',         'int');
-$homelang        = rex_request('homelang',        'int');
-$allow_articleid = rex_request('allow_articleid', 'int');
-$levenshtein     = rex_request('levenshtein',     'int');
-$redirects       = rex_request('301s',            'string');
-$url_schema      = rex_request('url_schema',      'string');
-$url_ending      = rex_request('url_ending',      'string');
-$expert_settings = rex_request('expert_settings', 'int');
-$alert_setup     = $REX['ADDON'][$myself]['alert_setup'];
-$first_run       = rex_request('first_run',       'int');
-$rewrite_params  = rex_request('rewrite_params',  'int');
-$params_starter  = rex_request('params_starter',  'string');
-$title_schema    = rex_request('title_schema',    'string');
-$sendit          = rex_request('sendit',          'string');
+$CAST = array (
+      'page'                       => 'unset',
+      'subpage'                    => 'unset',
+      'func'                       => 'unset',
+      'submit'                     => 'unset',
+      'sendit'                     => 'unset',
+      'def_desc'                   => 'array',
+      'def_keys'                   => 'array',
+      'robots'                     => 'string',
+      'homeurl'                    => 'int',
+      'homelang'                   => 'int',
+      'allow_articleid'            => 'int',
+      'levenshtein'                => 'int',
+      '301s'                       => '301_2_array',
+      'url_schema'                 => 'string',
+      'url_ending'                 => 'string',
+      'expert_settings'            => 'int',
+      'alert_setup'                => 'int',
+      'first_run'                  => 'int',
+      'rewrite_params'             => 'int',
+      'params_starter'             => 'string',
+      'title_schema'               => 'string',
+      'url_whitespace_replace'     => 'string'
+      );
+
+// UPDATE/SAVE SETTINGS
+////////////////////////////////////////////////////////////////////////////////
+if ($func == 'update')
+{
+  // NO BACKUP FILE -> INSTALL
+  if(!file_exists($backup))
+  {
+    $source = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/install/backup/';
+    $target = $REX['INCLUDE_PATH'].'/';
+    rexseo_recursive_copy($source, $target);
+  }
+
+  // GET ADDON SETTINGS FROM REQUEST
+  $myCONF = rexseo_batch_cast($_POST,$CAST);
+
+  // UPDATE REX
+  $REX['ADDON'][$myself] = $myCONF;
+
+  // SAVE ADDON SETTINGS
+  $DYN    = '$REX[\'ADDON\'][\''.$myself.'\'] = '.stripslashes(var_export($myCONF,true)).';';
+  $config = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/config.inc.php';
+  rex_replace_dynamic_contents($config, $DYN);
+  rex_replace_dynamic_contents($backup, $DYN);
+  echo rex_info('Einstellungen wurden gespeichert, '.rex_generateAll().'.');
+}
+
+
+// FIRST RUN NOTIFY
+////////////////////////////////////////////////////////////////////////////////
+if($REX['ADDON'][$myself]['alert_setup'] == 1)
+{
+  echo rex_warning('HINWEIS: Das Addon ist noch nicht einsatzbereit!<br /> Es m&uuml;ssen noch Anpassungen vorgenommen werden die im Kapitel <a href="index.php?page=rexseo&subpage=help&chapter=&func=setup_alert_disable&highlight=Quickstart">Quickstart</a> der Hilfe beschrieben sind');
+
+  $subdir = rexseo_subdir();
+  if($subdir != '')
+  {
+    echo rex_warning('HINWEIS: Redaxo scheint in einem Unterordner installiert zu sein (./'.$subdir.') - dieser muß in der .htaccess entsprechend <a href="index.php?page=rexseo&subpage=help&chapter=&func=alert_setup&highlight='.urlencode('Installation in Unterverzeichnissen:').'">eingetragen</a> werden!');
+  }
+}
+
 
 // RESTORE SETTINGS FROM BACKUP FILE
 ////////////////////////////////////////////////////////////////////////////////
-$backup = $REX['HTDOCS_PATH'].'files/addons/rexseo_backup/rexseo_config_backup.inc.php';
+$backup = $REX['INCLUDE_PATH'].'/backup/addons/rexseo/config.inc.php';
 if(file_exists($backup))
 {
-  if($REX['ADDON'][$myself]['first_run'] == 1 && $sendit == '')
+  if($REX['ADDON'][$myself]['first_run'] == 1)
   {
     require_once $backup;
     echo rex_info('Daten wurde aus Backup ins Formular &uuml;bernommen - bitte Einstellungen speichern!');
   }
 }
 
-// UPDATE/SAVE SETTINGS
-////////////////////////////////////////////////////////////////////////////////
-if ($func == "update")
-{
-  // INSTALL BACKUP FILE
-  if(!file_exists($backup))
-  {
-    $source = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/install/backup/';
-    $target = $REX['HTDOCS_PATH'];
-    rexseo_recursive_copy($source, $target);
-  }
-
-  $REX['ADDON'][$myself]['def_desc']        = $def_desc;
-  $REX['ADDON'][$myself]['def_keys']        = $def_keys;
-  $REX['ADDON'][$myself]['robots']          = $robots;
-  $REX['ADDON'][$myself]['homeurl']         = $homeurl;
-  $REX['ADDON'][$myself]['homelang']        = $homelang;
-  $REX['ADDON'][$myself]['allow_articleid'] = $allow_articleid;
-  $REX['ADDON'][$myself]['levenshtein']     = $levenshtein;
-  $REX['ADDON'][$myself]['301s']            = $redirects;
-  $REX['ADDON'][$myself]['url_schema']      = $url_schema;
-  $REX['ADDON'][$myself]['url_ending']      = $url_ending;
-  $REX['ADDON'][$myself]['expert_settings'] = $expert_settings;
-  $REX['ADDON'][$myself]['alert_setup']     = $alert_setup;
-  $REX['ADDON'][$myself]['first_run']       = $first_run;
-  $REX['ADDON'][$myself]['rewrite_params']  = $rewrite_params;
-  $REX['ADDON'][$myself]['params_starter']  = $params_starter;
-  $REX['ADDON'][$myself]['title_schema']    = $title_schema;
-
-  $content = '
-$REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = '.var_export($def_desc,true).';
-$REX[\'ADDON\'][\'rexseo\'][\'def_keys\']        = '.var_export($def_keys,true).';
-$REX[\'ADDON\'][\'rexseo\'][\'robots\']          = \''.$robots         .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'homeurl\']         = '  .$homeurl        .';
-$REX[\'ADDON\'][\'rexseo\'][\'homelang\']        = '  .$homelang       .';
-$REX[\'ADDON\'][\'rexseo\'][\'allow_articleid\'] = '  .$allow_articleid.';
-$REX[\'ADDON\'][\'rexseo\'][\'levenshtein\']     = '  .$levenshtein    .';
-$REX[\'ADDON\'][\'rexseo\'][\'301s\']            = \''.$redirects      .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'url_schema\']      = \''.$url_schema     .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'url_ending\']      = \''.$url_ending     .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'expert_settings\'] = '  .$expert_settings.';
-$REX[\'ADDON\'][\'rexseo\'][\'alert_setup\']     = '  .$alert_setup    .';
-$REX[\'ADDON\'][\'rexseo\'][\'first_run\']       = '  .$first_run      .';
-$REX[\'ADDON\'][\'rexseo\'][\'rewrite_params\']  = '  .$rewrite_params .';
-$REX[\'ADDON\'][\'rexseo\'][\'params_starter\']  = \''.$params_starter .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'title_schema\']    = \''.$title_schema   .'\';
-';
-
-  $file = $REX['INCLUDE_PATH'].'/addons/rexseo/config.inc.php';
-  rex_replace_dynamic_contents($file, $content);
-  rex_replace_dynamic_contents($backup, $content);
-
-  echo rex_info('Einstellungen wurden gespeichert, '.rex_generateAll().'.');
-}
 
 
 // URL_SCHEMA SELECT BOX
@@ -233,7 +227,9 @@ echo '
     <input type="hidden" name="page" value="rexseo" />
     <input type="hidden" name="subpage" value="settings" />
     <input type="hidden" name="func" value="update" />
-    <input type="hidden" name="first_run" value="0" />';
+    <input type="hidden" name="first_run" value="0" />
+    <input type="hidden" name="url_whitespace_replace" value="-" />
+    <input type="hidden" name="rexseo_version" value="'.$REX['ADDON']['version'][$myself].'" />';
 
 foreach ($REX['CLANG'] as $id => $str)
 {
@@ -310,7 +306,7 @@ echo '
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
               <label for="robots">301 Weiterleitungen: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('301 Weiterleitungen:').'#settings">?</a><br /> <br /><em style="color:gray;font-size:10px;">url article_id clang<br /><br />z.B. foo/bar.html 4 0</em></label>
-              <textarea id="rexseo_redirects" name="301s">'.stripslashes($REX['ADDON'][$myself]['301s']).'</textarea>
+              <textarea id="rexseo_redirects" name="301s">'.rexseo_301_2_string($REX['ADDON'][$myself]['301s']).'</textarea>
             </p>
           </div><!-- /rex-form-row -->
 

@@ -61,19 +61,6 @@ require $REX['INCLUDE_PATH'] . '/layout/top.php';
 ////////////////////////////////////////////////////////////////////////////////
 rex_title('RexSEO <span class="addonversion">'.$REX['ADDON']['version'][$myself].'</span>', $REX['ADDON'][$myself]['SUBPAGES']);
 
-// FIRST RUN HINWEISE
-////////////////////////////////////////////////////////////////////////////////
-if($REX['ADDON']['rexseo']['alert_setup'] == true && $subpage == 'settings')
-{
-  echo rex_warning('HINWEIS: Das Addon ist noch nicht einsatzbereit!<br /> Es m&uuml;ssen noch Anpassungen vorgenommen werden die im Kapitel <a href="index.php?page=rexseo&subpage=help&chapter=&func=alert_setup&highlight=Quickstart">Quickstart</a> der Hilfe beschrieben sind');
-
-  $subdir = rexseo_subdir();
-  if($subdir != '')
-  {
-    echo rex_warning('HINWEIS: Redaxo scheint in einem Unterordner installiert zu sein (./'.$subdir.') - dieser muß in der .htaccess entsprechend <a href="index.php?page=rexseo&subpage=help&chapter=&func=alert_setup&highlight='.urlencode('Installation in Unterverzeichnissen:').'">eingetragen</a> werden!');
-  }
-}
-
 // INCLUDE SUBPAGE
 ////////////////////////////////////////////////////////////////////////////////
 require $REX['INCLUDE_PATH'] . '/addons/'.$myself.'/pages/'.$subpage.'.inc.php';

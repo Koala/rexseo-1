@@ -44,36 +44,48 @@ $REX['PERM'][]                        = $myself.'[]';
 // USER SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
-$REX['ADDON']['rexseo']['def_desc']        = array (
-  0 => '',
-  1 => '',
+$REX['ADDON']['rexseo'] = array (
+  'first_run' => 1,
+  'url_whitespace_replace' => '-',
+  'rexseo_version' => '1.2.131',
+  'def_desc' => 
+  array (
+    0 => 'asdflkjh',
+    1 => 'cvbnm',
+  ),
+  'def_keys' => 
+  array (
+    0 => 'asdlkfjh',
+    1 => 'xcmvnb',
+  ),
+  'url_schema' => 'rexseo',
+  'url_ending' => '.html',
+  'homeurl' => 1,
+  'homelang' => 0,
+  'allow_articleid' => 0,
+  'levenshtein' => 0,
+  '301s' => 
+  array (
+    'alte/url' => 
+    array (
+      'article_id' => 1,
+      'clang' => 2,
+    ),
+    'irgendne/url' => 
+    array (
+      'article_id' => 2,
+      'clang' => 3,
+    ),
+  ),
+  'title_schema' => '%B - %S',
+  'rewrite_params' => 1,
+  'params_starter' => '++',
+  'robots' => 'User-agent: *
+Disallow:',
+  'expert_settings' => 0,
+  'alert_setup' => 1,
 );
-$REX['ADDON']['rexseo']['def_keys']        = array (
-  0 => '',
-  1 => '',
-);
-$REX['ADDON']['rexseo']['robots']          = 'User-agent: *
-Disallow:';
-$REX['ADDON']['rexseo']['homeurl']         = 1;
-$REX['ADDON']['rexseo']['homelang']        = 0;
-$REX['ADDON']['rexseo']['allow_articleid'] = 2;
-$REX['ADDON']['rexseo']['levenshtein']     = 0;
-$REX['ADDON']['rexseo']['301s']            = '';
-$REX['ADDON']['rexseo']['url_schema']      = 'rexseo';
-$REX['ADDON']['rexseo']['url_ending']      = '.html';
-$REX['ADDON']['rexseo']['expert_settings'] = 1;
-$REX['ADDON']['rexseo']['alert_setup']     = 0;
-$REX['ADDON']['rexseo']['first_run']       = 0;
-$REX['ADDON']['rexseo']['rewrite_params']  = 1;
-$REX['ADDON']['rexseo']['params_starter']  = '++';
-$REX['ADDON']['rexseo']['title_schema']    = '%B - %S';
 // --- /DYN
-
-// STATIC/HIDDEN SETTINGS
-////////////////////////////////////////////////////////////////////////////////
-$REX['ADDON'][$myself]['whitespace_replace']  = '-';
-$REX['ADDON'][$myself]['svn_version_notify']  = 0;
-$REX['ADDON'][$myself]['no_breadcrumb_title'] = 0;
 
 // SUBPAGE NAVIGATION
 ////////////////////////////////////////////////////////////////////////////////

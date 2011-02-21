@@ -20,29 +20,14 @@ $func        = rex_request('func', 'string');
 
 // DISABLE SETUP NOTICE
 ////////////////////////////////////////////////////////////////////////////////
-if ($func == "alert_setup")
+if ($func == 'setup_alert_disable')
 {
-  $content = '
-$REX[\'ADDON\'][\'rexseo\'][\'def_desc\']        = '.var_export($REX['ADDON']['rexseo']['def_desc'],true).';
-$REX[\'ADDON\'][\'rexseo\'][\'def_keys\']        = '.var_export($REX['ADDON']['rexseo']['def_keys'],true).';
-$REX[\'ADDON\'][\'rexseo\'][\'robots\']          = \''.$REX['ADDON']['rexseo']['robots']         .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'homeurl\']         = '  .$REX['ADDON']['rexseo']['homeurl']        .';
-$REX[\'ADDON\'][\'rexseo\'][\'homelang\']        = '  .$REX['ADDON']['rexseo']['homelang']       .';
-$REX[\'ADDON\'][\'rexseo\'][\'allow_articleid\'] = '  .$REX['ADDON']['rexseo']['allow_articleid'].';
-$REX[\'ADDON\'][\'rexseo\'][\'levenshtein\']     = '  .$REX['ADDON']['rexseo']['levenshtein']    .';
-$REX[\'ADDON\'][\'rexseo\'][\'301s\']            = \''.$REX['ADDON']['rexseo']['301s']           .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'url_schema\']      = \''.$REX['ADDON']['rexseo']['url_schema']     .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'url_ending\']      = \''.$REX['ADDON']['rexseo']['url_ending']     .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'expert_settings\'] = '  .$REX['ADDON']['rexseo']['expert_settings'].';
-$REX[\'ADDON\'][\'rexseo\'][\'alert_setup\']     = 0;
-$REX[\'ADDON\'][\'rexseo\'][\'first_run\']       = '  .$REX['ADDON']['rexseo']['first_run']      .';
-$REX[\'ADDON\'][\'rexseo\'][\'rewrite_params\']  = '  .$REX['ADDON']['rexseo']['rewrite_params'] .';
-$REX[\'ADDON\'][\'rexseo\'][\'params_starter\']  = \''.$REX['ADDON']['rexseo']['params_starter'] .'\';
-$REX[\'ADDON\'][\'rexseo\'][\'title_schema\']    = \''.$REX['ADDON']['rexseo']['title_schema']   .'\';
-';
+  $myCONF = $REX['ADDON'][$myself];
+  $myCONF['alert_setup'] = 0;
 
-  $file = $REX['INCLUDE_PATH'].'/addons/rexseo/config.inc.php';
-  rex_replace_dynamic_contents($file, $content);
+  $DYN    = '$REX[\'ADDON\'][\''.$myself.'\'] = '.stripslashes(var_export($myCONF,true)).';';
+  $config = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/config.inc.php';
+  rex_replace_dynamic_contents($config, $DYN);
 }
 
 
