@@ -63,18 +63,14 @@ rex_title('RexSEO <span class="addonversion">'.$REX['ADDON']['version'][$myself]
 
 // FIRST RUN HINWEISE
 ////////////////////////////////////////////////////////////////////////////////
-if($REX['ADDON']['rexseo']['alert_setup'] == true && ( $subpage == 'settings' || !$subpage ))
+if($REX['ADDON']['rexseo']['alert_setup'] == true && $subpage == 'settings')
 {
   echo rex_warning('HINWEIS: Das Addon ist noch nicht einsatzbereit!<br /> Es m&uuml;ssen noch Anpassungen vorgenommen werden die im Kapitel <a href="index.php?page=rexseo&subpage=help&chapter=&func=alert_setup&highlight=Quickstart">Quickstart</a> der Hilfe beschrieben sind');
 
-  // REDAXO INSTALL ORDNER ERMITTELN
-  $path_diff = $REX['REDAXO'] ? array('index.php','redaxo'):array('index.php');
-  $install_subdir = array_diff_assoc(array_reverse(explode(DIRECTORY_SEPARATOR,trim($_SERVER['SCRIPT_NAME'],DIRECTORY_SEPARATOR))),$path_diff);
-  $REX['INSTALL_SUBDIR'] = count($install_subdir)>0 ? implode('/',array_reverse($install_subdir)).'/' :'';
-
-  if($REX['INSTALL_SUBDIR']!='')
+  $subdir = rexseo_subdir();
+  if($subdir != '')
   {
-    echo rex_warning('HINWEIS: Redaxo scheint in einem Unterordner installiert zu sein (./'.$REX['INSTALL_SUBDIR'].') - dieser muß in der .htaccess entsprechend <a href="index.php?page=rexseo&subpage=help&chapter=&func=alert_setup&highlight='.urlencode('Installation in Unterverzeichnissen:').'">eingetragen</a> werden!');
+    echo rex_warning('HINWEIS: Redaxo scheint in einem Unterordner installiert zu sein (./'.$subdir.') - dieser muß in der .htaccess entsprechend <a href="index.php?page=rexseo&subpage=help&chapter=&func=alert_setup&highlight='.urlencode('Installation in Unterverzeichnissen:').'">eingetragen</a> werden!');
   }
 }
 

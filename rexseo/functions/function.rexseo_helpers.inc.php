@@ -255,7 +255,6 @@ if (!function_exists('echotextile'))
 }
 
 
-
 // http://php.net/manual/de/function.include.php
 ////////////////////////////////////////////////////////////////////////////////
 if (!function_exists('get_include_contents'))
@@ -271,5 +270,21 @@ if (!function_exists('get_include_contents'))
     return false;
   }
 }
+
+
+// REDAXO INSTALL ORDNER ERMITTELN
+////////////////////////////////////////////////////////////////////////////////
+if (!function_exists('rexseo_subdir'))
+{
+  function rexseo_subdir()
+  {
+    global $REX;
+    $path_diff = $REX['REDAXO'] ? array('index.php','redaxo'):array('index.php');
+    $install_subdir = array_diff_assoc(array_reverse(explode(DIRECTORY_SEPARATOR,trim($_SERVER['SCRIPT_NAME'],DIRECTORY_SEPARATOR))),$path_diff);
+    $rexseo_subdir = count($install_subdir)>0 ? implode('/',array_reverse($install_subdir)).'/' :'';
+    return $rexseo_subdir;
+  }
+}
+
 
 ?>
