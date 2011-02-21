@@ -155,13 +155,13 @@ if ($REX['MOD_REWRITE'] !== false)
 
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
 
-  if (isset($REX['ADDON'][$myself]['301s']) && count($REX['ADDON'][$myself]['301s'])>0)
+  if(count($REX['ADDON'][$myself]['301s'])>0)
   {                                                                               
     require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
     rex_register_extension('ADDONS_INCLUDED', 'rexseo_redirects');
   }
 
-  if (isset($REX['ADDON'][$myself]['allow_articleid']) && $REX['ADDON'][$myself]['allow_articleid']==1)
+  if($REX['ADDON'][$myself]['allow_articleid']==1 && isset($_GET['article_id']))
   {
     require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
     rex_register_extension('ADDONS_INCLUDED', 'rexseo_resolve_article_id_urls');

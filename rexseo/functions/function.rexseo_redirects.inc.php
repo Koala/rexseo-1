@@ -36,33 +36,21 @@ function rexseo_redirects()
 }
 
 
-// ARTICLE_ID WEITERLEITUNGEN
+// REDIRECT ARTICLE_ID URLS
 //////////////////////////////////////////////////////////////////////////////
 function rexseo_resolve_article_id_urls()
 {
+  global $REX;
+
   if(!$REX['REDAXO'])
   {
-    if(isset($_GET['article_id']) && is_numeric($_GET['article_id']))
-    {
-      if ($REX['ADDON']['rexseo']['allow_articleid'] == 1)
-      {
-        $art_id = rex_request('article_id','int');
-        $clang = rex_request('clang','int');
+    $art_id = rex_request('article_id','int');
+    $clang = rex_request('clang','int');
 
-        $url = rex_getUrl($art_id,$clang);
-        header("HTTP/1.1 301");
-        header('Location:'.$url);
-        die();
-      }
-      elseif ($REX['ADDON']['rexseo']['allow_articleid'] == 0)
-      {
-        $url = rex_getUrl($REX['NOTFOUND_ARTICLE_ID']);
-        header("HTTP/1.1 301");
-        header('Location:'.$url);
-        die();
-      }
-    }
+    $url = rex_getUrl($art_id,$clang);
+    header("HTTP/1.1 301");
+    header('Location:'.$url);
+    die();
   }
-
 }
 ?>
