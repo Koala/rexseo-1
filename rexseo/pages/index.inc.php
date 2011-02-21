@@ -24,15 +24,21 @@ $myroot        = $REX['INCLUDE_PATH'].'/addons/'.$myself;
 
 // BACKEND CSS
 ////////////////////////////////////////////////////////////////////////////////
-$header = array(
-'<link rel="stylesheet" type="text/css" href="index.php?rexseo_func=backend.css" media="screen, projection, print" />',
-'<script type="text/javascript" src="index.php?rexseo_func=jquery.highlight-3.yui.js"></script>',
-'<script type="text/javascript" src="index.php?rexseo_func=jquery.autogrow-textarea.js"></script>'
-);
+if ($REX['REDAXO'])
+{
+  rex_register_extension('PAGE_HEADER', 'rexseo_header_add');
 
-if ($REX['REDAXO']) {
-  include_once $myroot.'/functions/function.rexdev_header_add.inc.php';
-  rex_register_extension('PAGE_HEADER', 'rexdev_header_add',$header);
+  function rexseo_header_add($params)
+  {
+    $params['subject'] .= 
+      PHP_EOL.'<!-- REXSEO -->'.
+      PHP_EOL.'<link rel="stylesheet" type="text/css" href="index.php?rexseo_func=backend.css" media="screen, projection, print" />'.
+      PHP_EOL.'<script type="text/javascript" src="index.php?rexseo_func=jquery.highlight-3.yui.js"></script>'.
+      PHP_EOL.'<script type="text/javascript" src="index.php?rexseo_func=jquery.autogrow-textarea.js"></script>'.
+      PHP_EOL.'<!-- /REXSEO -->'.PHP_EOL;
+
+    return $params['subject'];
+  }
 }
 
 // INCLUDE CLASSES
