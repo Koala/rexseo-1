@@ -68,7 +68,7 @@ class myUrlRewriter extends rexUrlRewriter
 
     $article_id = -1;
     $clang = $REX["CUR_CLANG"];
-    $params_starter = $REX['ADDON']['rexseo']['params_starter'];
+    $params_starter = $REX['ADDON']['rexseo']['settings']['params_starter'];
 
     if(!file_exists(FULLNAMES_PATHLIST))
        rex_rewriter_generate_pathnames(array());
@@ -91,7 +91,7 @@ class myUrlRewriter extends rexUrlRewriter
         $path = substr($path, 1);
 
       // FALLS AUFRUF ERLAUBT -> AUF ARTICLE_ID PRÜFEN
-      if ($REX['ADDON']['rexseo']['allow_articleid'] == 2)
+      if ($REX['ADDON']['rexseo']['settings']['allow_articleid'] == 2)
       {
         if($_GET['article_id'])
         {
@@ -118,7 +118,7 @@ class myUrlRewriter extends rexUrlRewriter
 
       if ($path == '' || $path == 'index.php')
       {
-        $this->setArticleId($REX['START_ARTICLE_ID'],$REX['ADDON']['rexseo']['homelang']);
+        $this->setArticleId($REX['START_ARTICLE_ID'],$REX['ADDON']['rexseo']['settings']['homelang']);
         return true;
       }
 
@@ -215,7 +215,7 @@ class myUrlRewriter extends rexUrlRewriter
     $clang          = $params['clang'];
     $divider        = $params['divider'];
     $urlparams      = $params['params'];
-    $params_starter = $REX['ADDON']['rexseo']['params_starter'];
+    $params_starter = $REX['ADDON']['rexseo']['settings']['params_starter'];
 
     // params umformatieren neue Syntax suchmaschienen freundlich
     if($this->use_params_rewrite)
@@ -290,7 +290,7 @@ if ($REX['REDAXO'])
 
 /**
  * rex_rewriter_generate_pathnames
- * generiert die Pathlist, abh�ngig von Aktion
+ * generiert die Pathlist, abhängig von Aktion
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @package redaxo4.2
  */
@@ -313,7 +313,7 @@ function rex_rewriter_generate_pathnames($params)
   $where = '';
   switch($params['extension_point'])
   {
-    // ------- sprachabh�ngig, einen artikel aktualisieren
+    // ------- sprachabhängig, einen artikel aktualisieren
     case 'CAT_DELETED':
     case 'ART_DELETED':
       unset($REXPATH[$params['id']]);
@@ -375,7 +375,7 @@ function rex_rewriter_generate_pathnames($params)
           $pathname = $REX['CLANG'][$clang].'/';
         }
 
-        // pfad �ber kategorien bauen
+        // pfad über kategorien bauen
         $path = trim($path, '|');
         if($path != '')
         {
@@ -384,7 +384,7 @@ function rex_rewriter_generate_pathnames($params)
           {
             $ooc = OOCategory::getCategoryById($p, $clang);
             $name = $ooc->getName();
-            unset($ooc); // speicher freigeben
+            unset($ooc);
 
             $pathname = rex_rewriter_appendToPath($pathname, $name);
           }
@@ -395,33 +395,33 @@ function rex_rewriter_generate_pathnames($params)
         {
           $ooc = $ooa->getCategory();
           $catname = $ooc->getName();
-          unset($ooc); // speicher freigeben
+          unset($ooc);
           $pathname = rex_rewriter_appendToPath($pathname, $catname);
         }
 
-        if($REX['ADDON']['rexseo']['url_schema'] == 'rexseo')
+        if($REX['ADDON']['rexseo']['settings']['url_schema'] == 'rexseo')
         {
           if(!$ooa->isStartArticle())
           {
-          // eigentlicher artikel anh�ngen
+          // eigentlicher artikel anhängen
           $name = $ooa->getName();
-          unset($ooa); // speicher freigeben
+          unset($ooa);
           $pathname = rex_rewriter_appendToPath($pathname, $name);
           }
         }
         else
         {
-          // eigentlicher artikel anh�ngen
+          // eigentlicher artikel anhängen
           $name = $ooa->getName();
-          unset($ooa); // speicher freigeben
+          unset($ooa);
           $pathname = rex_rewriter_appendToPath($pathname, $name);
         }
 
         // ALLGEMEINE URL ENDUNG
-        $pathname = substr($pathname,0,strlen($pathname)-1).$REX['ADDON']['rexseo']['url_ending'];
+        $pathname = substr($pathname,0,strlen($pathname)-1).$REX['ADDON']['rexseo']['settings']['url_ending'];
 
         // STARTSEITEN URL FORMAT
-        if($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['homelang'])
+        if($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['settings']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['settings']['homelang'])
         {
           $pathname = '';
         }
@@ -444,7 +444,7 @@ function rex_rewriter_appendToPath($path, $name)
   if ($name != '')
   {
     $name = strtolower(rex_parse_article_name($name));
-    $name = str_replace('+',$REX['ADDON']['rexseo']['url_whitespace_replace'],$name);
+    $name = str_replace('+',$REX['ADDON']['rexseo']['settings']['url_whitespace_replace'],$name);
     $path .= $name.'/';
   }
   return $path;

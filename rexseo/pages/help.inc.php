@@ -22,11 +22,10 @@ $func        = rex_request('func', 'string');
 ////////////////////////////////////////////////////////////////////////////////
 if ($func == 'setup_alert_disable')
 {
-  $myCONF = $REX['ADDON'][$myself];
-  unset($myCONF['SUBPAGES']);
+  $myCONF = $REX['ADDON'][$myself]['settings'];
   $myCONF['alert_setup'] = 0;
 
-  $DYN    = '$REX[\'ADDON\'][\''.$myself.'\'] = '.stripslashes(var_export($myCONF,true)).';';
+  $DYN    = '$REX["ADDON"]["'.$myself.'"]["settings"] = '.stripslashes(var_export($myCONF,true)).';';
   $config = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/config.inc.php';
   rex_replace_dynamic_contents($config, $DYN);
 }

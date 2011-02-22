@@ -24,7 +24,7 @@ function rexseo_redirects()
   $length = strlen($script_path);
   $path = substr($_SERVER['REQUEST_URI'], $length);
 
-  $redirects = $REX['ADDON']['rexseo']['301s'];
+  $redirects = $REX['ADDON']['rexseo']['settings']['301s'];
   if(isset($redirects[$path]))
   {
     $art = $redirects[$path];

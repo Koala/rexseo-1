@@ -61,10 +61,10 @@ if ($func == 'update')
   $myCONF = rexseo_batch_cast($_POST,$CAST);
 
   // UPDATE REX
-  $REX['ADDON'][$myself] = $myCONF;
+  $REX['ADDON'][$myself]['settings'] = $myCONF;
 
   // SAVE ADDON SETTINGS
-  $DYN    = '$REX[\'ADDON\'][\''.$myself.'\'] = '.stripslashes(var_export($myCONF,true)).';';
+  $DYN    = '$REX["ADDON"]["'.$myself.'"]["settings"] = '.stripslashes(var_export($myCONF,true)).';';
   $config = $REX['INCLUDE_PATH'].'/addons/'.$myself.'/config.inc.php';
   rex_replace_dynamic_contents($config, $DYN);
   rex_replace_dynamic_contents($backup, $DYN);
@@ -74,7 +74,7 @@ if ($func == 'update')
 
 // FIRST RUN NOTIFY
 ////////////////////////////////////////////////////////////////////////////////
-if($REX['ADDON'][$myself]['alert_setup'] == 1)
+if($REX['ADDON'][$myself]['settings']['alert_setup'] == 1)
 {
   echo rex_warning('HINWEIS: Das Addon ist noch nicht einsatzbereit!<br /> Es m&uuml;ssen noch Anpassungen vorgenommen werden die im Kapitel <a href="index.php?page=rexseo&subpage=help&chapter=&func=setup_alert_disable&highlight=Quickstart">Quickstart</a> der Hilfe beschrieben sind');
 
@@ -88,7 +88,7 @@ if($REX['ADDON'][$myself]['alert_setup'] == 1)
 
 // RESTORE SETTINGS FROM BACKUP FILE
 ////////////////////////////////////////////////////////////////////////////////
-if($REX['ADDON'][$myself]['first_run'] == 1 && file_exists($backup))
+if($REX['ADDON'][$myself]['settings']['first_run'] == 1 && file_exists($backup))
 {
   require_once $backup;
   echo rex_info('Daten wurde aus Backup ins Formular &uuml;bernommen - bitte Einstellungen speichern!');
@@ -104,7 +104,7 @@ $url_schema_select->setName('url_schema');
 $url_schema_select->addOption('RexSEO','rexseo');
 $url_schema_select->addOption('url_rewrite','url_rewrite');
 $url_schema_select->setAttribute('style','width:250px');
-$url_schema_select->setSelected($REX['ADDON'][$myself]['url_schema']);
+$url_schema_select->setSelected($REX['ADDON'][$myself]['settings']['url_schema']);
 
 // URL_ENDING SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ $url_ending_select->addOption('.html','.html');
 $url_ending_select->addOption('/','/');
 $url_ending_select->addOption('(ohne)','');
 $url_ending_select->setAttribute('style','width:70px;margin-left:20px;');
-$url_ending_select->setSelected($REX['ADDON'][$myself]['url_ending']);
+$url_ending_select->setSelected($REX['ADDON'][$myself]['settings']['url_ending']);
 
 
 // HOMEURL SELECT BOX
@@ -137,7 +137,7 @@ $homeurl_select->setName('homeurl');
 $homeurl_select->addOption($REX['SERVER'].$homename.'.html',0);
 $homeurl_select->addOption($REX['SERVER'],1);
 $homeurl_select->setAttribute('style','width:250px;');
-$homeurl_select->setSelected($REX['ADDON'][$myself]['homeurl']);
+$homeurl_select->setSelected($REX['ADDON'][$myself]['settings']['homeurl']);
 
 
 // HOMELANG SELECT BOX
@@ -151,7 +151,7 @@ if(count($REX['CLANG']) > 1)
   {
     $homelang_select->addOption($str,$id);
   }
-  $homelang_select->setSelected($REX['ADDON'][$myself]['homelang']);
+  $homelang_select->setSelected($REX['ADDON'][$myself]['settings']['homelang']);
   $homelang_select->setAttribute('style','width:70px;margin-left:20px;');
   $homelang_box = '
               <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">
@@ -173,7 +173,7 @@ $allow_articleid_select->setName('allow_articleid');
 $allow_articleid_select->addOption('Nicht zulässig, nur rewrite URLs'           ,0);
 $allow_articleid_select->addOption('Zulässig, 301 Weiterleitung auf korrekte URL (ohne Parameter)',1);
 $allow_articleid_select->addOption('Zulässig ohne Weiterleitung'                ,2);
-$allow_articleid_select->setSelected($REX['ADDON'][$myself]['allow_articleid']);
+$allow_articleid_select->setSelected($REX['ADDON'][$myself]['settings']['allow_articleid']);
 
 
 // LEVENSHTEIN SELECT BOX
@@ -183,7 +183,7 @@ $levenshtein_select->setSize(1);
 $levenshtein_select->setName('levenshtein');
 $levenshtein_select->addOption('Strikte URL-Übereinstimmung, sonst Fehlerseite (404)',0);
 $levenshtein_select->addOption('Artikel mit ähnlichster URL anzeigen',1);
-$levenshtein_select->setSelected($REX['ADDON'][$myself]['levenshtein']);
+$levenshtein_select->setSelected($REX['ADDON'][$myself]['settings']['levenshtein']);
 
 
 // PARAMS REWRITE SELECT BOX
@@ -194,14 +194,14 @@ $params_rewrite_select->setName('rewrite_params');
 $params_rewrite_select->setAttribute('style','width:250px;');
 //$params_rewrite_select->setAttribute('onchange','toggle');
 $params_rewrite_select->addOption('Aus : ?param1=wert1&param2=wert2',0);
-$params_rewrite_select->addOption('Ein : '.$REX['ADDON'][$myself]['params_starter'].'/param1/wert1/param2/wert2',1);
-$params_rewrite_select->setSelected($REX['ADDON'][$myself]['rewrite_params']);
+$params_rewrite_select->addOption('Ein : '.$REX['ADDON'][$myself]['settings']['params_starter'].'/param1/wert1/param2/wert2',1);
+$params_rewrite_select->setSelected($REX['ADDON'][$myself]['settings']['rewrite_params']);
 
 
 
 // EXPERT SETTINGS CHECKBOX OPTIONS
 ////////////////////////////////////////////////////////////////////////////////
-if($REX['ADDON'][$myself]['expert_settings'] == 1)
+if($REX['ADDON'][$myself]['settings']['expert_settings'] == 1)
 {
   $expert_display = '';
   $expert_checked = 'checked="checked"';
@@ -226,7 +226,7 @@ echo '
     <input type="hidden" name="func" value="update" />
     <input type="hidden" name="rexseo_version" value="'.$REX['ADDON']['version'][$myself].'" />
     <input type="hidden" name="first_run" value="0" />
-    <input type="hidden" name="alert_setup" value="'.$REX['ADDON'][$myself]['alert_setup'].'" />
+    <input type="hidden" name="alert_setup" value="'.$REX['ADDON'][$myself]['settings']['alert_setup'].'" />
     <input type="hidden" name="install_subdir" value="'.rexseo_subdir().'" />
     <input type="hidden" name="url_whitespace_replace" value="-" />';
 
@@ -240,7 +240,7 @@ foreach ($REX['CLANG'] as $id => $str)
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
           <label for="def_desc">Description: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Description:').'#settings">?</a><br /><br /><em style="color:gray;font-size:10px;">z.B. My super description</em></label>
-            <textarea id="def_desc_'.$id.'" name="def_desc['.$id.']">'.stripslashes($REX['ADDON'][$myself]['def_desc'][$id]).'</textarea>
+            <textarea id="def_desc_'.$id.'" name="def_desc['.$id.']">'.stripslashes($REX['ADDON'][$myself]['settings']['def_desc'][$id]).'</textarea>
 
           </p>
         </div><!-- /rex-form-row -->
@@ -248,7 +248,7 @@ foreach ($REX['CLANG'] as $id => $str)
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="def_keys">Keywords: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Keywords:').'#settings">?</a><br /><br /><em style="color:gray;font-size:10px;">z.B. My, list, of, keywords</em></label>
-            <textarea id="def_keys_'.$id.'" name="def_keys['.$id.']">'.stripslashes($REX['ADDON'][$myself]['def_keys'][$id]).'</textarea>
+            <textarea id="def_keys_'.$id.'" name="def_keys['.$id.']">'.stripslashes($REX['ADDON'][$myself]['settings']['def_keys'][$id]).'</textarea>
           </p>
         </div><!-- /rex-form-row -->
 
@@ -305,7 +305,7 @@ echo '
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
               <label for="robots">301 Weiterleitungen: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('301 Weiterleitungen:').'#settings">?</a><br /> <br /><em style="color:gray;font-size:10px;">url article_id clang<br /><br />z.B. foo/bar.html 4 0</em></label>
-              <textarea id="rexseo_redirects" name="301s">'.rexseo_301_2_string($REX['ADDON'][$myself]['301s']).'</textarea>
+              <textarea id="rexseo_redirects" name="301s">'.rexseo_301_2_string($REX['ADDON'][$myself]['settings']['301s']).'</textarea>
             </p>
           </div><!-- /rex-form-row -->
 
@@ -319,7 +319,7 @@ echo '
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-text">
               <label for="title_schema">Schema: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Page Title').'#settings">?</a></label>
-              <input id="title_schema" class="rex-form-text" type="text" name="title_schema" value="'.stripslashes($REX['ADDON'][$myself]['title_schema']).'" /><br />
+              <input id="title_schema" class="rex-form-text" type="text" name="title_schema" value="'.stripslashes($REX['ADDON'][$myself]['settings']['title_schema']).'" /><br />
               <em style="color:gray;font-size:10px;">%B = breadcrumb | %N = article name | %S = server/host</em>
             </p>
           </div><!-- /rex-form-row -->
@@ -337,7 +337,7 @@ echo '
                 '.$params_rewrite_select->get().'
 
               <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Abtrenner: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Abtrenner:').'#settings">?</a></span>
-                <input style="width:80px;" id="params_starter" class="rex-form-text" type="text" name="params_starter" value="'.stripslashes($REX['ADDON'][$myself]['params_starter']).'" />
+                <input style="width:80px;" id="params_starter" class="rex-form-text" type="text" name="params_starter" value="'.stripslashes($REX['ADDON'][$myself]['settings']['params_starter']).'" />
             </p>
           </div><!-- /rex-form-row -->
 
@@ -351,7 +351,7 @@ echo '
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
               <label for="robots">Regeln: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('robots.txt:').'#settings">?</a></label>
-              <textarea id="rexseo_robots" name="robots">'.stripslashes($REX['ADDON'][$myself]['robots']).'</textarea>
+              <textarea id="rexseo_robots" name="robots">'.stripslashes($REX['ADDON'][$myself]['settings']['robots']).'</textarea>
             </p>
           </div><!-- /rex-form-row -->
 
