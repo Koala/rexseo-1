@@ -169,7 +169,7 @@ class rexseo {
 
   function base() {
     global $REX;
-    return $REX["SERVER"];
+    return 'http://'.$_SERVER['HTTP_HOST'].'/'.$REX['ADDON']['rexseo']['install_subdir'];
   }
 
 
