@@ -41,17 +41,15 @@ if ($REX['REDAXO'])
   }
 }
 
-// INCLUDE CLASSES
+// INCLUDES
 ////////////////////////////////////////////////////////////////////////////////
 if(!class_exists('simplepie'))
 {
   require_once $myroot.'/classes/class.simplepie.inc.php';
 }
-
-// INCLUDE FUNCTIONS
-////////////////////////////////////////////////////////////////////////////////
 require_once $myroot.'/functions/function.rexseo_helpers.inc.php';
 require_once $myroot.'/functions/function.a750_redmine_project_feed.inc.php';
+require_once $myroot.'/classes/class.rexseo_select.inc.php';
 
 // REX TOP
 ////////////////////////////////////////////////////////////////////////////////

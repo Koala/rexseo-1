@@ -19,6 +19,7 @@ ini_set('display_errors', 1);*/
 // ADDON IDENTIFIER
 ////////////////////////////////////////////////////////////////////////////////
 $myself = 'rexseo';
+$myroot = $REX['INCLUDE_PATH'].'/addons/'.$myself;
 
 // ADDON VERSION
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,9 +46,10 @@ $REX['PERM'][]                        = $myself.'[]';
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
 $REX['ADDON']['rexseo'] = array (
-  'rexseo_version' => '1.2.136',
+  'rexseo_version' => $REX['ADDON']['version'][$myself],
   'first_run' => 1,
   'alert_setup' => 1,
+  'install_subdir' => '',
   'url_whitespace_replace' => '-',
   'def_desc' => 
   array (
@@ -89,6 +91,7 @@ Disallow:',
 );
 // --- /DYN
 
+
 // SUBPAGE NAVIGATION
 ////////////////////////////////////////////////////////////////////////////////
 $REX['ADDON'][$myself]['SUBPAGES'] = array (
@@ -96,24 +99,23 @@ $REX['ADDON'][$myself]['SUBPAGES'] = array (
   array ('help','Hilfe')
   );
 
+
 // FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 function rexseo_fix_42x_links($params)
 {
   global $REX;
 
-  $relpath = trim(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/') + 1), '/');
-
-  // http://www.php.net/manual/de/function.strrpos.php#80008
-  if((false === strpos($relpath, '/')) OR (false === $pos = strlen($relpath) - strpos(strrev($relpath), strrev('/redaxo')) - strlen('/redaxo')))
+  $subdir = $REX['ADDON']['rexseo']['install_subdir'];
+  if($subdir=='')
   {
-    $relpath = '/redaxo/';
+    $relpath     = '/redaxo/';
     $replacement = '/';
   }
   else
   {
-    $replacement = '/'.substr($relpath, 0, $pos).'/';
-    $relpath = '/'.$relpath.'/';
+    $relpath     = '/'.$subdir.'redaxo/';
+    $replacement = '/'.$subdir;
   }
 
   // textile, tiny
@@ -132,17 +134,15 @@ function rexseo_clear_cache()
 
 // MAIN
 ////////////////////////////////////////////////////////////////////////////////
-require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo_select.inc.php';
 require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo.inc.php';
 
 if ($REX['MOD_REWRITE'] !== false)
 {
   $levenshtein    = (bool) $REX['ADDON'][$myself]['levenshtein'];
   $rewrite_params = (bool) $REX['ADDON'][$myself]['rewrite_params'];
-  $UrlRewriteBasedir = dirname(__FILE__);
 
-  require_once $UrlRewriteBasedir.'/classes/class.urlrewriter.inc.php';
-  require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullnames.inc.php';
+  require_once $myroot.'/classes/class.urlrewriter.inc.php';
+  require_once $myroot.'/classes/class.rewrite_fullnames.inc.php';
 
   $rewriter = new myUrlRewriter($levenshtein,$rewrite_params);
   $rewriter->prepare();
@@ -150,14 +150,14 @@ if ($REX['MOD_REWRITE'] !== false)
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
 
   if(count($REX['ADDON'][$myself]['301s'])>0)
-  {                                                                               
-    require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
+  {
+    require_once $myroot.'/functions/function.rexseo_redirects.inc.php';
     rex_register_extension('ADDONS_INCLUDED', 'rexseo_redirects');
   }
 
   if($REX['ADDON'][$myself]['allow_articleid']==1 && isset($_GET['article_id']))
   {
-    require_once $UrlRewriteBasedir.'/functions/function.rexseo_redirects.inc.php';
+    require_once $myroot.'/functions/function.rexseo_redirects.inc.php';
     rex_register_extension('ADDONS_INCLUDED', 'rexseo_resolve_article_id_urls');
   }
 

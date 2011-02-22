@@ -227,6 +227,7 @@ echo '
     <input type="hidden" name="rexseo_version" value="'.$REX['ADDON']['version'][$myself].'" />
     <input type="hidden" name="first_run" value="0" />
     <input type="hidden" name="alert_setup" value="'.$REX['ADDON'][$myself]['alert_setup'].'" />
+    <input type="hidden" name="install_subdir" value="'.rexseo_subdir().'" />
     <input type="hidden" name="url_whitespace_replace" value="-" />';
 
 foreach ($REX['CLANG'] as $id => $str)
