@@ -16,13 +16,11 @@
 /*ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1); */
 
-// ADDON IDENTIFIER
+// ADDON PARAMS
 ////////////////////////////////////////////////////////////////////////////////
 $myself = 'rexseo';
 $myroot = $REX['INCLUDE_PATH'].'/addons/'.$myself;
 
-// ADDON VERSION
-////////////////////////////////////////////////////////////////////////////////
 $Revision = '';
 $REX['ADDON'][$myself]['VERSION'] = array
 (
@@ -31,9 +29,6 @@ $REX['ADDON'][$myself]['VERSION'] = array
 'SUBVERSION'   => preg_replace('/[^0-9]/','',"$Revision$")
 );
 
-
-// ADDON REX COMMONS
-////////////////////////////////////////////////////////////////////////////////
 $REX['ADDON']['rxid'][$myself]        = '750';
 $REX['ADDON']['name'][$myself]        = 'RexSEO';
 $REX['ADDON']['version'][$myself]     = implode('.', $REX['ADDON'][$myself]['VERSION']);
@@ -41,10 +36,12 @@ $REX['ADDON']['author'][$myself]      = 'Markus Staab, Wolfgang Huttegger, Dave 
 $REX['ADDON']['supportpage'][$myself] = 'forum.redaxo.de';
 $REX['ADDON']['perm'][$myself]        = $myself.'[]';
 $REX['PERM'][]                        = $myself.'[]';
-$REX['ADDON'][$myself]['SUBPAGES'] = array (
+$REX['ADDON'][$myself]['SUBPAGES']    = array (
   array ('',    'Einstellungen'),
   array ('help','Hilfe')
   );
+$REX['ADDON'][$myself]['redmine_url'] = 'http://www.gn2-code.de/projects/rexseo';
+$REX['ADDON'][$myself]['redmine_key'] = '2437c4f8172c5c6e0020a236b576d5128029451b';
 
 
 // USER SETTINGS

@@ -11,10 +11,10 @@
  * @version svn:$Id$
  */
 
-// REDMINE PROJECT
-////////////////////////////////////////////////////////////////////////////////
-$project_root_url = 'http://www.gn2-code.de/projects/rexseo';
-$key              = '2437c4f8172c5c6e0020a236b576d5128029451b';
+global $REX;
 
-echo a750_redmine_project_feed($project_root_url,$key,rex_request('chapter', 'string'));
+$myself = 'rexseo';
+
+$rc = new redmine_connect($REX['ADDON'][$myself]['redmine_url'],$REX['ADDON'][$myself]['redmine_key']);
+echo $rc->getList(rex_request('chapter', 'string'));
 ?>
