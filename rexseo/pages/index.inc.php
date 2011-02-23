@@ -55,6 +55,14 @@ require $REX['INCLUDE_PATH'] . '/layout/top.php';
 ////////////////////////////////////////////////////////////////////////////////
 rex_title('RexSEO <span class="addonversion">'.$REX['ADDON']['version'][$myself].'</span>', $REX['ADDON'][$myself]['SUBPAGES']);
 
+// NOTIFY DOWNLOADABLE UPDATE
+$rc = new redmine_connect($REX['ADDON'][$myself]['redmine_url'],$REX['ADDON'][$myself]['redmine_key']);
+$check = $rc->getLatest('download',$REX['ADDON']['version'][$myself],'link');
+if($check!='')
+{
+  echo rex_info('Eine neue Version ist als Download verf&uuml;gbar: '.$check);
+}
+
 // INCLUDE SUBPAGE
 ////////////////////////////////////////////////////////////////////////////////
 require $REX['INCLUDE_PATH'] . '/addons/'.$myself.'/pages/'.$subpage.'.inc.php';
