@@ -16,7 +16,8 @@ class redmine_connect
   public  $cache_duration;
   public  $max_feed_items;
   public  $cache_location;
-  private $parser;
+  private $parser_class;
+  private $parser_path;
   private $error;
 
 
@@ -33,16 +34,25 @@ class redmine_connect
   /* private */
   private function getFeed()
   {
-    if(!$this->error)
+    require_once($this->parser_path);
+    if(!class_exists($this->parser_class))
+      $this->registerError($this->parser_class.' not availlable',E_USER_ERROR);
+
+    switch($this->parser_class)
     {
-      $Parser = new SimplePie();
-      $Parser->set_cache_location($this->cache_location);
-      $Parser->set_cache_duration($this->cache_duration);
-      $Parser->set_feed_url($this->url);
-      $Parser->init();
-      $Parser->handle_content_type();
-      $this->feed_items = $Parser->get_items(0,$this->max_feed_items);
-      unset($Parser);
+      case 'some_other_parser':
+        // implement other parser
+        break;
+
+      default:
+        $Parser = new SimplePie();
+        $Parser->set_cache_location($this->cache_location);
+        $Parser->set_cache_duration($this->cache_duration);
+        $Parser->set_feed_url($this->url);
+        $Parser->init();
+        $Parser->handle_content_type();
+        $this->feed_items = $Parser->get_items(0,$this->max_feed_items);
+        unset($Parser);
     }
   }
 
@@ -59,23 +69,32 @@ class redmine_connect
     $this->setCacheDuration(300);
     $this->setMaxFeedItems(20);
     $this->setCacheLocation($REX['INCLUDE_PATH'].'/generated/files');
-    $this->parser = 'simplepie';
+    $this->setParserClass('simplepie');
+    $this->setParserPath('class.simplepie.inc.php');
+  }
 
-    require_once('class.simplepie.inc.php');
-    if(!class_exists($this->parser))
-      $this->registerError($this->parser.' not availlable',E_USER_ERROR);
+
+  public function setParserClass($v)
+  {
+    $this->parser_class = $v;
+  }
+
+
+  public function setParserPath($v)
+  {
+    $this->parser_path = $v;
   }
 
 
   public function setCacheDuration($v)
   {
-    $this->cache_duration = $v;
+    $this->cache_duration = (int) $v;
   }
 
 
   public function setMaxFeedItems($v)
   {
-    $this->max_feed_items = $v;
+    $this->max_feed_items = (int) $v;
   }
 
 
@@ -121,6 +140,7 @@ class redmine_connect
               $regex = $rev_regex;
           }
 
+          $match = array();
           preg_match($regex,$title,$match);
           if(count($match)>0)
           {
