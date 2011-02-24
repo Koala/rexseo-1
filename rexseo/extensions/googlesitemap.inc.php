@@ -24,11 +24,12 @@
 // SETTINGS ------------------------------------------------------------------------------------ //
 
 // you can modifiy this variables if you want to influence automatic changefreq and priority calculation
-$auto_changefreq = true; // if true changefreq will be calculated automatically
+$auto_changefreq    = true; // if true changefreq will be calculated automatically
 $default_changefreq = 'daily'; // if you set $auto_changefreq to false you can define default changefreq for all pages. possible values: never, yearly, monthly, weekly, daily, hourly, or always
+$valid_changefreq   = array('never', 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'always');
 
-$auto_priority = true; // if true priority will be calculated automatically
-$default_priority = '1.00'; // otherwise set default priority for all pages
+$auto_priority      = true; // if true priority will be calculated automatically
+$default_priority   = '1.00'; // otherwise set default priority for all pages
 
 
 // FUNCTIONS ----------------------------------------------------------------------------------- //
@@ -121,6 +122,51 @@ function getArticles($category, $priority = 0.8) { // recursive function
 	return $out;
 }
 
+
+/**
+* PARSE 3RD-PARTY URL LIST FROM EXTENSION POINT
+*
+* @param $page                                                    (array)
+* @param $page[url]         page's URL                            (string) [including lang, excluding host]
+* @param $page[lastmod]     page's last modified UNIX date string (int)
+* @param $page[changefreq]  page's change frequency               (string) [never|yearly|monthly|weekly|daily|hourly|always]
+* @param $page[priority]    page's priority                       (float)  [maximum: 1.0]
+*
+*/
+function getEPInjectAsXML($page)
+{
+	global $REX;
+	global $default_priority;
+	global $default_changefreq;
+	global $valid_changefreq;
+  $out = '';
+
+  $xml_loc        = trim($REX['SERVER'] . ltrim($page['url'],'/'));
+  $xml_lastmod    = date("Y-m-d\TH:i:s", $page['lastmod']) . '+00:00';
+  $xml_changefreq = $default_changefreq;
+  $xml_priority   = $default_priority;
+
+  if(isset($page['changefreq']) && in_array($page['changefreq'],$valid_changefreq))
+  {
+    $xml_changefreq = $page['changefreq'];
+  }
+
+  if(isset($page['priority']) && is_numeric($page['priority']))
+  {
+    $xml_priority = $page['priority'];
+  }
+
+  $out .= "\t<url>\n";
+  $out .= "\t\t<loc>"        . $xml_loc        . "</loc>\n";
+  $out .= "\t\t<lastmod>"    . $xml_lastmod    . "</lastmod>\n";
+  $out .= "\t\t<changefreq>" . $xml_changefreq . "</changefreq>\n";
+  $out .= "\t\t<priority>"   . $xml_priority   . "</priority>\n";
+  $out .= "\t</url>\n";
+
+
+  return $out;
+}
+
 // MAKE XML ------------------------------------------------------------------------------------ //
 
 $xml_output = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
@@ -145,6 +191,19 @@ foreach ($langs as $lang) {
 	}
 }
 
+/**
+* GET 3RD-PARTY URL LIST
+*/
+$inject = rex_register_extension_point('REXSEO_SITEMAP_INJECT'); //fb($inject);
+if(is_array($inject) && count($inject)>0)
+{
+  foreach($inject as $key => $page)
+  {
+      $xml_output .= getEPInjectAsXML($page);
+  }
+}
+
+
 $xml_output .= '</urlset>';
 
 // OUTPUT -------------------------------------------------------------------------------------- //
@@ -152,4 +211,3 @@ $xml_output .= '</urlset>';
 header('Content-Type: application/xml');
 header('Content-Length: '.strlen($xml_output));
 echo $xml_output;
-?>
