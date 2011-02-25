@@ -447,7 +447,7 @@ function rex_rewriter_generate_pathnames($params)
           {
             if(!$ooa->isStartArticle())
             {
-            // eigentlicher artikel anh�ngen
+            // eigentlicher artikel anhängen
             $name = $ooa->getName();
             unset($ooa); // speicher freigeben
             $pathname = rex_rewriter_appendToPath($pathname, $name);
