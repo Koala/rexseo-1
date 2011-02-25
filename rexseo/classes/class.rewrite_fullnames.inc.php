@@ -117,7 +117,10 @@ class myUrlRewriter extends rexUrlRewriter
         $path = substr($path, 0, $pos);
 
       $settings = rexseo::getMultidomainSettings();
-      $REX['START_ARTICLE_ID'] = $settings['article_id'];
+      if ($REX['ADDON']['rexseo']['settings']['enable_multidomain']==1)
+      {
+        $REX['START_ARTICLE_ID'] = $settings['article_id'];
+      }
 
       if ($path == '' || $path == 'index.php')
       {
@@ -154,6 +157,7 @@ class myUrlRewriter extends rexUrlRewriter
 
       // aktuellen pfad mit pfadarray vergleichen
       $domain = rexseo::getHost();
+      
       if (array_key_exists($domain,$REXPATH)) 
       {
         foreach ($REXPATH[$domain] as $key => $var)
@@ -244,6 +248,7 @@ class myUrlRewriter extends rexUrlRewriter
     }
 
     $domain = rexseo::getHost();
+  
 
     $urlparams = str_replace('/amp;','/',$urlparams);
     $urlparams = str_replace('?&amp;','?',$urlparams);

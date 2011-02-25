@@ -168,13 +168,19 @@ class rexseo {
   }
 
   function getHost() {
-    $server = $_SERVER['SERVER_NAME'];
-      if ($server == '') {
-        $server = $_SERVER['HTTP_HOST'];
-      }
-      if ($server != '') {
-        return $server;
-      }
+    global $REX;
+    if ($REX['ADDON']['rexseo']['settings']['enable_multidomain']==1) 
+    {
+      $server = $_SERVER['SERVER_NAME'];
+    } else {
+      $server = $REX['SERVER'];
+    }
+    if ($server == '') {
+      $server = $_SERVER['HTTP_HOST'];
+    }
+    if ($server != '') {
+      return $server;
+    }
   }
 
   function base() {
@@ -194,15 +200,19 @@ class rexseo {
     global $REX;
     $found = false;
     $server = rexseo::getHost();
-    if (is_array($REX['ADDON']['rexseo']['settings']['multidomain'])) 
+    if (isset($REX['ADDON']['rexseo']['settings']['multidomain']))
     {
-      foreach ($REX['ADDON']['rexseo']['settings']['multidomain'] as $k=>$entry) 
-      { if ($found) break;
-        if ($k==$server) {
-          return $entry;
+      if (is_array($REX['ADDON']['rexseo']['settings']['multidomain'])) 
+      {
+        foreach ($REX['ADDON']['rexseo']['settings']['multidomain'] as $k=>$entry) 
+        { if ($found) break;
+          if ($k==$server) {
+            return $entry;
+          }
         }
       }
     }
+    
     return false;
   }
 
