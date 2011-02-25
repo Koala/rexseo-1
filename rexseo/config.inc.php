@@ -48,7 +48,7 @@ $REX['ADDON'][$myself]['redmine_key'] = '2437c4f8172c5c6e0020a236b576d5128029451
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
 $REX["ADDON"]["rexseo"]["settings"] = array (
-  'rexseo_version' => '1.2.152',
+  'rexseo_version' => '1.2.153',
   'first_run' => 0,
   'alert_setup' => 0,
   'install_subdir' => '',
@@ -78,8 +78,6 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
   'robots' => 'User-agent: *
 Disallow:',
   'expert_settings' => 1,
-  'enable_multidomain' => 1,
-   
 );
 // --- /DYN
 
