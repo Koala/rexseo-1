@@ -116,9 +116,20 @@ class myUrlRewriter extends rexUrlRewriter
       if(($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
 
+      $settings = rexseo::getMultidomainSettings();
+      $REX['START_ARTICLE_ID'] = $settings['article_id'];
+
       if ($path == '' || $path == 'index.php')
       {
-        $this->setArticleId($REX['START_ARTICLE_ID'],$REX['ADDON']['rexseo']['settings']['homelang']);
+        
+        if ($REX['ADDON']['rexseo']['enable_multidomain']==1)
+        {  
+          $this->setArticleId($settings['article_id'],$settings['clang']);
+        }
+        else
+        {
+          $this->setArticleId($REX['START_ARTICLE_ID'],$REX['ADDON']['rexseo']['homelang']);
+        }
         return true;
       }
 
@@ -142,8 +153,9 @@ class myUrlRewriter extends rexUrlRewriter
       }
 
       // aktuellen pfad mit pfadarray vergleichen
-
-      foreach ($REXPATH as $key => $var)
+      $domain = rexseo::getHost();
+     
+      foreach ($REXPATH[$domain] as $key => $var)
       {
         foreach ($var as $k => $v)
         {
@@ -229,9 +241,11 @@ class myUrlRewriter extends rexUrlRewriter
       $urlparams = $urlparams == '' ? '' : '?'.$urlparams;
     }
 
+    $domain = rexseo::getHost();
+
     $urlparams = str_replace('/amp;','/',$urlparams);
     $urlparams = str_replace('?&amp;','?',$urlparams);
-    $url = $REXPATH[$id][$clang].$urlparams;
+    $url = $REXPATH[$domain][$id][$clang].$urlparams;
 
 
     $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
@@ -341,96 +355,129 @@ function rex_rewriter_generate_pathnames($params)
 
   if($where != '')
   {
+        
+    $domains = $REX['ADDON']['rexseo']['multidomain'];
+    if (!is_array($domains) || empty($domains)) {
+      $domains[$REX['SERVER']] = array('article_id'=>$REX['START_ARTICLE_ID']);
+    }
+    
     $db = new rex_sql();
-    //$db->debugsql=true;
+    $db->debugsql=false;
 
     // revision fix
     $db->setQuery('UPDATE '. $REX['TABLE_PREFIX'] .'article SET revision = 0 WHERE revision IS NULL;');
     $db->setQuery('UPDATE '. $REX['TABLE_PREFIX'] .'article_slice SET revision = 0 WHERE revision IS NULL;');
 
-    $db->setQuery('SELECT `id`, `clang`, `path`, `startpage`,`art_rexseo_url` FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' AND revision=0 OR revision=NULL');
+    
+    foreach ($domains as $domain=>$settings) 
+    { $db = new rex_sql();
+      $db->debugsql=false;
 
-    while($db->hasNext())
-    {
-      $pathname   = '';
-      $id         = $db->getValue('id');
-      $clang      = $db->getValue('clang');
-      $path       = $db->getValue('path');
-      $rexseo_url = $db->getValue('art_rexseo_url');
-
-      // FALLS REXSEO URL -> ERSETZEN
-      if ($rexseo_url != '')
-      {
-        $pathname = ltrim(trim($rexseo_url),'/'); // sanitize whitespaces & leading slash
-        $pathname = urlencode($pathname);
-        $pathname = str_replace('%2F','/',$pathname); // decode slahes..
-        
+      $db->setQuery('SELECT `id`, `clang`, `path`, `startpage`,`art_rexseo_url` FROM '. $REX['TABLE_PREFIX'] .'article WHERE ('. $where.' AND revision=0 OR revision=NULL) && (path LIKE "|'.$settings['article_id'].'|%"  || id = '.$settings['article_id'].')');
+      
+      $langslug = true;
+      if (isset($settings['langslug'])) {
+        $langslug = $settings['langslug'];
       }
-      // NORMALE URL ERZEUGUNG
-      else
+      $shift = false;
+      if (isset($settings['shift'])) {
+        $shift = $settings['shift'];
+      }
+      
+      while($db->hasNext())
       {
-        // LANG SLUG
-        if (count($REX['CLANG']) > 1)
+        $pathname   = '';
+        $id         = $db->getValue('id');
+        $clang      = $db->getValue('clang');
+        $path       = $db->getValue('path');
+        $rexseo_url = $db->getValue('art_rexseo_url');
+  
+        // FALLS REXSEO URL -> ERSETZEN
+        if ($rexseo_url != '')
         {
-          $pathname = $REX['CLANG'][$clang].'/';
+          $pathname = ltrim(trim($rexseo_url),'/'); // sanitize whitespaces & leading slash
+          $pathname = urlencode($pathname);
+          $pathname = str_replace('%2F','/',$pathname); // decode slahes..
+          
         }
-
-        // pfad über kategorien bauen
-        $path = trim($path, '|');
-        if($path != '')
-        {
-          $path = explode('|', $path);
-          foreach ($path as $p)
-          {
-            $ooc = OOCategory::getCategoryById($p, $clang);
-            $name = $ooc->getName();
-            unset($ooc);
-
-            $pathname = rex_rewriter_appendToPath($pathname, $name);
-          }
-        }
-
-        $ooa = OOArticle::getArticleById($id, $clang);
-        if($ooa->isStartArticle())
-        {
-          $ooc = $ooa->getCategory();
-          $catname = $ooc->getName();
-          unset($ooc);
-          $pathname = rex_rewriter_appendToPath($pathname, $catname);
-        }
-
-        if($REX['ADDON']['rexseo']['settings']['url_schema'] == 'rexseo')
-        {
-          if(!$ooa->isStartArticle())
-          {
-          // eigentlicher artikel anhängen
-          $name = $ooa->getName();
-          unset($ooa);
-          $pathname = rex_rewriter_appendToPath($pathname, $name);
-          }
-        }
+        // NORMALE URL ERZEUGUNG
         else
         {
+
+          
+          // LANG SLUG
+          if (count($REX['CLANG']) > 1 && $langslug)
+          { 
+            $pathname = $REX['CLANG'][$clang].'/';
+          }
+ 
+          // pfad �ber kategorien bauen
+          $path = trim($path, '|');
+          if($path != '')
+          {
+            $path = explode('|', $path);
+            
+            
+            if ($shift) {
+              
+              array_shift($path);
+            }
+
+            foreach ($path as $p)
+            {  
+              $ooc = OOCategory::getCategoryById($p, $clang);
+              $name = $ooc->getName();
+              
+              
+              unset($ooc); // speicher freigeben
+  
+              $pathname = rex_rewriter_appendToPath($pathname, $name);
+            }
+          }
+  
+          $ooa = OOArticle::getArticleById($id, $clang);
+          if($ooa->isStartArticle())
+          {
+            $ooc = $ooa->getCategory();
+            $catname = $ooc->getName();
+            unset($ooc); // speicher freigeben
+            $pathname = rex_rewriter_appendToPath($pathname, $catname);
+          }
+  
+          if($REX['ADDON']['rexseo']['url_schema'] == 'rexseo')
+          {
+            if(!$ooa->isStartArticle())
+            {
+            // eigentlicher artikel anh�ngen
+            $name = $ooa->getName();
+            unset($ooa); // speicher freigeben
+            $pathname = rex_rewriter_appendToPath($pathname, $name);
+            }
+          }
+          else
+          {
           // eigentlicher artikel anhängen
           $name = $ooa->getName();
           unset($ooa);
           $pathname = rex_rewriter_appendToPath($pathname, $name);
+          }
+  
+          // ALLGEMEINE URL ENDUNG
+          $pathname = substr($pathname,0,strlen($pathname)-1).$REX['ADDON']['rexseo']['url_ending'];
+  
+          // STARTSEITEN URL FORMAT
+          if(($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['homelang']) ||
+             ($db->getValue('id')==$settings['article_id'] && $REX['ADDON']['rexseo']['homeurl'] == 1 && $db->getValue('clang') == $settings['clang']) )
+          {
+            $pathname = '';
+          }
+  
         }
-
-        // ALLGEMEINE URL ENDUNG
-        $pathname = substr($pathname,0,strlen($pathname)-1).$REX['ADDON']['rexseo']['settings']['url_ending'];
-
-        // STARTSEITEN URL FORMAT
-        if($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['settings']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['settings']['homelang'])
-        {
-          $pathname = '';
-        }
-
+  
+        $REXPATH[$domain][$id][$clang] = $pathname;
+  
+        $db->next();
       }
-
-      $REXPATH[$id][$clang] = $pathname;
-
-      $db->next();
     }
   }
 

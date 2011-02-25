@@ -167,11 +167,64 @@ class rexseo {
     }
   }
 
-  function base() {
-    global $REX;
-    return 'http://'.$_SERVER['HTTP_HOST'].'/'.$REX['ADDON']['rexseo']['settings']['install_subdir'];
+  function getHost() {
+    $server = $_SERVER['SERVER_NAME'];
+      if ($server == '') {
+        $server = $_SERVER['HTTP_HOST'];
+      }
+      if ($server != '') {
+        return $server;
+      }
   }
 
+  function base() {
+    global $REX;
+    
+    if ($REX['ADDON']['rexseo']['enable_multidomain']==1)
+    { $server = self::getHost();
+      if ($server!='')
+      { 
+        return 'http://'.$server; //TODO: detect ssl
+      }
+    }
+    return $REX["SERVER"];
+  }
+
+  function getMultidomainSettings() {
+    global $REX;
+    $server = rexseo::getHost();
+    foreach ($REX['ADDON']['rexseo']['multidomain'] as $k=>$entry) 
+    { if ($found) break;
+      if ($k==$server) {
+        return $entry;
+      }
+    }
+    return false;
+  }
+
+  function startMultidomain() {
+    
+    $found = rexseo::getMultidomainSettings();
+    
+    if (isset($found['article_id']) && isset($found['clang']))
+    { $REX['SERVER'] = rexseo::base();
+      
+      
+      $REX['START_ARTICLE_ID'] = $found['article_id'];
+      $REX['ADDON']['rexseo']['homelang'] = $found['clang'];
+
+      // rewrite superglobals
+      $_GET['ARTICLE_ID'] = $found['article_id'];
+      if (!isset($_GET['CLANG'])) { $_GET['CLANG'] = $found['clang']; }
+      $_REQUEST['ARTICLE_ID'] = $found['article_id'];
+      if (!isset($_REQUEST['CLANG'])) { $_REQUEST['CLANG'] = $found['clang']; }
+      
+      // rewrite $REX;
+      $REX['ARTICLE_ID'] = $found['article_id'];
+      $REX['CUR_CLANG'] = $found['clang'];
+    }
+    
+  }
 
   function getMetaField($articleID,$metafield="file",$defval="",$loop="")
   {

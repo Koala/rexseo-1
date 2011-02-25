@@ -94,6 +94,7 @@ Disallow:',
 // --- /DYN
 
 $REX['ADDON'][$myself]['enable_multidomain'] = 1;
+$REX['ADDON'][$myself]['enable_multidomain'] = 1;
 
 
 // FUNCTIONS
