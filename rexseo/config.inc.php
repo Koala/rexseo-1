@@ -93,6 +93,7 @@ Disallow:',
 );
 // --- /DYN
 
+$REX['ADDON'][$myself]['enable_multidomain'] = 1;
 
 
 // FUNCTIONS
@@ -130,6 +131,14 @@ function rexseo_clear_cache()
 // MAIN
 ////////////////////////////////////////////////////////////////////////////////
 require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo.inc.php';
+
+if ($REX['ADDON'][$myself]['enable_multidomain']==1)
+{
+  include $REX['INCLUDE_PATH'].'/addons/'.$myself.'/multidomain.inc.php';
+  rexseo::startMultidomain();
+}
+
+
 
 if ($REX['MOD_REWRITE'] !== false)
 {
