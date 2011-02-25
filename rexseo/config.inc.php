@@ -76,8 +76,10 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
   'rewrite_params' => 1,
   'params_starter' => '++',
   'robots' => 'User-agent: *
+
 Disallow:',
   'expert_settings' => 1,
+  'enable_multidomain' => 1,
 );
 // --- /DYN
 
