@@ -154,15 +154,17 @@ class myUrlRewriter extends rexUrlRewriter
 
       // aktuellen pfad mit pfadarray vergleichen
       $domain = rexseo::getHost();
-     
-      foreach ($REXPATH[$domain] as $key => $var)
+      if (array_key_exists($domain,$REXPATH)) 
       {
-        foreach ($var as $k => $v)
+        foreach ($REXPATH[$domain] as $key => $var)
         {
-          if ($path == $v)
+          foreach ($var as $k => $v)
           {
-            $article_id = $key;
-            $clang = $k;
+            if ($path == $v)
+            {
+              $article_id = $key;
+              $clang = $k;
+            }
           }
         }
       }
@@ -245,7 +247,11 @@ class myUrlRewriter extends rexUrlRewriter
 
     $urlparams = str_replace('/amp;','/',$urlparams);
     $urlparams = str_replace('?&amp;','?',$urlparams);
-    $url = $REXPATH[$domain][$id][$clang].$urlparams;
+    $url = '';
+    if (isset($REXPATH[$domain])) 
+    {
+      $url = $REXPATH[$domain][$id][$clang].$urlparams;
+    }
 
 
     $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
@@ -354,9 +360,11 @@ function rex_rewriter_generate_pathnames($params)
   }
 
   if($where != '')
-  {
-        
-    $domains = $REX['ADDON']['rexseo']['settings']['multidomain'];
+  { $domains = array();
+    if (isset($REX['ADDON']['rexseo']['settings']['multidomain'])) 
+    {
+      $domains = $REX['ADDON']['rexseo']['settings']['multidomain'];
+    }
     if (!is_array($domains) || empty($domains)) {
       $domains[$REX['SERVER']] = array('article_id'=>$REX['START_ARTICLE_ID']);
     }
@@ -465,7 +473,11 @@ function rex_rewriter_generate_pathnames($params)
           $pathname = substr($pathname,0,strlen($pathname)-1).$REX['ADDON']['rexseo']['settings']['url_ending'];
   
           // STARTSEITEN URL FORMAT
-          if(($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['settings']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['homelang']) ||
+          if (!isset($settings['clang'])) 
+          {
+            $settings['clang'] = $REX['CUR_CLANG'];
+          }
+          if(($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['settings']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['settings']['homelang']) ||
              ($db->getValue('id')==$settings['article_id'] && $REX['ADDON']['rexseo']['settings']['homeurl'] == 1 && $db->getValue('clang') == $settings['clang']) )
           {
             $pathname = '';

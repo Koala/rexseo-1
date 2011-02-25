@@ -192,6 +192,7 @@ class rexseo {
 
   function getMultidomainSettings() {
     global $REX;
+    $found = false;
     $server = rexseo::getHost();
     if (is_array($REX['ADDON']['rexseo']['settings']['multidomain'])) 
     {

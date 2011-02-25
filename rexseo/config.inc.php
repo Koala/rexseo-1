@@ -48,11 +48,12 @@ $REX['ADDON'][$myself]['redmine_key'] = '2437c4f8172c5c6e0020a236b576d5128029451
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
 $REX["ADDON"]["rexseo"]["settings"] = array (
-  'rexseo_version' => '1.2.153',
+  'rexseo_version' => '1.2.156',
   'first_run' => 0,
   'alert_setup' => 0,
   'install_subdir' => '',
   'url_whitespace_replace' => '-',
+  'enable_multidomain' => 1,
   'def_desc' => 
   array (
     0 => '',
@@ -79,9 +80,9 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
 
 Disallow:',
   'expert_settings' => 1,
-  'enable_multidomain' => 1,
 );
 // --- /DYN
+
 
 
 // FUNCTIONS
@@ -121,8 +122,7 @@ function rexseo_clear_cache()
 require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo.inc.php';
 
 if ($REX['ADDON'][$myself]['settings']['enable_multidomain']==1)
-{ 
-  include $REX['INCLUDE_PATH'].'/addons/'.$myself.'/multidomain.inc.php';
+{ include $REX['INCLUDE_PATH'].'/addons/'.$myself.'/multidomain.inc.php';
   rexseo::startMultidomain();
 }
 

@@ -42,8 +42,9 @@ $CAST = array (
       'rewrite_params'             => 'int',
       'params_starter'             => 'string',
       'title_schema'               => 'string',
-      'url_whitespace_replace'     => 'string'
-      );
+      'url_whitespace_replace'     => 'string',
+      'enable_multidomain'            => 'int',
+);
 
 // UPDATE/SAVE SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +63,10 @@ if ($func == 'update')
 
   // UPDATE REX
   $REX['ADDON'][$myself]['settings'] = $myCONF;
+  if ($REX['ADDON'][$myself]['settings']['enable_multidomain']==1)
+  { include $REX['INCLUDE_PATH'].'/addons/'.$myself.'/multidomain.inc.php';
+    rexseo::startMultidomain();
+  }
 
   // SAVE ADDON SETTINGS
   $DYN    = '$REX["ADDON"]["'.$myself.'"]["settings"] = '.stripslashes(var_export($myCONF,true)).';';
@@ -228,7 +233,9 @@ echo '
     <input type="hidden" name="first_run" value="0" />
     <input type="hidden" name="alert_setup" value="'.$REX['ADDON'][$myself]['settings']['alert_setup'].'" />
     <input type="hidden" name="install_subdir" value="'.rexseo_subdir().'" />
-    <input type="hidden" name="url_whitespace_replace" value="-" />';
+    <input type="hidden" name="url_whitespace_replace" value="-" />
+    <input type="hidden" name="enable_multidomain" value="'.$REX['ADDON'][$myself]['settings']['enable_multidomain'].'" />';
+    
 
 foreach ($REX['CLANG'] as $id => $str)
 {
