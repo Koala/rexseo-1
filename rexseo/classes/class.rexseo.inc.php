@@ -180,7 +180,7 @@ class rexseo {
   function base() {
     global $REX;
     
-    if ($REX['ADDON']['rexseo']['enable_multidomain']==1)
+    if ($REX['ADDON']['rexseo']['settings']['enable_multidomain']==1)
     { $server = self::getHost();
       if ($server!='')
       { 
@@ -193,10 +193,13 @@ class rexseo {
   function getMultidomainSettings() {
     global $REX;
     $server = rexseo::getHost();
-    foreach ($REX['ADDON']['rexseo']['multidomain'] as $k=>$entry) 
-    { if ($found) break;
-      if ($k==$server) {
-        return $entry;
+    if (is_array($REX['ADDON']['rexseo']['settings']['multidomain'])) 
+    {
+      foreach ($REX['ADDON']['rexseo']['settings']['multidomain'] as $k=>$entry) 
+      { if ($found) break;
+        if ($k==$server) {
+          return $entry;
+        }
       }
     }
     return false;
@@ -211,7 +214,7 @@ class rexseo {
       
       
       $REX['START_ARTICLE_ID'] = $found['article_id'];
-      $REX['ADDON']['rexseo']['homelang'] = $found['clang'];
+      $REX['ADDON']['rexseo']['settings']['homelang'] = $found['clang'];
 
       // rewrite superglobals
       $_GET['ARTICLE_ID'] = $found['article_id'];
