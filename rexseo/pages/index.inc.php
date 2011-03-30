@@ -53,7 +53,7 @@ require $REX['INCLUDE_PATH'] . '/layout/top.php';
 
 // REX TITLE/NAVI
 ////////////////////////////////////////////////////////////////////////////////
-rex_title('RexSEO <span class="addonversion">'.$REX['ADDON']['version'][$myself].' (rexdev branch)</span>', $REX['ADDON'][$myself]['SUBPAGES']);
+rex_title('RexSEO <span class="addonversion">'.$REX['ADDON']['version'][$myself].'</span>', $REX['ADDON'][$myself]['SUBPAGES']);
 
 // NOTIFY DOWNLOADABLE UPDATE
 $rc = new redmine_connect($REX['ADDON'][$myself]['redmine_url'],$REX['ADDON'][$myself]['redmine_key']);

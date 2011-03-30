@@ -36,8 +36,8 @@ $REX['ADDON'][$myself]['SUBPAGES']    = array (
   array ('',    'Einstellungen'),
   array ('help','Hilfe')
   );
-$REX['ADDON'][$myself]['redmine_url'] = 'http://svn.rexdev.de/redmine/projects/rexdev-rexseo';
-$REX['ADDON'][$myself]['redmine_key'] = '0395cccf9fac8fe92dffaf0c697f0578d6bff269';
+$REX['ADDON'][$myself]['redmine_url'] = 'http://www.gn2-code.de/projects/rexseo';
+$REX['ADDON'][$myself]['redmine_key'] = '2437c4f8172c5c6e0020a236b576d5128029451b';
 $REX['PROTOCOL'] = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://';
 
 // USER SETTINGS
