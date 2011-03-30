@@ -7,7 +7,7 @@
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
- * @version 1.2
+ * @version 1.3
  * @version svn:$Id$
  */
 
@@ -136,18 +136,18 @@ class rexseo {
   function canonical($artID=null) {
     global $REX;
 
-    if (!$artID) {
-      $artID=$REX['ARTICLE_ID'];
-    }
-    else {
-      $artID=intval($artID);
-    }
+    $artID = !$artID ? $REX['ARTICLE_ID'] : intval($artID);
+    $canonical = ltrim(self::getMetaField($artID,'art_rexseo_canonicalurl',rex_getURL($artID,$REX['CUR_CLANG'])),'/');
 
-    $canonical = self::getMetaField($artID,'art_rexseo_canonicalurl',rex_getURL($artID,$REX['CUR_CLANG']));
-    $canonical = $REX['SERVER'].ltrim($canonical,'/');
-
-    return $canonical;
+    return $REX['PROTOCOL'].$_SERVER['HTTP_HOST'].'/'.$REX['ADDON']['rexseo']['settings']['install_subdir'].$canonical;
   }
+
+  function base()
+  {
+    global $REX;
+    return $REX['PROTOCOL'].$_SERVER['HTTP_HOST'].'/'.$REX['ADDON']['rexseo']['settings']['install_subdir'];
+  }
+
 
   function islatin() {
     global $REX;
@@ -159,17 +159,13 @@ class rexseo {
     }
   }
 
+
   function htmlentities($str) {
     if (rexseo::islatin()) {
       return htmlentities($str,ENT_QUOTES);
     } else {
       return htmlentities($str,ENT_QUOTES,'UTF-8');
     }
-  }
-
-  function base() {
-    global $REX;
-    return 'http://'.$_SERVER['HTTP_HOST'].'/'.$REX['ADDON']['rexseo']['settings']['install_subdir'];
   }
 
 

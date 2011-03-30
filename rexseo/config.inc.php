@@ -7,14 +7,10 @@
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
- * @version 1.2
+ * @version 1.3
  * @version svn:$Id$
  */
 
-// ERROR_REPORTING
-////////////////////////////////////////////////////////////////////////////////
-/*ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);*/
 
 // ADDON PARAMS
 ////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +21,7 @@ $Revision = '';
 $REX['ADDON'][$myself]['VERSION'] = array
 (
 'VERSION'      => 1,
-'MINORVERSION' => 2,
+'MINORVERSION' => 3,
 'SUBVERSION'   => preg_replace('/[^0-9]/','',"$Revision$")
 );
 
@@ -40,9 +36,9 @@ $REX['ADDON'][$myself]['SUBPAGES']    = array (
   array ('',    'Einstellungen'),
   array ('help','Hilfe')
   );
-$REX['ADDON'][$myself]['redmine_url'] = 'http://www.gn2-code.de/projects/rexseo';
-$REX['ADDON'][$myself]['redmine_key'] = '2437c4f8172c5c6e0020a236b576d5128029451b';
-
+$REX['ADDON'][$myself]['redmine_url'] = 'http://svn.rexdev.de/redmine/projects/rexdev-rexseo';
+$REX['ADDON'][$myself]['redmine_key'] = '0395cccf9fac8fe92dffaf0c697f0578d6bff269';
+$REX['PROTOCOL'] = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://';
 
 // USER SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
@@ -136,25 +132,12 @@ if ($REX['MOD_REWRITE'] !== false)
   $levenshtein    = (bool) $REX['ADDON'][$myself]['settings']['levenshtein'];
   $rewrite_params = (bool) $REX['ADDON'][$myself]['settings']['rewrite_params'];
 
-  require_once $myroot.'/classes/class.urlrewriter.inc.php';
-  require_once $myroot.'/classes/class.rewrite_fullnames.inc.php';
+  require_once $myroot.'/classes/class.rexseo_rewrite.inc.php';
 
-  $rewriter = new myUrlRewriter($levenshtein,$rewrite_params);
-  $rewriter->prepare();
+  $rewriter = new RexseoRewrite($levenshtein,$rewrite_params);
+  $rewriter->resolve();
 
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
-
-  if(count($REX['ADDON'][$myself]['settings']['301s'])>0)
-  {
-    require_once $myroot.'/functions/function.rexseo_redirects.inc.php';
-    rex_register_extension('ADDONS_INCLUDED', 'rexseo_redirects');
-  }
-
-  if($REX['ADDON'][$myself]['settings']['allow_articleid']==1 && isset($_GET['article_id']))
-  {
-    require_once $myroot.'/functions/function.rexseo_redirects.inc.php';
-    rex_register_extension('ADDONS_INCLUDED', 'rexseo_resolve_article_id_urls');
-  }
 
   rex_register_extension('ART_TO_STARTPAGE', 'rexseo_clear_cache');
 
@@ -162,6 +145,30 @@ if ($REX['MOD_REWRITE'] !== false)
   if(intval($REX['VERSION']) == 4 && intval($REX['SUBVERSION']) < 3)
   {
     rex_register_extension('GENERATE_FILTER', 'rexseo_fix_42x_links');
+  }
+
+  // INJECT 301 URLS INTO REXSEO PATHLIST
+  rex_register_extension('REXSEO_PATHLIST_CREATED','rexseo_inject_301');
+  function rexseo_inject_301($params)
+  {
+    global $REX;
+    $redirects = $REX['ADDON']['rexseo']['settings']['301s'];
+
+    if(count($redirects)>0)
+    {
+      foreach($redirects as $url => $v)
+      {
+        if(!isset($params['subject']['REXSEO_URLS'][$url]))
+        {
+          $params['subject']['REXSEO_URLS'][$url] = array('id'    =>$v['article_id'],
+                                                          'clang' =>$v['clang'],
+                                                          'status'=>301,
+                                                          'params'=>false);
+        }
+      }
+    }
+
+    return $params['subject'];
   }
 }
 

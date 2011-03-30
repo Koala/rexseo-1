@@ -194,7 +194,7 @@ foreach ($langs as $lang) {
 /**
 * GET 3RD-PARTY URL LIST
 */
-$inject = rex_register_extension_point('REXSEO_SITEMAP_INJECT'); //fb($inject);
+$inject = rex_register_extension_point('REXSEO_SITEMAP_INJECT');
 if(is_array($inject) && count($inject)>0)
 {
   foreach($inject as $key => $page)

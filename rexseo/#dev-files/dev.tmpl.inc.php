@@ -7,6 +7,16 @@
  * @version svn:$Id$
  */
 
+/**
+ * REXseo
+ * Based on the URL-Rewrite Addon
+ * @author dh[at]gn2-netwerk[dot]de Dave Holloway
+ * @author markus.staab[at]redaxo[dot]de Markus Staab
+ * @author code[at]rexdev[dot]de jeandeluxe
+ * @package redaxo4.2
+ * @version 1.3
+ */ 
+
 global $REX;
 global $REXPATH;
 
@@ -23,39 +33,25 @@ echo '</style>';
 
 // BLOCK TOP
 ////////////////////////////////////////////////////////////////////////////////
+$langswitch = $sep = '';
+foreach($REX["CLANG"] as $cid => $cname)
+{
+  if($cid == $REX['CUR_CLANG'])
+  {
+    $langswitch .= $sep.'[<em>'.$cid.'</em>] ('.$cname.')';
+  }
+  else
+  {
+    $langswitch .= $sep.'<a href="'.rex_getUrl($REX['ARTICLE_ID'],$cid).'">['.$cid.'] ('.$cname.')</a>';
+  }
+  $sep = ' - ';
+}
+
 echo '
 <div class="dev-block">
-<h1 class="artikel">Artikel: [<em>'.$REX['ARTICLE_ID'].'</em>] [<em>'.$REX['CUR_CLANG'].'</em>]</h1>
+<h1 class="artikel">ARTICLE: [<em>'.$REX['ARTICLE_ID'].'</em>] CLANG: '.$langswitch.'</h1>
 ';
 
-// LANGSWITCH
-////////////////////////////////////////////////////////////////////////////////
-if(count($REX["CLANG"]) > 1)
-{
-  echo '
-  <div class="langswitch">
-  <h2><a onclick="toggleElement(\'clang\');">CLANGS</a></h2>
-  ';
-
-  $langswitch = '<ul id="clang">';
-  foreach($REX["CLANG"] as $cid => $cname)
-  {
-    if($cid == $REX['CUR_CLANG'])
-    {
-      $langswitch .= '<li>['.$cid.'] '.$cname.'</li>';
-    }
-    else
-    {
-      $langswitch .= '<li><a href="'.rex_getUrl($REX['ARTICLE_ID'],$cid).'">['.$cid.'] '.$cname.'</a></li>';
-    }
-  }
-  echo $langswitch;
-
-  echo '
-  </ul>
-  </div>
-  ';
-}
 
 // METADATEN
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,6 +71,33 @@ echo '
 </ul>
 </div>
 ';
+
+
+// $_SERVER
+////////////////////////////////////////////////////////////////////////////////
+$tmp = var_export($_SERVER, true);
+echo '
+<div class="server">
+<h2><a onclick="toggleElement(\'server\');">$_SERVER</a></h2>
+<pre id="server" style="display:none;">
+'.$tmp.'
+</pre>
+</div>
+';
+
+
+// $_REQUEST
+////////////////////////////////////////////////////////////////////////////////
+$tmp = var_export($_REQUEST, true);
+echo '
+<div class="request">
+<h2><a onclick="toggleElement(\'request\');">$_REQUEST</a></h2>
+<pre id="request" style="display:none;">
+'.$tmp.'
+</pre>
+</div>
+';
+
 
 
 // $_POST
