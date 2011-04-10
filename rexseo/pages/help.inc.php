@@ -40,7 +40,6 @@ $chapterpages = array (
 'download'    => array('Downloads'                    ,'pages/redmine_feeds.inc.php','php'),
 'changelog'   => array('Changelog'                    ,'pages/redmine_feeds.inc.php','php'),
 'tickets'     => array('Tickets'                      ,'pages/redmine_feeds.inc.php','php'),
-'wiki'        => array('Wiki'                         ,'http://gn2-code.de/projects/rexseo/wiki','jsopenwin')
 );
 
 // BUILD CHAPTER NAVIGATION
