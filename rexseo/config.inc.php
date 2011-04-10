@@ -1,4 +1,5 @@
 <?php
+
 /**
  * REXseo
  * Based on the URL-Rewrite Addon

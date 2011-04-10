@@ -20,7 +20,7 @@ $minimum_REX       = '4.2.1';
 $minimum_PHP       = 5;
 $required_addons   = array('textile','metainfo');
 $disable_addons    = array('url_rewrite');
-$htaccess_search   = array('x-mapp-php');
+$htaccess_search   = array('x-mapp-php','php-cgi_wrapper');
 
 $error             = array();
 
