@@ -114,7 +114,7 @@ class RexseoRewrite
                               'status'=> 301);
             return self::redirect($redirect);
           default:
-            if(is_array($REXSEO_URLS[$path]['params']))
+            if(isset($REXSEO_URLS[$path]['params']))
               self::populateGlobals($REXSEO_URLS[$path]['params'],false);
             return self::setArticleId($REXSEO_URLS[$path]['id'],$REXSEO_URLS[$path]['clang']);
         }
@@ -258,6 +258,7 @@ class RexseoRewrite
   * Populate GET/REQUEST Globals with params from either rex_getUrl/URL_REWRITE
   * (params will come urlencoded) or from pathlist (NOT urlencoded)
   * @param $vars   (array) resolved URL Parameters
+  * @param $decode (bool)  urldecode vars yes/no
   */
   private function populateGlobals($vars,$decode=true)
   {
@@ -474,8 +475,8 @@ function rexseo_generate_pathlist($params)
 
       }
 
-      $REXSEO_IDS[$id][$clang] = array('url' => $pathname, 'status' => 200);
-      $REXSEO_URLS[$pathname]  = array('id'  => $id, 'clang' => $clang, 'status' => 200, 'params' => false);
+      $REXSEO_IDS[$id][$clang] = array('url' => $pathname);
+      $REXSEO_URLS[$pathname]  = array('id'  => (int) $id, 'clang' => (int) $clang);
 
       $db->next();
     }

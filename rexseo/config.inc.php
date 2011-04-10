@@ -161,8 +161,7 @@ if ($REX['MOD_REWRITE'] !== false)
         {
           $params['subject']['REXSEO_URLS'][$url] = array('id'    =>$v['article_id'],
                                                           'clang' =>$v['clang'],
-                                                          'status'=>301,
-                                                          'params'=>false);
+                                                          'status'=>301);
         }
       }
     }
