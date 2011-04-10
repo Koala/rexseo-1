@@ -62,7 +62,7 @@ class RexseoRewrite
           $redirect = array('id'    =>rex_request('article_id','int'),
                             'clang' =>rex_request('clang','int',$clang),
                             'status'=>301);
-          return self::redirect($redirect);
+          return self::redirect($redirect); /*todo: include params*/
         }
         else
         {
@@ -76,7 +76,7 @@ class RexseoRewrite
       $path = substr(ltrim($_SERVER['REQUEST_URI'],'/'), $length);
 
 
-      // TAKE IMMEDIATE SHORTCUT TO STARTPAGE
+      // IMMEDIATE SHORTCUT TO STARTPAGE
       if (!$path || $path == '' || $path == 'index.php')
       {
         return self::setArticleId($start_id,$homelang);
@@ -93,20 +93,13 @@ class RexseoRewrite
         $path = substr($path, 0, $pos);
 
 
-      // RESOLVE REWRITTEN PARAMS TO GET/REQUEST VARS
+      // RESOLVE REWRITTEN PARAMS -> POPULATE GET/REQUEST GLOBALS
       if($this->use_params_rewrite && strstr($path,$params_starter.'/'))
       {
         $tmp = explode($params_starter.'/',$path);
         $path = $tmp[0];
         $vars = explode('/',$tmp[1]);
-        for($c=0;$c<count($vars);$c+=2)
-        {
-          if($vars[$c]!='')
-          {
-            $_GET[$vars[$c]] = $vars[$c+1];
-            $_REQUEST[$vars[$c]] = $vars[$c+1];
-          }
-        }
+        self::populateGlobals($vars);
       }
 
 
@@ -121,6 +114,8 @@ class RexseoRewrite
                               'status'=> 301);
             return self::redirect($redirect);
           default:
+            if(is_array($REXSEO_URLS[$path]['params']))
+              self::populateGlobals($REXSEO_URLS[$path]['params'],false);
             return self::setArticleId($REXSEO_URLS[$path]['id'],$REXSEO_URLS[$path]['clang']);
         }
       }
@@ -174,14 +169,16 @@ class RexseoRewrite
     // GET URL FROM PATHLIST AND APPEND PARAMS
     $url = $REXSEO_IDS[$id][$clang]['url'].$urlparams;
 
-    // DEAL WITH SUBDIR
+    // SUBDIR
     $subdir = !$REX['REDAXO'] ? '/'.$subdir  : '';
+
+    // HACK: EP URL_REWRITE WON'T ACCEPT EMPTY STRING AS RETURN
     if($subdir == '' && $url == '')
     {
       $url = ' ';
     }
 
-    // INCLUDE SUBDIR BECASUSE rex_redirect() DOESN'T KNOW <base href="" />
+    // INCLUDE SUBDIR BECAUSE rex_redirect() DOESN'T KNOW <base href="" />
     return $subdir.$url;
   }
 
@@ -229,7 +226,7 @@ class RexseoRewrite
   * MAKEURLPARAMS()
   *
   * Create params string for url
-  * @param $EPparams   $params passed through from EP
+  * @param $EPparams   (array) urlencoded params from rex_getUrl/URL_REWRITE
   */
   private function makeUrlParams($EPparams)
   {
@@ -240,7 +237,7 @@ class RexseoRewrite
 
     if($this->use_params_rewrite)
     {
-      // REWRITE PARAMS TO SEO FRIENDLY FORMAT
+      // REWRITE PARAMS
       $urlparams = str_replace(array($divider,'='),'/',$urlparams);
       $urlparams = $urlparams == '' ? '' : $params_starter.$urlparams.'/';
     }
@@ -251,6 +248,38 @@ class RexseoRewrite
     }
     $urlparams = str_replace(array('/amp;','?&amp;'),array('/','?'),$urlparams);
     return $urlparams;
+  }
+
+
+
+  /**
+  * POPULATEGLOBALS()
+  *
+  * Populate GET/REQUEST Globals with params from either rex_getUrl/URL_REWRITE
+  * (params will come urlencoded) or from pathlist (NOT urlencoded)
+  * @param $vars   (array) resolved URL Parameters
+  */
+  private function populateGlobals($vars,$decode=true)
+  {
+    if(is_array($vars))
+    {
+      for($c=0;$c<count($vars);$c+=2)
+      {
+        if($vars[$c]!='')
+        {
+          if($decode)
+          {
+            $_GET[$vars[$c]]     = urldecode($vars[$c+1]);
+            $_REQUEST[$vars[$c]] = urldecode($vars[$c+1]);
+          }
+          else
+          {
+            $_GET[$vars[$c]]     = $vars[$c+1];
+            $_REQUEST[$vars[$c]] = $vars[$c+1];
+          }
+        }
+      }
+    }
   }
 
 }
@@ -436,14 +465,16 @@ function rexseo_generate_pathlist($params)
         $pathname = substr($pathname,0,strlen($pathname)-1).$REX['ADDON']['rexseo']['settings']['url_ending'];
 
         // STARTSEITEN URL FORMAT
-        if($db->getValue('id')==$REX['START_ARTICLE_ID'] && $REX['ADDON']['rexseo']['settings']['homeurl'] == 1 && $db->getValue('clang') == $REX['ADDON']['rexseo']['settings']['homelang'])
+        if($db->getValue('id')    == $REX['START_ARTICLE_ID'] && 
+           $db->getValue('clang') == $REX['ADDON']['rexseo']['settings']['homelang'] &&
+           $REX['ADDON']['rexseo']['settings']['homeurl'] == 1)
         {
           $pathname = '';
         }
 
       }
 
-      $REXSEO_IDS[$id][$clang] = array('url' => $pathname, 'status' => 200, 'params' => false);
+      $REXSEO_IDS[$id][$clang] = array('url' => $pathname, 'status' => 200);
       $REXSEO_URLS[$pathname]  = array('id'  => $id, 'clang' => $clang, 'status' => 200, 'params' => false);
 
       $db->next();
