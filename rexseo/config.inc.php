@@ -116,11 +116,6 @@ function rexseo_fix_42x_links($params)
   );
 }
 
-function rexseo_clear_cache()
-{
-  global $REX;
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
-}
 
 // MAIN
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,8 +132,6 @@ if ($REX['MOD_REWRITE'] !== false)
   $rewriter->resolve();
 
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
-
-  rex_register_extension('ART_TO_STARTPAGE', 'rexseo_clear_cache');
 
   // FIX TEXTILE/TINY LINKS @ REX < 4.3
   if(intval($REX['VERSION']) == 4 && intval($REX['SUBVERSION']) < 3)
