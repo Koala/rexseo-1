@@ -22,6 +22,16 @@ bc. $listElements[] = '<a href="../'.rex_getUrl($article_id,$clang).'" onclick="
 
 damit ist dieser Bug behoben.
 
+h1. Anchors und das _base_ tag
+
+Bei Verwendung des @base@ tags funktionieren anchor links nicht, da sie nicht mehr auf dieselbe Seite verweisen. Mit folgendem jQuery script kann dieses Problem elegant gelöst werden:
+
+bc. // JQUERY ANCHORS & BASE TAG FIX
+$("a[href^='\#']").click(function(e){
+  e.preventDefault();
+  document.location.hash=this.href.substr(this.href.indexOf('#')+1);
+})
+
  </div>
 
 
