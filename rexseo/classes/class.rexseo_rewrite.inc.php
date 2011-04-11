@@ -99,7 +99,9 @@ class RexseoRewrite
       // RESOLVE URL VIA PATHLIST
       if(isset($REXSEO_URLS[$path]))
       {
-        switch($REXSEO_URLS[$path]['status'])
+        $status = isset($REXSEO_URLS[$path]['status']) ? $REXSEO_URLS[$path]['status'] : 200;
+
+        switch($status)
         {
           case 301:
             $redirect = array('id'    => $REXSEO_URLS[$path]['id'],
@@ -232,6 +234,7 @@ class RexseoRewrite
     {
       // REWRITE PARAMS
       $urlparams = str_replace(array($divider,'='),'/',$urlparams);
+      $urlparams = str_replace(array('%5B','%5D'),array('(',')'),$urlparams); /* pseudo array: brackets "[]" not allowed by RFC1738, replace with "()", */
       $urlparams = $urlparams == '' ? '' : $params_starter.$urlparams.'/';
     }
     else
@@ -261,15 +264,24 @@ class RexseoRewrite
       {
         if($vars[$c]!='')
         {
-          if($decode)
+          $key = $decode ? urldecode($vars[$c])   : $vars[$c];
+          $val = $decode ? urldecode($vars[$c+1]) : $vars[$c+1];
+
+          if(strstr($key,'('))
           {
-            $_GET[$vars[$c]]     = urldecode($vars[$c+1]);
-            $_REQUEST[$vars[$c]] = urldecode($vars[$c+1]);
+            $key = rtrim($key,')');
+            $key = explode('(',$key);
+          }
+
+          if(is_array($key) && count($key)==2)
+          {
+            $_GET[$key[0]][$key[1]]     = $val;
+            $_REQUEST[$key[0]][$key[1]] = $val;
           }
           else
           {
-            $_GET[$vars[$c]]     = $vars[$c+1];
-            $_REQUEST[$vars[$c]] = $vars[$c+1];
+            $_GET[$key]     = $val;
+            $_REQUEST[$key] = $val;
           }
         }
       }
