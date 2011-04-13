@@ -76,6 +76,13 @@ class RexseoRewrite
       $path = substr(ltrim($_SERVER['REQUEST_URI'],'/'), $length);
 
 
+      // IMMEDIATE SHORTCUT TO STARTPAGE
+      if (!$path || $path == '' || $path == 'index.php')
+      {
+        return self::setArticleId($start_id,$homelang);
+      }
+
+
       // TRIM STANDARD PARAMS
       if(($pos = strpos($path, '?')) !== false)
         $path = substr($path, 0, $pos);
