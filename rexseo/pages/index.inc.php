@@ -50,6 +50,7 @@ require_once $myroot.'/classes/class.rexseo_select.inc.php';
 // REX TOP
 ////////////////////////////////////////////////////////////////////////////////
 require $REX['INCLUDE_PATH'] . '/layout/top.php';
+$subpage = $subpage=='' ? 'settings' : $subpage; /* 4.2.1 fix: top.php resets $subpage */
 
 // REX TITLE/NAVI
 ////////////////////////////////////////////////////////////////////////////////
