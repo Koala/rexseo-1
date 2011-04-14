@@ -28,21 +28,16 @@ $CAST = array (
       'sendit'                     => 'unset',
       'def_desc'                   => 'array',
       'def_keys'                   => 'array',
-      'robots'                     => 'string',
       'homeurl'                    => 'int',
       'homelang'                   => 'int',
       'allow_articleid'            => 'int',
       'levenshtein'                => 'int',
       '301s'                       => '301_2_array',
-      'url_schema'                 => 'string',
-      'url_ending'                 => 'string',
       'expert_settings'            => 'int',
       'alert_setup'                => 'int',
       'first_run'                  => 'int',
       'rewrite_params'             => 'int',
-      'params_starter'             => 'string',
-      'title_schema'               => 'string',
-      'url_whitespace_replace'     => 'string'
+      'hide_langslug'              => 'int'
       );
 
 // UPDATE/SAVE SETTINGS
@@ -140,6 +135,34 @@ $homeurl_select->setAttribute('style','width:250px;');
 $homeurl_select->setSelected($REX['ADDON'][$myself]['settings']['homeurl']);
 
 
+// LANGSLUG SELECT BOX
+////////////////////////////////////////////////////////////////////////////////
+if(count($REX['CLANG']) > 1)
+{
+  $hide_langslug_select = new rexseo_select();
+  $hide_langslug_select->setSize(1);
+  $hide_langslug_select->setName('hide_langslug');
+  $hide_langslug_select->addOption('Bei allen Sprachen einfügen',-1);
+  foreach($REX['CLANG'] as $id => $str)
+  {
+    $hide_langslug_select->addOption('Kein lang slug für Sprache: '.$str,$id);
+  }
+  $hide_langslug_select->setSelected($REX['ADDON'][$myself]['settings']['hide_langslug']);
+  //$hide_langslug_select->setAttribute('style','width:70px;margin-left:20px;');
+  $hide_langslug_select = '
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-select">
+              <label for="hide_langslug">Lang slug: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Aufruf via article_id:').'#settings">?</a></label>
+                '.$hide_langslug_select->get().'
+                </p>
+          </div><!-- /rex-form-row -->';
+}
+else
+{
+  $hide_langslug_select = '';
+}
+
+
 // HOMELANG SELECT BOX
 ////////////////////////////////////////////////////////////////////////////////
 if(count($REX['CLANG']) > 1)
@@ -192,7 +215,7 @@ $params_rewrite_select = new rexseo_select();
 $params_rewrite_select->setSize(1);
 $params_rewrite_select->setName('rewrite_params');
 $params_rewrite_select->setAttribute('style','width:250px;');
-//$params_rewrite_select->setAttribute('onchange','toggle');
+$params_rewrite_select->setAttribute('id','rewrite_params');
 $params_rewrite_select->addOption('Aus : ?param1=wert1&param2=wert2',0);
 $params_rewrite_select->addOption('Ein : '.$REX['ADDON'][$myself]['settings']['params_starter'].'/param1/wert1/param2/wert2',1);
 $params_rewrite_select->setSelected($REX['ADDON'][$myself]['settings']['rewrite_params']);
@@ -260,7 +283,22 @@ echo '
     <div id="expert_block" style="'.$expert_display.'margin:0;padding:0;">
 
       <fieldset class="rex-form-col-1">
-        <legend>Rewrite URL</legend>
+        <legend>Page Title</legend>
+        <div class="rex-form-wrapper">
+
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-text">
+              <label for="title_schema">Schema: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Page Title').'#settings">?</a></label>
+              <input id="title_schema" class="rex-form-text" type="text" name="title_schema" value="'.stripslashes($REX['ADDON'][$myself]['settings']['title_schema']).'" /><br />
+              <em style="color:gray;font-size:10px;">%B = breadcrumb | %N = article name | %S = server/host</em>
+            </p>
+          </div><!-- /rex-form-row -->
+
+        </div><!-- /rex-form-wrapper -->
+      </fieldset>
+
+      <fieldset class="rex-form-col-1">
+        <legend>Rewrite Format</legend>
         <div class="rex-form-wrapper">
 
           <div class="rex-form-row">
@@ -270,6 +308,18 @@ echo '
 
               <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Endung: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Endung:').'#settings">?</a></span>
                 '.$url_ending_select->get().'
+            </p>
+          </div><!-- /rex-form-row -->
+
+          '.$hide_langslug_select.'
+
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-select">
+              <label for="url_schema">Parameter Rewrite: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Parameter Rewrite:').'#settings">?</a></label>
+                '.$params_rewrite_select->get().'
+
+              <span id="params_starter_span" style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Abtrenner: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Abtrenner:').'#settings">?</a></span>
+              <input style="width:80px;" id="params_starter" class="rex-form-text" type="text" name="params_starter" value="'.stripslashes($REX['ADDON'][$myself]['settings']['params_starter']).'" />
             </p>
           </div><!-- /rex-form-row -->
 
@@ -302,42 +352,17 @@ echo '
             </p>
           </div><!-- /rex-form-row -->
 
+        </div><!-- /rex-form-wrapper -->
+      </fieldset>
+
+      <fieldset class="rex-form-col-1">
+        <legend>Weiterleitungen</legend>
+        <div class="rex-form-wrapper">
+
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
               <label for="robots">301 Weiterleitungen: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('301 Weiterleitungen:').'#settings">?</a><br /> <br /><em style="color:gray;font-size:10px;">url article_id clang<br /><br />z.B. foo/bar.html 4 0</em></label>
               <textarea id="rexseo_redirects" name="301s">'.rexseo_301_2_string($REX['ADDON'][$myself]['settings']['301s']).'</textarea>
-            </p>
-          </div><!-- /rex-form-row -->
-
-        </div><!-- /rex-form-wrapper -->
-      </fieldset>
-
-      <fieldset class="rex-form-col-1">
-        <legend>Page Title</legend>
-        <div class="rex-form-wrapper">
-
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-text">
-              <label for="title_schema">Schema: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Page Title').'#settings">?</a></label>
-              <input id="title_schema" class="rex-form-text" type="text" name="title_schema" value="'.stripslashes($REX['ADDON'][$myself]['settings']['title_schema']).'" /><br />
-              <em style="color:gray;font-size:10px;">%B = breadcrumb | %N = article name | %S = server/host</em>
-            </p>
-          </div><!-- /rex-form-row -->
-
-        </div><!-- /rex-form-wrapper -->
-      </fieldset>
-
-      <fieldset class="rex-form-col-1">
-        <legend>URL Parameter</legend>
-        <div class="rex-form-wrapper">
-
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-select">
-              <label for="url_schema">Parameter Rewrite: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Parameter Rewrite:').'#settings">?</a></label>
-                '.$params_rewrite_select->get().'
-
-              <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Abtrenner: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Abtrenner:').'#settings">?</a></span>
-                <input style="width:80px;" id="params_starter" class="rex-form-text" type="text" name="params_starter" value="'.stripslashes($REX['ADDON'][$myself]['settings']['params_starter']).'" />
             </p>
           </div><!-- /rex-form-row -->
 
@@ -386,6 +411,13 @@ echo '
 <!--
 jQuery(function($) {
 
+jQuery(document).ready(function() {
+    if($("#rewrite_params").val()!=1)
+    {
+      $("#params_starter_span").hide();
+      $("#params_starter").hide();
+    }
+});
 
   $("#expert_settings").click(function() {
     $("#expert_block").slideToggle("slow");
@@ -394,6 +426,21 @@ jQuery(function($) {
   if($("#expert_settings").is(":checked")) {
     $("#expert_block").show();
   }
+
+  // toggle params_starter input
+  $("#rewrite_params").change(function() {
+    if($("#rewrite_params").val()==1)
+    {
+      $("#params_starter_span").show();
+      $("#params_starter_span").css("display:inline-block");
+      $("#params_starter").show();
+    }
+    else
+    {
+      $("#params_starter_span").hide();
+      $("#params_starter").hide();
+    }
+  });
 
     $(function() {';
 foreach ($REX['CLANG'] as $id => $str)

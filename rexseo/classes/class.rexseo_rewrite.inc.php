@@ -427,7 +427,7 @@ function rexseo_generate_pathlist($params)
       else
       {
         // LANG SLUG
-        if (count($REX['CLANG']) > 1)
+        if (count($REX['CLANG']) > 1 && $clang != $REX['ADDON']['rexseo']['settings']['hide_langslug'])
         {
           $pathname = $REX['CLANG'][$clang].'/';
         }
