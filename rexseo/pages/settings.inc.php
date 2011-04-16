@@ -153,7 +153,7 @@ if(count($REX['CLANG']) > 1)
   $hide_langslug_select = '
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="hide_langslug">Lang slug: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Aufruf via article_id:').'#settings">?</a></label>
+              <label for="hide_langslug">Lang slug: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Lang slug:').'#settings">?</a></label>
                 '.$hide_langslug_select->get().'
                 </p>
           </div><!-- /rex-form-row -->';
