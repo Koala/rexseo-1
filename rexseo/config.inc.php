@@ -49,6 +49,7 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
   'alert_setup' => 1,
   'install_subdir' => '',
   'url_whitespace_replace' => '-',
+  'compress_pathlist' => 1,
   'def_desc' => 
   array (
     0 => '',

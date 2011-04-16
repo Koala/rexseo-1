@@ -497,12 +497,55 @@ function rexseo_generate_pathlist($params)
   // EXTENSION POINT
   $subject = array('REXSEO_IDS'=>$REXSEO_IDS,'REXSEO_URLS'=>$REXSEO_URLS);
   $subject = rex_register_extension_point('REXSEO_PATHLIST_CREATED',$subject);
-  
-  $REXSEO_IDS  = $subject['REXSEO_IDS'];
-  $REXSEO_URLS = $subject['REXSEO_URLS'];
 
-  rex_put_file_contents(REXSEO_PATHLIST, "<?php\n\$REXSEO_IDS = ". var_export($REXSEO_IDS, true) .";\n\$REXSEO_URLS = ". var_export($REXSEO_URLS, true) .";\n");
+  // ASSEMBLE, COMPRESS & WRITE PATHLIST TO FILE
+  $pathlist_content = '$REXSEO_IDS = '.var_export($subject['REXSEO_IDS'],true).';'.PHP_EOL.'$REXSEO_URLS = '.var_export($subject['REXSEO_URLS'],true).';';
+
+  $pathlist_content = rexseo_compressPathlist($pathlist_content);
+
+  rex_put_file_contents(REXSEO_PATHLIST,'<?php'.PHP_EOL.$pathlist_content);
 }
+
+
+/**
+* REXSEO_COMPRESSPATHLIST()
+*
+* replaces excessive linfeeds and whitespaces from var_export
+* @param $str (string) the rexseo_pathlist as string
+*/
+function rexseo_compressPathlist($str)
+{
+  global $REX;
+
+  switch($REX['ADDON']['rexseo']['settings']['compress_pathlist'])
+  {
+    case 0:
+      return $str;
+      break;
+
+    case 1:
+      $matrix   = array(
+        'array ('.PHP_EOL.'      \'' => 'array (\'',
+        '=> '.PHP_EOL.'  array'      => '=> array',
+        '=> '.PHP_EOL.'    array'    =>'=> array',
+        ','.PHP_EOL.'    ),'         => ',),',
+        '('.PHP_EOL.'    \''         => '(\'',
+        ','.PHP_EOL.'    \''         => ',\'',
+        ','.PHP_EOL.'  ),'           => ',),'
+        );
+      break;
+
+    case 2:
+      $matrix   = array(
+        PHP_EOL => '',
+        ' '     => ''
+        );
+    break;
+  }
+
+  return str_replace(array_keys($matrix),array_values($matrix),$str);
+}
+
 
 function rex_rewriter_appendToPath($path, $name)
 {
