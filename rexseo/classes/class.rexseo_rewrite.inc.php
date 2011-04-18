@@ -28,6 +28,20 @@ class RexseoRewrite
   }
 
 
+
+  /**
+  * LOGERROR()
+  */
+  private function logError($err_txt=false,$err_type=false)
+  {
+      if(!$err_type)
+        $err_type = 'E_USER_NOTICE';
+
+      $err_txt = 'CLASS REXSEO_REWRITE: '.$err_txt.'.';
+      trigger_error($err_txt, $err_type);
+  }
+
+
   /**
   * RESOLVE()
   *
@@ -164,12 +178,21 @@ class RexseoRewrite
     $name           = $params['name'];
     $clang          = $params['clang'];
     $subdir         = $REX['ADDON']['rexseo']['settings']['install_subdir'];
+    $notfound_id    = $REX['NOTFOUND_ARTICLE_ID'];
 
     // GET PARAMS STRING
     $urlparams = self::makeUrlParams($params);
 
     // GET URL FROM PATHLIST AND APPEND PARAMS
-    $url = $REXSEO_IDS[$id][$clang]['url'].$urlparams;
+    if(isset($REXSEO_IDS[$id]) && isset($REXSEO_IDS[$id][$clang]))
+    {
+      $url = $REXSEO_IDS[$id][$clang]['url'].$urlparams;
+    }
+    else
+    {
+      $url = $REXSEO_IDS[$notfound_id][$clang]['url'];
+      self::logError('article (id='.$id.'/clang='.$clang.') does not exists',E_USER_WARNING);
+    }
 
     // SUBDIR
     $subdir = !$REX['REDAXO'] ? '/'.$subdir  : '';
