@@ -527,6 +527,26 @@ function rexseo_generate_pathlist($params)
   $pathlist_content = rexseo_compressPathlist($pathlist_content);
 
   rex_put_file_contents(REXSEO_PATHLIST,'<?php'.PHP_EOL.$pathlist_content);
+
+  // PURGE *.CONTENT CACHEFILES TO UPDATE INTERNAL LINKS CREATED BY replceLinks() in rex_article_base
+  rexseo_purgeCacheFiles();
+}
+
+
+/**
+* REXSEO_PURGECACHEFILES()
+*
+* selectively purge cache files by extension
+* @param $type (string) cachefile extension
+*/
+function rexseo_purgeCacheFiles($ext='.content')
+{
+  global $REX;
+  $pattern = $REX['INCLUDE_PATH'].'/generated/articles/*'.$ext;
+  foreach (glob($pattern) as $file)
+  {
+    unlink($file);
+  }
 }
 
 
