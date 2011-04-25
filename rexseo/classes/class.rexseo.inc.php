@@ -85,11 +85,8 @@ class rexseo {
 
 
     $x = OOArticle::getArticleById($REX['START_ARTICLE_ID']);
-    $keys = self::getMetaField($artID,"art_keywords",$x->getValue('art_keywords'),'LOOP');
+    $keys = self::getMetaField($artID,"art_keywords",$REX['ADDON']['rexseo']['settings']['def_keys'][$REX['CUR_CLANG']]);
 
-    if ($keys=='') {
-      $keys = $REX['ADDON']['rexseo']['settings']['def_keys'][$REX['CUR_CLANG']];
-    }
 
     $keys = str_replace("\r\n",' ',$keys);
     $keys = str_replace("\n",' ',$keys);
@@ -116,11 +113,8 @@ class rexseo {
 
 
     $x = OOArticle::getArticleById($REX['START_ARTICLE_ID']);
-    $desc = self::getMetaField($artID,"art_description",$x->getValue('art_description'),'LOOP');
+    $desc = self::getMetaField($artID,"art_description",$REX['ADDON']['rexseo']['settings']['def_desc'][$REX['CUR_CLANG']]);
 
-    if ($desc=='') {
-      $desc = $REX['ADDON']['rexseo']['settings']['def_desc'][$REX['CUR_CLANG']];
-    }
 
     $desc = str_replace("\r\n",' ',$desc);
     $desc = str_replace("\n",' ',$desc);
