@@ -542,10 +542,15 @@ function rexseo_generate_pathlist($params)
 function rexseo_purgeCacheFiles($ext='.content')
 {
   global $REX;
-  $pattern = $REX['INCLUDE_PATH'].'/generated/articles/*'.$ext;
-  foreach (glob($pattern) as $file)
+  $pattern     = $REX['INCLUDE_PATH'].'/generated/articles/*'.$ext;
+  $purge_files = glob($pattern);
+
+  if(count($purge_files)>0)
   {
-    unlink($file);
+    foreach ($purge_files as $file)
+    {
+      unlink($file);
+    }
   }
 }
 
