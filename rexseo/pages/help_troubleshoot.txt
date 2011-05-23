@@ -32,6 +32,16 @@ $("a[href^='\#']").click(function(e){
   document.location.hash=this.href.substr(this.href.indexOf('#')+1);
 })
 
+h1. Sprachspezifische Zeichenersetzung in URLS
+
+Rexseo benutzt die Zeichenersetzung aus dem Redaxo Core, daher ist die verwendete Zeichentabelle nicht in Rexseo definiert, sondern in den Sprachdateien von Redaxo (@/redaxo/include/lang/*.lang@):
+
+bc. # Sprachspezifische Sonderzeichen für Url-Umschreibung
+special_chars = ä|ö|ü|Ä|Ö|Ü|ß|&
+special_chars_rewrite = ae|oe|ue|Ae|Oe|Ue|ss|und
+
+
+
  </div>
 
 
