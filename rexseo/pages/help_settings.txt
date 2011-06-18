@@ -15,7 +15,7 @@ Dieses Schema definiert die Elemente der normalen title Generierung, sofern kein
 ## @%B@ - Breadcrumb aus der Kategorie/Artikel-Hierarchie
 ## @%N@ - Name des Artikels.
 ## @%S@ - Servername bzw. HTTP_HOST als fallback
-* *Rewrite Format*
+* *URL Rewrite Optionen*
 ## *Schema:*
 *** *RexSEO:* Startartikel und allgemeine Artikel einer Kategorie werden unterschiedlich behandelt:
 Startartikel -> @./Kategorie.html@
@@ -35,7 +35,9 @@ Wenn die Parameter umgeschrieben werden, definiert dieser string die Abgrenzung 
 Definiert die URL für die Startseite.
 ## *Sprache:*
 Definiert bei mehrsprachigen Webseiten die Sprache der Startseite (Option wird nur bei mehrsprachigen Sites angezeigt).
-* *Rewrite Optionen*
+## *URL-Encoding:*
+Definiert auf welche Weise die Zeichen aus Kategorie/Artikelnamen für die URL umgewandelt werden:
+* *URL Resolve Optionen*
 ## *Aufruf via article_id:*
 Definiert ob Artikel _auch_ über normale Seitenaufrufe per @index.php?article_id=..@ aufgerufen werden dürfen, und wenn ja in welcher Form auf diese Anfragen reagiert werden soll. Optionen:
 *** *Nicht zulässig, nur rewrite URLs*

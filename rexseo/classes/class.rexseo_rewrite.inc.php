@@ -466,7 +466,7 @@ function rexseo_generate_pathlist($params)
             $name = $ooc->getName();
             unset($ooc);
 
-            $pathname = rex_rewriter_appendToPath($pathname, $name);
+            $pathname = rexseo_appendToPath($pathname, $name);
           }
         }
 
@@ -476,7 +476,7 @@ function rexseo_generate_pathlist($params)
           $ooc = $ooa->getCategory();
           $catname = $ooc->getName();
           unset($ooc);
-          $pathname = rex_rewriter_appendToPath($pathname, $catname);
+          $pathname = rexseo_appendToPath($pathname, $catname);
         }
 
         if($REX['ADDON']['rexseo']['settings']['url_schema'] == 'rexseo')
@@ -486,7 +486,7 @@ function rexseo_generate_pathlist($params)
           // eigentlicher artikel anhängen
           $name = $ooa->getName();
           unset($ooa);
-          $pathname = rex_rewriter_appendToPath($pathname, $name);
+          $pathname = rexseo_appendToPath($pathname, $name);
           }
         }
         else
@@ -494,7 +494,7 @@ function rexseo_generate_pathlist($params)
           // eigentlicher artikel anhängen
           $name = $ooa->getName();
           unset($ooa);
-          $pathname = rex_rewriter_appendToPath($pathname, $name);
+          $pathname = rexseo_appendToPath($pathname, $name);
         }
 
         // ALLGEMEINE URL ENDUNG
@@ -595,14 +595,22 @@ function rexseo_compressPathlist($str)
 }
 
 
-function rex_rewriter_appendToPath($path, $name)
+function rexseo_appendToPath($path, $name)
 {
   global $REX;
 
   if ($name != '')
   {
-    $name = strtolower(rex_parse_article_name($name));
-    $name = str_replace('+',$REX['ADDON']['rexseo']['settings']['url_whitespace_replace'],$name);
+    if($REX['ADDON']['rexseo']['settings']['urlencode'] == 0)
+    {
+      $name = strtolower(rex_parse_article_name($name));
+      $name = str_replace('+',$REX['ADDON']['rexseo']['settings']['url_whitespace_replace'],$name);
+    }
+    else
+    {
+      $name = str_replace('/','-',$name);
+      $name = rawurlencode($name);
+    }
     $path .= $name.'/';
   }
   return $path;

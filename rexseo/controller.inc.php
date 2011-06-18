@@ -49,6 +49,12 @@ if (rex_request('rexseo_func')!="") {
 			die();
 		break;
 
+		case "jquery.scrollTo-1.4.2-min.js":
+			header('Content-Type:text/javascript');
+			echo file_get_contents($path.'/files/jquery.scrollTo-1.4.2-min.js');
+			die();
+		break;
+
 		default:
 		break;
 	}

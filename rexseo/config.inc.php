@@ -81,6 +81,7 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
   'params_starter' => '++',
   'homeurl' => 1,
   'homelang' => 0,
+  'urlencode' => 0,
   'allow_articleid' => 0,
   'levenshtein' => 0,
   '301s' => array (),

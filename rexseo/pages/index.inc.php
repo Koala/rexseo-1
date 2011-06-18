@@ -35,6 +35,7 @@ if ($REX['REDAXO'])
       PHP_EOL.'<link rel="stylesheet" type="text/css" href="index.php?rexseo_func=backend.css" media="screen, projection, print" />'.
       PHP_EOL.'<script type="text/javascript" src="index.php?rexseo_func=jquery.highlight-3.yui.js"></script>'.
       PHP_EOL.'<script type="text/javascript" src="index.php?rexseo_func=jquery.autogrow-textarea.js"></script>'.
+      PHP_EOL.'<script type="text/javascript" src="index.php?rexseo_func=jquery.scrollTo-1.4.2-min.js"></script>'.
       PHP_EOL.'<!-- /REXSEO -->'.PHP_EOL;
 
     return $params['subject'];
@@ -120,6 +121,7 @@ if($highlight)
   // http://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html
   $(document).ready(function() {
       $("'.$section.'").highlight("'.$highlight.'");
+      $.scrollTo("span.highlight", 1000, {offset:-50});
   });
 
   })(jQuery);

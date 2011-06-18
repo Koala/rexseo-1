@@ -202,6 +202,7 @@ if (!function_exists('rexseo_textileparser'))
         {
           $html =  utf8_decode(rex_a79_textile($textile));
         }
+        $html = preg_replace('|<span class="caps">([^<]+)</span>|','\1',$html);
 
         if($return)
         {
@@ -354,4 +355,3 @@ function rexseo_batch_cast($request,$conf)
   }
 }
 
-?>
