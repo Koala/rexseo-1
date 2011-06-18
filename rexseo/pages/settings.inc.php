@@ -276,7 +276,7 @@ foreach ($REX['CLANG'] as $id => $str)
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-          <label for="def_desc">Description: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Description:').'">?</a><br /><br /><em style="color:gray;font-size:10px;">z.B. My super description</em></label>
+          <label for="def_desc" class="helptopic">Description:<br /><br /><em style="color:gray;font-size:10px;">z.B. My super description</em></label>
             <textarea id="def_desc_'.$id.'" name="def_desc['.$id.']">'.stripslashes($REX['ADDON'][$myself]['settings']['def_desc'][$id]).'</textarea>
 
           </p>
@@ -284,7 +284,7 @@ foreach ($REX['CLANG'] as $id => $str)
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-            <label for="def_keys">Keywords: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Keywords:').'">?</a><br /><br /><em style="color:gray;font-size:10px;">z.B. My, list, of, keywords</em></label>
+            <label for="def_keys" class="helptopic">Keywords:<br /><br /><em style="color:gray;font-size:10px;">z.B. My, list, of, keywords</em></label>
             <textarea id="def_keys_'.$id.'" name="def_keys['.$id.']">'.stripslashes($REX['ADDON'][$myself]['settings']['def_keys'][$id]).'</textarea>
           </p>
         </div><!-- /rex-form-row -->
@@ -302,7 +302,7 @@ echo '
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-text">
-              <label for="title_schema">Schema: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Page Title').'">?</a></label>
+              <label for="title_schema" class="helptopic">Title Elemente:</label>
               <input id="title_schema" class="rex-form-text" type="text" name="title_schema" value="'.stripslashes($REX['ADDON'][$myself]['settings']['title_schema']).'" /><br />
               <em style="color:gray;font-size:10px;">%B = breadcrumb | %N = article name | %S = server/host</em>
             </p>
@@ -317,10 +317,10 @@ echo '
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="url_schema">Schema: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Schema:').'">?</a></label>
+              <label for="url_schema" class="helptopic">Schema:</label>
                 '.$url_schema_select->get().'
 
-              <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Endung: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Endung:').'">?</a></span>
+              <span style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;" class="helptopic">Endung:</span>
                 '.$url_ending_select->get().'
             </p>
           </div><!-- /rex-form-row -->
@@ -329,17 +329,17 @@ echo '
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="url_schema">Parameter Rewrite: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Parameter Rewrite:').'">?</a></label>
+              <label for="url_schema" class="helptopic">Parameter Rewrite:</label>
                 '.$params_rewrite_select->get().'
 
-              <span id="params_starter_span" style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;">Abtrenner: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Abtrenner:').'">?</a></span>
+              <span id="params_starter_span" style="margin:0 4px 0 4px;display:inline-block;width:100px;text-align:right;" class="helptopic">Abtrenner:</span>
               <input style="width:80px;" id="params_starter" class="rex-form-text" type="text" name="params_starter" value="'.stripslashes($REX['ADDON'][$myself]['settings']['params_starter']).'" />
             </p>
           </div><!-- /rex-form-row -->
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="homeurl">Startseite: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Startseite:').'">?</a></label>
+              <label for="homeurl" class="helptopic">Startseite:</label>
                 '.$homeurl_select->get().'
                 '.$homelang_box.'
             </p>
@@ -347,7 +347,7 @@ echo '
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="urlencode">URL-Encoding: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('URL-Encoding:').'">?</a></label>
+              <label for="urlencode" class="helptopic">URL-Encoding:</label>
                 '.$urlencode_select->get().'
             </p>
           </div><!-- /rex-form-row -->
@@ -361,14 +361,14 @@ echo '
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="allow_articleid">Aufruf via article_id: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Aufruf via article_id:').'">?</a></label>
+              <label for="allow_articleid" class="helptopic">Aufruf via article_id:</label>
                 '.$allow_articleid_select->get().'
                 </p>
           </div><!-- /rex-form-row -->
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="levenshtein">Genauigkeit: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('Genauigkeit:').'">?</a></label>
+              <label for="levenshtein" class="helptopic">Genauigkeit:</label>
                 '.$levenshtein_select->get().'
             </p>
           </div><!-- /rex-form-row -->
@@ -382,7 +382,7 @@ echo '
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="robots">301 Weiterleitungen: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('301 Weiterleitungen:').'">?</a><br /> <br /><em style="color:gray;font-size:10px;">url article_id clang<br /><br />z.B. foo/bar.html 4 0</em></label>
+              <label for="robots" class="helptopic">301 Weiterleitungen:<br /> <br /><em style="color:gray;font-size:10px;">url article_id clang<br /><br />z.B. foo/bar.html 4 0</em></label>
               <textarea id="rexseo_redirects" name="301s">'.rexseo_301_2_string($REX['ADDON'][$myself]['settings']['301s']).'</textarea>
             </p>
           </div><!-- /rex-form-row -->
@@ -391,12 +391,12 @@ echo '
       </fieldset>
 
       <fieldset class="rex-form-col-1">
-        <legend>robots.txt</legend>
+        <legend>Anweisungen für Suchmaschinen</legend>
         <div class="rex-form-wrapper">
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="robots">Regeln: <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight='.urlencode('robots.txt:').'">?</a></label>
+              <label for="robots" class="helptopic">robots.txt:</label>
               <textarea id="rexseo_robots" name="robots">'.stripslashes($REX['ADDON'][$myself]['settings']['robots']).'</textarea>
             </p>
           </div><!-- /rex-form-row -->
@@ -432,13 +432,20 @@ echo '
 <!--
 jQuery(function($) {
 
-jQuery(document).ready(function() {
+  jQuery(document).ready(function() {
     if($("#rewrite_params").val()!=1)
     {
       $("#params_starter_span").hide();
       $("#params_starter").hide();
     }
-});
+  
+    // ATUOMATIC HELP TOPIC LINK
+    $(".helptopic").each(function() {
+    var p = $(this).html().split(":");
+    p[1] = \' <a class="help-icon" title="Hilfe zum Thema anzeigen" href="index.php?page=rexseo&subpage=help&chapter=settings&highlight=\'+escape(p[0]+\':\')+\'">?</a>\'+p[1];
+    $(this).html(p.join(":"));
+    });
+  });
 
   $("#expert_settings").click(function() {
     $("#expert_block").slideToggle("slow");

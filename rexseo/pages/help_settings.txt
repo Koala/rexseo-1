@@ -10,7 +10,7 @@ Diese Default Werte verringern den Arbeitsaufwand bezügl. der seitenweiten Defi
 Für alle Artikel die keinen Eintrag unter *Metadaten/Sonstiges* > *Beschreibung* haben.
 ## *Keywords:*
 Für alle Artikel die keinen Eintrag unter *Metadaten/Sonstiges* > *Suchbegriffe* haben.
-* *Page Title*
+* *Title Elemente:*
 Dieses Schema definiert die Elemente der normalen title Generierung, sofern kein expliziter rexseo title ("Metadaten/Sonstiges") für den Artikel definiert wurde. Folgende Platzhalter stehen zur Verfügung:
 ## @%B@ - Breadcrumb aus der Kategorie/Artikel-Hierarchie
 ## @%N@ - Name des Artikels.
