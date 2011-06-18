@@ -133,7 +133,7 @@ class rexseo {
     $artID = !$artID ? $REX['ARTICLE_ID'] : intval($artID);
     $canonical = ltrim(self::getMetaField($artID,'art_rexseo_canonicalurl',rex_getURL($artID,$REX['CUR_CLANG'])),'/');
 
-    return $REX['PROTOCOL'].$_SERVER['HTTP_HOST'].'/'.$REX['ADDON']['rexseo']['settings']['install_subdir'].$canonical;
+    return $REX['PROTOCOL'].$_SERVER['HTTP_HOST'].'/'.$canonical;
   }
 
   function base()
