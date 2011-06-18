@@ -281,7 +281,7 @@ if (!function_exists('rexseo_subdir'))
   {
     global $REX;
     $path_diff = $REX['REDAXO'] ? array('index.php','redaxo'):array('index.php');
-    $install_subdir = array_diff_assoc(array_reverse(explode(DIRECTORY_SEPARATOR,trim($_SERVER['SCRIPT_NAME'],DIRECTORY_SEPARATOR))),$path_diff);
+    $install_subdir = array_diff_assoc(array_reverse(explode('/',trim($_SERVER['SCRIPT_NAME'],'/'))),$path_diff);
     $rexseo_subdir = count($install_subdir)>0 ? implode('/',array_reverse($install_subdir)).'/' :'';
     return $rexseo_subdir;
   }
