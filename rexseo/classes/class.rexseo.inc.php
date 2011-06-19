@@ -59,17 +59,17 @@ class rexseo {
     $B = trim($B);
 
     // SIMPLE TITLE
-    $N = $this->getValue('name');
+    $N = $curart->getValue('name');
 
     // SERVERNAME
     $S = $REX['SERVERNAME']!='' ? $REX['SERVERNAME'] : $_SERVER['HTTP_HOST'] ;
 
     // OVERRIDE: REXSEO TITLE
-    if($this->getValue('art_rexseo_title')!='')
+    if($curart->getValue('art_rexseo_title')!='')
     {
-      $B = $N = $this->getValue('art_rexseo_title');
+      $B = $N = $curart->getValue('art_rexseo_title');
     }
-    
+
     $title = str_replace(array('%B','%N','%S'),array($B,$N,$S),$REX['ADDON']['rexseo']['settings']['title_schema']);
 
     $title = rexseo::htmlentities($title);

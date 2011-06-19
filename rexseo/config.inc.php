@@ -8,7 +8,7 @@
  * @package redaxo4.2
  * @version 1.3
  * @version svn:$Id$
- */ 
+ */
 
 // ADDON PARAMS
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
   'install_subdir' => '',
   'url_whitespace_replace' => '-',
   'compress_pathlist' => 1,
-  'def_desc' => 
+  'def_desc' =>
   array (
     0 => '',
     1 => '',
@@ -60,7 +60,7 @@ $REX["ADDON"]["rexseo"]["settings"] = array (
     7 => '',
     8 => '',
   ),
-  'def_keys' => 
+  'def_keys' =>
   array (
     0 => '',
     1 => '',
