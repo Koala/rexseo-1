@@ -391,7 +391,7 @@ echo '
       </fieldset>
 
       <fieldset class="rex-form-col-1">
-        <legend>Anweisungen für Suchmaschinen</legend>
+        <legend>robots.txt</legend>
         <div class="rex-form-wrapper">
 
           <div class="rex-form-row">
@@ -438,7 +438,7 @@ jQuery(function($) {
       $("#params_starter_span").hide();
       $("#params_starter").hide();
     }
-  
+
     // ATUOMATIC HELP TOPIC LINK
     $(".helptopic").each(function() {
     var p = $(this).html().split(":");

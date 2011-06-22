@@ -36,7 +36,8 @@ Definiert die URL für die Startseite.
 ## *Sprache:*
 Definiert bei mehrsprachigen Webseiten die Sprache der Startseite (Option wird nur bei mehrsprachigen Sites angezeigt).
 ## *URL-Encoding:*
-Definiert auf welche Weise die Zeichen aus Kategorie/Artikelnamen für die URL umgewandelt werden:
+*** *Zeichersetzung per .lang Datei:* non-ASCII Zeichen werden über die Redaxo Core-Funktion @rex_parse_article_name()@ über die in der .lang Datei definierte Ersetzung (special_chars->special_chars_rewrite) umgeschrieben.
+*** *Kodierung per urlencode:* Zeichen werden werden nicht ersetzt (Ausnahme: "/" wird zu "-") sondern per urlencode in eine RFC konforme URL encoded.
 * *URL Resolve Optionen*
 ## *Aufruf via article_id:*
 Definiert ob Artikel _auch_ über normale Seitenaufrufe per @index.php?article_id=..@ aufgerufen werden dürfen, und wenn ja in welcher Form auf diese Anfragen reagiert werden soll. Optionen:
