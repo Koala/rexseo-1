@@ -545,7 +545,7 @@ function rexseo_purgeCacheFiles($ext='.content')
   $pattern     = $REX['INCLUDE_PATH'].'/generated/articles/*'.$ext;
   $purge_files = glob($pattern);
 
-  if(count($purge_files)>0)
+  if(is_array($purge_files) && count($purge_files)>0)
   {
     foreach ($purge_files as $file)
     {
