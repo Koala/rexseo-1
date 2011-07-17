@@ -152,6 +152,18 @@ class RexseoRewrite
       }
 
 
+      // GET ID FROM EXTENSION POINT
+      $ep = rex_register_extension_point('REXSEO_ARTICLE_ID_NOT_FOUND', '');
+      if(isset($ep['article_id']) && $ep['article_id'] > 0)
+      {
+        if(isset($ep['clang']) && $ep['clang'] > -1)
+        {
+          $clang = $ep['clang'];
+        }
+        return self::setArticleId($ep['article_id'],$clang);
+      }
+
+
       // STILL NO MATCH -> 404
       self::setArticleId($notfound_id,$clang);
     }
