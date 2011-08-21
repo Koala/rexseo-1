@@ -528,6 +528,9 @@ function rexseo_generate_pathlist($params)
 
       }
 
+      // SANITIZE MULTIPLE "-" IN PATHNAME
+      $pathname = preg_replace('/[-]{1,}/', '-', $pathname);
+
       $REXSEO_IDS[$id][$clang] = array('url' => $pathname);
       $REXSEO_URLS[$pathname]  = array('id'  => (int) $id, 'clang' => (int) $clang);
 
