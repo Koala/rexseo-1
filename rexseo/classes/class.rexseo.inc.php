@@ -131,9 +131,8 @@ class rexseo {
     global $REX;
 
     $artID = !$artID ? $REX['ARTICLE_ID'] : intval($artID);
-    $canonical = ltrim(self::getMetaField($artID,'art_rexseo_canonicalurl',rex_getURL($artID,$REX['CUR_CLANG'])),'/');
-
-    return $REX['PROTOCOL'].$_SERVER['HTTP_HOST'].'/'.$canonical;
+    $canonical = ltrim(self::getMetaField($artID,'art_rexseo_canonicalurl',$_SERVER['SCRIPT_URI']),'/');
+    return $canonical;
   }
 
   function base()
