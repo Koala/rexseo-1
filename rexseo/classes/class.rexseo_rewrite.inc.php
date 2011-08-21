@@ -519,6 +519,12 @@ function rexseo_generate_pathlist($params)
         {
           $pathname = '';
         }
+        elseif($REX['ADDON']['rexseo']['settings']['homeurl'] == 2 &&
+               $db->getValue('id') == $REX['START_ARTICLE_ID'] &&
+               count($REX['CLANG']) > 1)
+        {
+          $pathname = $REX['CLANG'][$clang].'/';
+        }
 
       }
 

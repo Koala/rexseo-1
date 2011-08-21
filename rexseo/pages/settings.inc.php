@@ -133,6 +133,7 @@ $homeurl_select->setSize(1);
 $homeurl_select->setName('homeurl');
 $homeurl_select->addOption($REX['SERVER'].$homename.'.html',0);
 $homeurl_select->addOption($REX['SERVER'],1);
+$homeurl_select->addOption($REX['SERVER'].'lang-slug/',2);
 $homeurl_select->setAttribute('style','width:250px;');
 $homeurl_select->setSelected($REX['ADDON'][$myself]['settings']['homeurl']);
 
