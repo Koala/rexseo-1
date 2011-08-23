@@ -355,3 +355,52 @@ function rexseo_batch_cast($request,$conf)
   }
 }
 
+
+// FIX INTERNAL LAINKAS FOR TINY/TEXTILE
+////////////////////////////////////////////////////////////////////////////////
+function rexseo_fix_42x_links($params)
+{
+  global $REX;
+
+  $subdir = $REX['ADDON']['rexseo']['settings']['install_subdir'];
+  if($subdir=='')
+  {
+    $relpath     = '/redaxo/';
+    $replacement = '/';
+  }
+  else
+  {
+    $relpath     = '/'.$subdir.'redaxo/';
+    $replacement = '/'.$subdir;
+  }
+
+  // textile, tiny
+  return str_replace(
+    array('&quot;:'.$relpath, '"'.$relpath),
+    array('&quot;:'.$replacement, '"'.$replacement),
+    $params['subject']
+  );
+}
+
+
+// INJECT 301 URLS INTO REXSEO PATHLIST
+function rexseo_inject_301($params)
+{
+  global $REX;
+  $redirects = $REX['ADDON']['rexseo']['settings']['301s'];
+
+  if(count($redirects)>0)
+  {
+    foreach($redirects as $url => $v)
+    {
+      if(!isset($params['subject']['REXSEO_URLS'][$url]))
+      {
+        $params['subject']['REXSEO_URLS'][$url] = array('id'    =>$v['article_id'],
+                                                        'clang' =>$v['clang'],
+                                                        'status'=>301);
+      }
+    }
+  }
+
+  return $params['subject'];
+}

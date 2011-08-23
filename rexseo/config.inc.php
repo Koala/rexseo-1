@@ -38,6 +38,12 @@ $REX['ADDON'][$myself]['redmine_url'] = 'http://www.gn2-code.de/projects/rexseo'
 $REX['ADDON'][$myself]['redmine_key'] = '2437c4f8172c5c6e0020a236b576d5128029451b';
 $REX['PROTOCOL'] = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://';
 
+
+// INCLUDES
+////////////////////////////////////////////////////////////////////////////////
+require_once $myroot.'/functions/function.rexseo_helpers.inc.php';
+
+
 // USER SETTINGS
 ////////////////////////////////////////////////////////////////////////////////
 // --- DYN
@@ -91,48 +97,18 @@ Disallow:',
 // --- /DYN
 
 
-
-// FUNCTIONS
-////////////////////////////////////////////////////////////////////////////////
-function rexseo_fix_42x_links($params)
-{
-  global $REX;
-
-  $subdir = $REX['ADDON']['rexseo']['settings']['install_subdir'];
-  if($subdir=='')
-  {
-    $relpath     = '/redaxo/';
-    $replacement = '/';
-  }
-  else
-  {
-    $relpath     = '/'.$subdir.'redaxo/';
-    $replacement = '/'.$subdir;
-  }
-
-  // textile, tiny
-  return str_replace(
-    array('&quot;:'.$relpath, '"'.$relpath),
-    array('&quot;:'.$replacement, '"'.$replacement),
-    $params['subject']
-  );
-}
-
-
 // MAIN
 ////////////////////////////////////////////////////////////////////////////////
 require_once $REX['INCLUDE_PATH'].'/addons/rexseo/classes/class.rexseo.inc.php';
 
 if ($REX['MOD_REWRITE'] !== false)
 {
+  // REWRITE
   $levenshtein    = (bool) $REX['ADDON'][$myself]['settings']['levenshtein'];
   $rewrite_params = (bool) $REX['ADDON'][$myself]['settings']['rewrite_params'];
-
   require_once $myroot.'/classes/class.rexseo_rewrite.inc.php';
-
   $rewriter = new RexseoRewrite($levenshtein,$rewrite_params);
   $rewriter->resolve();
-
   rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
 
   // FIX TEXTILE/TINY LINKS @ REX < 4.3
@@ -143,26 +119,6 @@ if ($REX['MOD_REWRITE'] !== false)
 
   // INJECT 301 URLS INTO REXSEO PATHLIST
   rex_register_extension('REXSEO_PATHLIST_CREATED','rexseo_inject_301');
-  function rexseo_inject_301($params)
-  {
-    global $REX;
-    $redirects = $REX['ADDON']['rexseo']['settings']['301s'];
-
-    if(count($redirects)>0)
-    {
-      foreach($redirects as $url => $v)
-      {
-        if(!isset($params['subject']['REXSEO_URLS'][$url]))
-        {
-          $params['subject']['REXSEO_URLS'][$url] = array('id'    =>$v['article_id'],
-                                                          'clang' =>$v['clang'],
-                                                          'status'=>301);
-        }
-      }
-    }
-
-    return $params['subject'];
-  }
 }
 
 include $REX['INCLUDE_PATH'].'/addons/'.$myself.'/controller.inc.php';
