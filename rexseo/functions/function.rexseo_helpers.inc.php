@@ -13,8 +13,12 @@
 
 if (!function_exists('rexseo_recursive_copy'))
 {
-  function rexseo_recursive_copy($source, $target, $makedir=TRUE, &$result=array(), $counter=1,$folderPermission=0740, $filePermission=0710)
+  function rexseo_recursive_copy($source, $target, $makedir=TRUE, &$result=array(), $counter=1, $folderPermission='', $filePermission='')
   {
+    global $REX;
+    $folderPermission = (empty($folderPermission)) ? $REX['DIRPERM'] : $folderPermission;
+    $filePermission = (empty($filePermission)) ? $REX['FILEPERM'] : $filePermission;
+
     // SCAN SOURCE DIR WHILE IGNORING  CERTAIN FILES
     $ignore = array('.DS_Store','.svn','.','..');
     $dirscan = array_diff(scandir($source), $ignore);
@@ -73,8 +77,16 @@ if (!function_exists('rexseo_recursive_copy'))
               {
                 $result[$counter]['path'] = $target;
                 $result[$counter]['item'] = $item;
-                $result[$counter]['copystate'] = 1;
-                echo rex_info('Datei "'.$target.$item.'" wurde erfolgreich angelegt.');
+                if(chmod($target.$item,$filePermission))
+                {
+                  $result[$counter]['copystate'] = 1;
+                  echo rex_info('Datei "'.$target.$item.'" wurde erfolgreich angelegt.');
+                }
+                else
+                {
+                  $result[$counter]['copystate'] = 0;
+                  echo rex_warning('Rechte für "'.$target.$item.'" konnten nicht gesetzt werden!');
+                }
               }
             }
           }
@@ -91,8 +103,16 @@ if (!function_exists('rexseo_recursive_copy'))
             {
               $result[$counter]['path'] = $target;
               $result[$counter]['item'] = $item;
-              $result[$counter]['copystate'] = 1;
-              echo rex_info('Datei "'.$target.$item.'" wurde erfolgreich angelegt.');
+              if(chmod($target.$item,$filePermission))
+              {
+                $result[$counter]['copystate'] = 1;
+                echo rex_info('Datei "'.$target.$item.'" wurde erfolgreich angelegt.');
+              }
+              else
+              {
+                $result[$counter]['copystate'] = 0;
+                echo rex_warning('Rechte für "'.$target.$item.'" konnten nicht gesetzt werden!');
+              }
             }
           }
         }
@@ -106,6 +126,7 @@ if (!function_exists('rexseo_recursive_copy'))
     return $result;
   }
 }
+
 
 
 /**
