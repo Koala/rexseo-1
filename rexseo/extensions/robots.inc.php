@@ -15,7 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 header('Content-Type: text/plain; charset=UTF-8');
 
-if (isset ($REX['ADDON']['rexseo']['robots']) and $REX['ADDON']['rexseo']['robots'] != '')
+if (isset ($REX['ADDON']['rexseo']['settings']['robots']) and $REX['ADDON']['rexseo']['settings']['robots'] != '')
 {
   $out = $REX['ADDON']['rexseo']['settings']['robots'];
 }
