@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: settings.inc.php 193 2011-08-21 08:53:55Z jeandeluxe $
  */
 
 // MAIN PARAMS

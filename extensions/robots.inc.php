@@ -8,14 +8,14 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: robots.inc.php 197 2011-12-02 11:09:02Z jeandeluxe $
  */
 
 // OUTPUT
 ////////////////////////////////////////////////////////////////////////////////
 header('Content-Type: text/plain; charset=UTF-8');
 
-if (isset ($REX['ADDON']['rexseo']['settings']['robots']) and $REX['ADDON']['rexseo']['settings']['robots'] != '')
+if (isset ($REX['ADDON']['rexseo']['settings']['robots']) && $REX['ADDON']['rexseo']['settings']['robots'] != '')
 {
   $out = $REX['ADDON']['rexseo']['settings']['robots'];
 }

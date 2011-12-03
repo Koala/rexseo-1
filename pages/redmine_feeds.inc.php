@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: redmine_feeds.inc.php 160 2011-03-30 01:23:41Z jeandeluxe $
  */
 
 global $REX;

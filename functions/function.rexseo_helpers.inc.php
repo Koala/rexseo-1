@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: function.rexseo_helpers.inc.php 196 2011-11-18 23:31:01Z jeandeluxe $
  */
 
 if (!function_exists('rexseo_recursive_copy'))
@@ -133,7 +133,7 @@ if (!function_exists('rexseo_recursive_copy'))
  * CONTENT PARSER FUNKTIONEN
  * @author rexdev.de
  * @package redaxo4.2
- * @version svn:$Id$
+ * @version svn:$Id: function.rexseo_helpers.inc.php 196 2011-11-18 23:31:01Z jeandeluxe $
  */
 
 // INCLUDE PARSER FUNCTION

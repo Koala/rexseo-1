@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: class.rexseo.inc.php 198 2011-12-03 01:07:04Z jeandeluxe $
  */
 
 
@@ -131,8 +131,8 @@ class rexseo {
     global $REX;
 
     $artID = !$artID ? $REX['ARTICLE_ID'] : intval($artID);
-    $canonical = ltrim(self::getMetaField($artID,'art_rexseo_canonicalurl',$_SERVER['SCRIPT_URI']),'/');
-    return $canonical;
+    $canonical = ltrim(self::getMetaField($artID,'art_rexseo_canonicalurl',rex_getURL($artID,$REX['CUR_CLANG'])),'/');
+    return $REX['PROTOCOL'].$_SERVER['HTTP_HOST'].'/'.$canonical;
   }
 
   function base()

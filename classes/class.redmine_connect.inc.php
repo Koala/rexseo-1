@@ -5,7 +5,7 @@
 * @package redaxo4
 * @version 0.1
 *
-* $Id$:
+* $Id: class.redmine_connect.inc.php 150 2011-02-24 17:03:57Z jeandeluxe $:
 */
 
 class redmine_connect

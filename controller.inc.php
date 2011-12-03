@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: controller.inc.php 182 2011-06-18 01:23:55Z jeandeluxe $
  */
 
 if (rex_request('rexseo_func')!="") {

@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: help.inc.php 169 2011-04-10 23:04:24Z jeandeluxe $
  */
 
 // GET PARAMS

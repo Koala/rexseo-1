@@ -8,7 +8,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: install.inc.php 166 2011-04-10 21:37:07Z jeandeluxe $
  */
 
 // INSTALL SETTINGS

@@ -7,7 +7,7 @@
  * @author code[at]rexdev[dot]de jeandeluxe
  * @package redaxo4.2
  * @version 1.3
- * @version svn:$Id$
+ * @version svn:$Id: config.inc.php 198 2011-12-03 01:07:04Z jeandeluxe $
  */
  
 // ADDON PARAMS
@@ -20,7 +20,7 @@ $REX['ADDON'][$myself]['VERSION'] = array
 (
 'VERSION'      => 1,
 'MINORVERSION' => 3,
-'SUBVERSION'   => preg_replace('/[^0-9]/','',"$Revision$")
+'SUBVERSION'   => preg_replace('/[^0-9]/','',"$Revision: 198 $")
 );
 
 $REX['ADDON']['rxid'][$myself]        = '750';
